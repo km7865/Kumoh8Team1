@@ -26,7 +26,7 @@ public class Dormitory implements serializable
 	public String getCapacityNumber() {return capacityNumber;}
 	public String getMealDuty() {return mealDuty;}
 
-	public void setDormitoryCode(String dormitoryCode) {thisdormitoryCode = dormitoryCode;}
+	public void setDormitoryCode(String dormitoryCode) {this.dormitoryCode = dormitoryCode;}
 	public void setGenderLimit(String genderLimit) {this.genderLimit = genderLimit;}
 	public void setDormitoryName(String dormitoryName) {this.dormitoryName = dormitoryName;}
 	public void setMealTime(String mealTime) {this.mealTime = mealTime;}
