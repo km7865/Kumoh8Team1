@@ -1,6 +1,5 @@
-// 결핵진단서 제출
-
-package project;
+// 寃고빑吏꾨떒�꽌 �젣異�
+package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -49,7 +48,7 @@ public class TuberculosisDiagnosis_storage extends JFrame {
 	}
 
 	public TuberculosisDiagnosis_storage() {
-		setTitle("결핵진단서 제출");
+		setTitle("寃고빑吏꾨떒�꽌 �젣異�");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 815, 675);
 		setVisible(true);
@@ -59,10 +58,10 @@ public class TuberculosisDiagnosis_storage extends JFrame {
 		contentPane.setLayout(null);
 		label.setBounds(5, 5, 791, 590);
 		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setFont(new Font("굴림", Font.PLAIN, 35));
+		label.setFont(new Font("援대┝", Font.PLAIN, 35));
 		contentPane.add(label);
 
-		JButton btnNewButton = new JButton("파일 찾기");
+		JButton btnNewButton = new JButton("�뙆�씪 李얘린");
 		btnNewButton.setBounds(56, 605, 140, 25);
 		btnNewButton.addActionListener(new OpenActionListener());
 		contentPane.add(btnNewButton);
@@ -73,7 +72,7 @@ public class TuberculosisDiagnosis_storage extends JFrame {
 		contentPane.add(textField);
 		textField.setColumns(10);
 
-		JButton btnNewButton_1 = new JButton("제출");
+		JButton btnNewButton_1 = new JButton("�젣異�");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Socket theSocket = null;
@@ -84,16 +83,16 @@ public class TuberculosisDiagnosis_storage extends JFrame {
 				BufferedWriter writer;
 				String theLine;
 
-				File file = new File(filePath); // filepath : 클라이언트가 선택한 파일
+				File file = new File(filePath); // filepath : �겢�씪�씠�뼵�듃媛� �꽑�깮�븳 �뙆�씪
 				long length = file.length();
 				System.out.println(file.toString() + " length : " + length);
 
 				byte[] buf = new byte[1024];
 
-				host = "192.168.212.248"; // 로컬 호스트를 사용
+				host = "192.168.212.248"; // 濡쒖뺄 �샇�뒪�듃瑜� �궗�슜
 
 				try {
-					theSocket = new Socket(host, 5000); // echo 서버에 접속한다.
+					theSocket = new Socket(host, 5000); // echo �꽌踰꾩뿉 �젒�냽�븳�떎.
 
 					is = new FileInputStream(file);
 					os = theSocket.getOutputStream();
@@ -102,7 +101,7 @@ public class TuberculosisDiagnosis_storage extends JFrame {
 					while ((count = is.read(buf)) != -1) {
 						os.write(buf, 0, count);
 
-						System.out.println("서버에 전송중 패킷 크기 : " + count);
+						System.out.println("�꽌踰꾩뿉 �쟾�넚以� �뙣�궥 �겕湲� : " + count);
 					}
 				} catch (IOException e1) {
 				} finally {
@@ -132,7 +131,7 @@ public class TuberculosisDiagnosis_storage extends JFrame {
 
 			int ret = chooser.showOpenDialog(null);
 			if (ret != JFileChooser.APPROVE_OPTION) {
-				JOptionPane.showMessageDialog(null, "파일을 선택하지 않았습니다!", "경고", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null, "�뙆�씪�쓣 �꽑�깮�븯吏� �븡�븯�뒿�땲�떎!", "寃쎄퀬", JOptionPane.WARNING_MESSAGE);
 				return;
 			}
 

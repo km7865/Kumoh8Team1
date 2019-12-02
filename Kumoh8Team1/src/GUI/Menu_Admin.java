@@ -1,6 +1,5 @@
-// ������ �޴�
-
-package project;
+// 占쏙옙占쏙옙占쏙옙 占쌨댐옙
+package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;

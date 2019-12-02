@@ -1,21 +1,21 @@
 package tableClass;
-//½ÅÃ» Å×ÀÌºí
+//ì‹ ì²­ í…Œì´ë¸”
 public class Application
 {
-	private String applicatonNumber;	//½ÅÃ»¹øÈ£, 2019010000, not null
-	private String studentId;			//ÇĞ¹ø, not null
-	private String year;				//³âµµ, not null
-	private String semester;			//ÇĞ±â, not null
-	private String dormitoryCode;		//»ıÈ°°üºĞ·ùÄÚµå
-	private String mealDivision;		//½Ä»ç±¸ºĞ, 5ÀÏ½Ä, 7ÀÏ½Ä, not null
-	private double grade;				//ÇĞÁ¡, not null
-	private double distancePoint;		//°Å¸®°¡»êÁ¡, not null
-	private String wish;				//Áö¸Á, not null
-	private String applicationDay;		//½ÅÃ»ÀÏ, not null
-	private String applicationState;	//½ÅÃ»»óÅÂ, ÇÕ°İ, ¿¹ºñ, ºÒÇÕ°İ, not null
-	private String standbyNumber;		//´ë±â¹øÈ£, ÃÑÁ¡À» ±âÁØÀ¸·Î ÇÑ ¼øÀ§
-	private String oneYearWhether;		//1³â¿©ºÎ, not null
-	private String acceptanceOfAgreement;	//ÀÔ»ç¼­¾àµ¿ÀÇ¿©ºÎ, O,X, not null
+	private String applicatonNumber;	//ì‹ ì²­ë²ˆí˜¸, 2019010000, not null
+	private String studentId;			//í•™ë²ˆ, not null
+	private String year;				//ë…„ë„, not null
+	private String semester;			//í•™ê¸°, not null
+	private String dormitoryCode;		//ìƒí™œê´€ë¶„ë¥˜ì½”ë“œ
+	private String mealDivision;		//ì‹ì‚¬êµ¬ë¶„, 5ì¼ì‹, 7ì¼ì‹, not null
+	private double grade;				//í•™ì , not null
+	private double distancePoint;		//ê±°ë¦¬ê°€ì‚°ì , not null
+	private String wish;				//ì§€ë§, not null
+	private String applicationDay;		//ì‹ ì²­ì¼, not null
+	private String applicationState;	//ì‹ ì²­ìƒíƒœ, í•©ê²©, ì˜ˆë¹„, ë¶ˆí•©ê²©, not null
+	private String standbyNumber;		//ëŒ€ê¸°ë²ˆí˜¸, ì´ì ì„ ê¸°ì¤€ìœ¼ë¡œ í•œ ìˆœìœ„
+	private String oneYearWhether;		//1ë…„ì—¬ë¶€, not null
+	private String acceptanceOfAgreement;	//ì…ì‚¬ì„œì•½ë™ì˜ì—¬ë¶€, O,X, not null
 
 	public Application()
 	{
@@ -54,7 +54,7 @@ public class Application
 	public double getDistancePoint() {return distancePoint;}
 	public String getWish() {return wish;}
 	public String getApplicationDay() {return applicationDay;}
-	public String getApplicationState() {return applicationDay;}
+	public String getApplicationState() {return applicationState;}
 	public String getStandbyNumber() {return standbyNumber;}
 	public String getOneYearWhether() {return oneYearWhether;}
 	public String getAcceptanceOfAgreement() {return acceptanceOfAgreement;}

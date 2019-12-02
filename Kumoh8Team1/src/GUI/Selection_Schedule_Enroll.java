@@ -1,6 +1,5 @@
-// º±πﬂ¿œ¡§ µÓ∑œ
-
-package project;
+// ÏÑ†Î∞úÏùºÏ†ï Îì±Î°ù
+package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -61,7 +60,7 @@ public class Selection_Schedule_Enroll extends JFrame {
 		textField = new JTextField();
 		textField.setText("\uB144\uB3C4");
 		textField.setHorizontalAlignment(SwingConstants.CENTER);
-		textField.setFont(new Font("±º∏≤", Font.PLAIN, 16));
+		textField.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
 		textField.setEditable(false);
 		textField.setColumns(10);
 		textField.setBackground(Color.LIGHT_GRAY);
@@ -70,28 +69,28 @@ public class Selection_Schedule_Enroll extends JFrame {
 
 		textField_1 = new JTextField("");
 		textField_1.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_1.setFont(new Font("±º∏≤", Font.PLAIN, 16));
+		textField_1.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
 		textField_1.setColumns(10);
 		textField_1.setBounds(96, 66, 134, 40);
 		contentPane.add(textField_1);
 
 		textField_3 = new JTextField("");
 		textField_3.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_3.setFont(new Font("±º∏≤", Font.PLAIN, 16));
+		textField_3.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
 		textField_3.setColumns(10);
 		textField_3.setBounds(312, 66, 134, 40);
 		contentPane.add(textField_3);
 
 		textField_5 = new JTextField("");
 		textField_5.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_5.setFont(new Font("±º∏≤", Font.PLAIN, 16));
+		textField_5.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
 		textField_5.setColumns(10);
 		textField_5.setBounds(531, 66, 134, 40);
 		contentPane.add(textField_5);
 
 		textField_7 = new JTextField("");
 		textField_7.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_7.setFont(new Font("±º∏≤", Font.PLAIN, 16));
+		textField_7.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
 		textField_7.setColumns(10);
 		textField_7.setBounds(750, 66, 134, 40);
 		contentPane.add(textField_7);
@@ -99,7 +98,7 @@ public class Selection_Schedule_Enroll extends JFrame {
 		textField_2 = new JTextField();
 		textField_2.setText("\uD559\uAE30");
 		textField_2.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_2.setFont(new Font("±º∏≤", Font.PLAIN, 16));
+		textField_2.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
 		textField_2.setEditable(false);
 		textField_2.setColumns(10);
 		textField_2.setBackground(Color.LIGHT_GRAY);
@@ -109,7 +108,7 @@ public class Selection_Schedule_Enroll extends JFrame {
 		textField_4 = new JTextField();
 		textField_4.setText("\uAC8C\uC2DC\uC77C");
 		textField_4.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_4.setFont(new Font("±º∏≤", Font.PLAIN, 16));
+		textField_4.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
 		textField_4.setEditable(false);
 		textField_4.setColumns(10);
 		textField_4.setBackground(Color.LIGHT_GRAY);
@@ -119,7 +118,7 @@ public class Selection_Schedule_Enroll extends JFrame {
 		textField_6 = new JTextField();
 		textField_6.setText("\uC885\uB8CC\uC77C");
 		textField_6.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_6.setFont(new Font("±º∏≤", Font.PLAIN, 16));
+		textField_6.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
 		textField_6.setEditable(false);
 		textField_6.setColumns(10);
 		textField_6.setBackground(Color.LIGHT_GRAY);
@@ -142,7 +141,7 @@ public class Selection_Schedule_Enroll extends JFrame {
 		btnNewButton = new JButton("\uC120\uBC1C\uC77C\uC815 \uB4F1\uB85D");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "º±πﬂ¿œ¡§ µÓ∑œ øœ∑·");
+				JOptionPane.showMessageDialog(null, "ÏÑ†Î∞úÏùºÏ†ï Îì±Î°ù ÏôÑÎ£å");
 			}
 		});
 		btnNewButton.setBounds(775, 10, 110, 30);

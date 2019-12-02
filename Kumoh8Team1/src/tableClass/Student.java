@@ -1,5 +1,5 @@
 package tableClass;
-
+//학생 테이블
 public class Student
 {
 	private String university;			//대학 구분, not null

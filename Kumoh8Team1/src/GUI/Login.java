@@ -1,6 +1,5 @@
-// ·Î±×ÀÎ
-
-package project;
+// ë¡œê·¸ì¸
+package GUI;
 
 import java.io.*;
 import java.net.*;
@@ -27,13 +26,13 @@ import javax.swing.SpringLayout;
 import javax.swing.border.EmptyBorder;
 import java.awt.SystemColor;
 
-// JOptionPane.showMessageDialog(owner, "·Î±×ÀÎ ¼º°ø"); //this : ºÎ¸ğ À©µµ¿ì Áß¾Ó¿¡ Ç¥½Ã,  this°¡ ¾ÈµÇ¹Ç·Î À§¿¡¼­ owner = this,  null : È­¸é Áß¾Ó
+// JOptionPane.showMessageDialog(owner, "ë¡œê·¸ì¸ ì„±ê³µ"); //this : ë¶€ëª¨ ìœˆë„ìš° ì¤‘ì•™ì— í‘œì‹œ,  thisê°€ ì•ˆë˜ë¯€ë¡œ ìœ„ì—ì„œ owner = this,  null : í™”ë©´ ì¤‘ì•™
 
 public class Login extends JFrame {
 	private static JTextField textLogin;
 	private JPasswordField textPassword;
 	private JButton btnOk;
-	private Login owner; // ÅØ½ºÆ® »óÀÚ
+	private Login owner; // í…ìŠ¤íŠ¸ ìƒì
 	private JTextArea textArea;
 
 	public static void main(String[] args) {
@@ -43,7 +42,7 @@ public class Login extends JFrame {
 					Login frame = new Login();
 					frame.setVisible(true);
 					frame.setCursor();
-					// frame.setResizable(false); // ÃÖ´ëÈ­ ´ÜÃß ¾ø¾Ö±â
+					// frame.setResizable(false); // ìµœëŒ€í™” ë‹¨ì¶” ì—†ì• ê¸°
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -52,13 +51,13 @@ public class Login extends JFrame {
 	}
 
 	public void setCursor() {
-		textLogin.requestFocusInWindow(); // ·Î±×ÀÎ Ã¢À» ¶ç¿ì¸é ¾ÆÀÌµğ ÅØ½ºÆ®ÇÊµå¿¡ ÀÚµ¿À¸·Î Ä¿¼­°¡ °£´Ù.
+		textLogin.requestFocusInWindow(); // ë¡œê·¸ì¸ ì°½ì„ ë„ìš°ë©´ ì•„ì´ë”” í…ìŠ¤íŠ¸í•„ë“œì— ìë™ìœ¼ë¡œ ì»¤ì„œê°€ ê°„ë‹¤.
 	}
 
 	public Login() {
-		super("·Î±×ÀÎ"); // Á¦¸ñ
+		super("ë¡œê·¸ì¸"); // ì œëª©
 
-		owner = this; // »ı¼ºÀÚ
+		owner = this; // ìƒì„±ì
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 570, 270);
@@ -80,7 +79,7 @@ public class Login extends JFrame {
 		textPassword.setBounds(146, 143, 260, 40);
 		textPassword.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnOk.doClick(); // ¿£ÅÍ
+				btnOk.doClick(); // ì—”í„°
 			}
 		});
 		getContentPane().add(textPassword);
@@ -97,9 +96,9 @@ public class Login extends JFrame {
 					new Menu_Admin();
 					dispose();
 				} else {
-					JOptionPane.showMessageDialog(owner, "·Î±×ÀÎ ½ÇÆĞ");
+					JOptionPane.showMessageDialog(owner, "ë¡œê·¸ì¸ ì‹¤íŒ¨");
 					textPassword.setText("");
-					textPassword.requestFocus(); // ¸¶¿ì½º
+					textPassword.requestFocus(); // ë§ˆìš°ìŠ¤
 				}
 			}
 		});

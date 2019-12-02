@@ -1,6 +1,5 @@
-// ÀÔ»ç¼­¾à¼­
-
-package project;
+// ì…ì‚¬ì„œì•½ì„œ
+package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -63,14 +62,14 @@ public class Join_Promise extends JFrame {
 		textArea.setLineWrap(true);
 		textArea.setEditable(false);
 		JScrollPane scrollPane = new JScrollPane(textArea);
-		scrollPane.getVerticalScrollBar().setUnitIncrement(50); //½ºÅ©·Ñ ¼Óµµ
+		scrollPane.getVerticalScrollBar().setUnitIncrement(50); //ìŠ¤í¬ë¡¤ ì†ë„
 		scrollPane.setBounds(71, 57, 815, 568);
 
 		contentPane.add(scrollPane);
 
 		JTextArea textArea_1 = new JTextArea();
 		textArea_1.setForeground(Color.BLACK);
-		textArea_1.setFont(new Font("µ¸¿ò", Font.BOLD, 18));
+		textArea_1.setFont(new Font("ë‹ì›€", Font.BOLD, 18));
 		textArea_1.setEditable(false);
 		textArea_1.setText("\u25C8 \uC11C\uC57D\uC11C");
 		textArea_1.setBackground(SystemColor.control);
@@ -90,7 +89,7 @@ public class Join_Promise extends JFrame {
 		JButton button_1 = new JButton("\uB3D9\uC758\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "µ¿ÀÇÇÏÁö ¾Ê¾Æ ¸ŞÀÎ¸Ş´º·Î ÀÌµ¿ÇÕ´Ï´Ù.");
+				JOptionPane.showMessageDialog(null, "ë™ì˜í•˜ì§€ ì•Šì•„ ë©”ì¸ë©”ë‰´ë¡œ ì´ë™í•©ë‹ˆë‹¤.");
 				dispose();
 			}
 		});

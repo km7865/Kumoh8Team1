@@ -1,6 +1,5 @@
-// ÇĞ»ı ¸Ş´º
-
-package project;
+// í•™ìƒ ë©”ë‰´
+package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
