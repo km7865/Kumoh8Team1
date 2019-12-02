@@ -1,32 +1,34 @@
-public class Dormitory implements serializable
+package tableClass;
+
+public class Dormitory
 {
-	private String dormitoryCode;		//ë¶„ë¥˜ì½”ë“œ, not null
-	private String genderLimit;	//ì„±ë³„ì œí•œ, M, W, not null
-	private String dormitoryName;	//ìƒí™œê´€ëª…, í‘¸ë¦„1ê´€, í‘¸ë¦„ 2ê´€, ì˜¤ë¦„1ê´€..., not null
-	private String mealTime;	//ì‹ì‚¬ì‹œê°„, ì•„ì¹¨,ì ì‹¬,ì €ë… ë“±ë“±, not null
-	private int capacityNumber;	//ìˆ˜ìš©ì¸ì›, not null
-	private String mealDuty;	//ì‹ì‚¬ì˜ë¬´, O or X, not null
+	private String dormitoryCode;		//ºĞ·ùÄÚµå, not null
+	private String genderLimit;			//¼ºº°Á¦ÇÑ, M, W, not null
+	private String dormitoryName;		//»ıÈ°°ü¸í, Çª¸§1°ü, Çª¸§ 2°ü, ¿À¸§1°ü..., not null
+	private String mealTime;			//½Ä»ç½Ã°£, ¾ÆÄ§,Á¡½É,Àú³á µîµî, not null
+	private int capacityNumber;			//¼ö¿ëÀÎ¿ø, not null
+	private String mealDuty;			//½Ä»çÀÇ¹«, O or X, not null
 
 	public Dormitory()
 	{
 		dormitoryCode = null; genderLimit = null; dormitoryName = null;
-		mealTime = null; capacityNumber = null; mealDuty = null;
+		mealTime = null; capacityNumber = 0; mealDuty = null;
 	}
 	public Dormitory(String dormitoryCode, String genderLimit)
 	{
 		this.dormitoryCode = dormitoryCode; this.genderLimit = genderLimit;
-		dormitoryName = null; mealTime = null; capacityNumber = null;
+		dormitoryName = null; mealTime = null; capacityNumber = 0;
 		mealDuty = null;
 	}
 	
 	public String getDormitoryCode() {return dormitoryCode;}
-	public Strng getGenderLimit() {return genderLimit;}
+	public String getGenderLimit() {return genderLimit;}
 	public String getDormitoryName() {return dormitoryName;}
 	public String getMealTime() {return mealTime;}
-	public String getCapacityNumber() {return capacityNumber;}
+	public int getCapacityNumber() {return capacityNumber;}
 	public String getMealDuty() {return mealDuty;}
 
-	public void setDormitoryCode(String dormitoryCode) {thisdormitoryCode = dormitoryCode;}
+	public void setDormitoryCode(String dormitoryCode) {this.dormitoryCode = dormitoryCode;}
 	public void setGenderLimit(String genderLimit) {this.genderLimit = genderLimit;}
 	public void setDormitoryName(String dormitoryName) {this.dormitoryName = dormitoryName;}
 	public void setMealTime(String mealTime) {this.mealTime = mealTime;}

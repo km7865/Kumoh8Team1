@@ -1,52 +1,54 @@
-public class Application implements serializable
+package tableClass;
+//½ÅÃ» Å×ÀÌºí
+public class Application
 {
-	private String applilcaitonNumber;	//ì‹ ì²­ë²ˆí˜¸, 2019010000, not null
-	private String studentId;		//í•™ë²ˆ, not null
-	private String year;			//ë…„ë„, not null
-	private String semester;		//í•™ê¸°, not null
-	private String dormitoryCode;		//ìƒí™œê´€ë¶„ë¥˜ì½”ë“œ
-	private String mealDivision;		//ì‹ì‚¬êµ¬ë¶„, 5ì¼ì‹, 7ì¼ì‹, not null
-	private double grade;			//í•™ì , not null
-	private double distancePoint;		//ê±°ë¦¬ê°€ì‚°ì , not null
-	private String wish;			//ì§€ë§, not null
-	private String applicationDay;		//ì‹ ì²­ì¼, not null
-	private String applicationState;	//ì‹ ì²­ìƒíƒœ, í•©ê²©, ì˜ˆë¹„, ë¶ˆí•©ê²©, not null
-	private String standbyNumber;		//ëŒ€ê¸°ë²ˆí˜¸, ì´ì ì„ ê¸°ì¤€ìœ¼ë¡œ í•œ ìˆœìœ„
-	private String oneYearWhether;		//1ë…„ì—¬ë¶€, not null
-	private String acceptanceOfAgreement;	//ì…ì‚¬ì„œì•½ë™ì˜ì—¬ë¶€, O,X, not null
+	private String applicatonNumber;	//½ÅÃ»¹øÈ£, 2019010000, not null
+	private String studentId;			//ÇĞ¹ø, not null
+	private String year;				//³âµµ, not null
+	private String semester;			//ÇĞ±â, not null
+	private String dormitoryCode;		//»ıÈ°°üºĞ·ùÄÚµå
+	private String mealDivision;		//½Ä»ç±¸ºĞ, 5ÀÏ½Ä, 7ÀÏ½Ä, not null
+	private double grade;				//ÇĞÁ¡, not null
+	private double distancePoint;		//°Å¸®°¡»êÁ¡, not null
+	private String wish;				//Áö¸Á, not null
+	private String applicationDay;		//½ÅÃ»ÀÏ, not null
+	private String applicationState;	//½ÅÃ»»óÅÂ, ÇÕ°İ, ¿¹ºñ, ºÒÇÕ°İ, not null
+	private String standbyNumber;		//´ë±â¹øÈ£, ÃÑÁ¡À» ±âÁØÀ¸·Î ÇÑ ¼øÀ§
+	private String oneYearWhether;		//1³â¿©ºÎ, not null
+	private String acceptanceOfAgreement;	//ÀÔ»ç¼­¾àµ¿ÀÇ¿©ºÎ, O,X, not null
 
 	public Application()
 	{
-		applicationNumber = null; studentId = null;
-		year = null; semester = null; dormitorycode = null; mealDivision = null;
-		grade = null; distancePoint = null; wish= null;
+		applicatonNumber = null; studentId = null;
+		year = null; semester = null; dormitoryCode = null; mealDivision = null;
+		grade = 0; distancePoint = 0; wish= null;
 		applicationDay = null; applicationState = null; standbyNumber = null;
-		oneYearWhether = null; acceptanceOfagreemnet = null;
+		oneYearWhether = null; acceptanceOfAgreement = null; 
 	}
 	public Application(String applicationNumber, String studentId, String dormitoryCode)
 	{
-		this.applicationNumber = applicationNumber;
-		this.studentId = stduentId; this.dormitoryCode = dormitoryCode;
+		this.applicatonNumber = applicationNumber;
+		this.studentId = studentId; this.dormitoryCode = dormitoryCode;
 		year = null; semester = null; mealDivision = null;
-		grade = null; distancePoint = null; wish= null;
+		grade = 0; distancePoint = 0; wish= null;
 		applicationDay = null; applicationState = null; standbyNumber = null;
-		oneYearWhether = null; acceptanceOfagreemnet = null;
+		oneYearWhether = null; acceptanceOfAgreement = null;
 	}
 	public Application(Application some)
 	{
-		applicationNumber = some.applicationNumber(); studentId = some.getStudentId();
+		applicatonNumber = some.getApplicatonNumber(); studentId = some.getStudentId();
 		year = some.getYear(); semester = some.getSemester(); dormitoryCode = some.getDormitoryCode();
 		grade = some.getGrade(); distancePoint = some.getDistancePoint();
-		wish = some.getWisht(); applicationDay = some.GetApplicationDay();
+		wish = some.getWish(); applicationDay = some.getApplicationDay();
 		applicationState = some.getApplicationState(); standbyNumber = some.getStandbyNumber();
-		oneYearWhether = soem.getOneYearWhether(); acceptanceOfAgreement = some.getAcceptanceOfAgreement();	
+		oneYearWhether = some.getOneYearWhether(); acceptanceOfAgreement = some.getAcceptanceOfAgreement();	
 	}
 
-	public String getApplicationNumber() {return applicationNumber;}
+	public String getApplicatonNumber() {return applicatonNumber;}
 	public String getStudentId() {return studentId;}
 	public String getYear() {return year;}
-	public String getSemester() {return Semester;}
-	public String getDormitoryCode() {return DormitoryCode;}
+	public String getSemester() {return semester;}
+	public String getDormitoryCode() {return dormitoryCode;}
 	public String getMealDivision() {return mealDivision;}
 	public double getGrade() {return grade;}
 	public double getDistancePoint() {return distancePoint;}
@@ -57,7 +59,7 @@ public class Application implements serializable
 	public String getOneYearWhether() {return oneYearWhether;}
 	public String getAcceptanceOfAgreement() {return acceptanceOfAgreement;}
 
-	public void setApplicationNumber(String applicationNumber) {this.applicationNumber = applicationNumber;}
+	public void setApplicationNumber(String applicationNumber) {this.applicatonNumber = applicationNumber;}
 	public void setStudentId(String studentId) {this.studentId = studentId;}
 	public void setYear(String year) {this.year = year;}
 	public void setSemester(String semester) {this.semester = semester;}	
@@ -66,7 +68,7 @@ public class Application implements serializable
 	public void setGrade(double grade) {this.grade = grade;}
 	public void setDistancePoint(double distancePoint) {this.distancePoint = distancePoint;}
 	public void setWish(String wish) {this.wish = wish;}
-	public void setApplicationDay(String applicationDay) {this.applicationDay = applicationDay;}\
+	public void setApplicationDay(String applicationDay) {this.applicationDay = applicationDay;}
 	public void setApplicationState(String applicationState) {this.applicationState = applicationState;}
 	public void setStandbyNumber(String standbyNumber) {this.standbyNumber = standbyNumber;}
 	public void setOneYearWhether(String oneYearWhether) {this.oneYearWhether = oneYearWhether;}

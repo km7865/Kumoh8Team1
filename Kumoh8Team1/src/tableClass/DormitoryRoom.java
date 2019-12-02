@@ -1,9 +1,11 @@
-public class DormitoryRoom implements serializable
+package tableClass;
+
+public class DormitoryRoom
 {
-	private String dormitoryCode;	//ÏÉùÌôúÍ¥ÄÎ∂ÑÎ•òÏΩîÎìú, not null
-	private String roomCode;	//Ìò∏Ïã§ÏΩîÎìú, not null
-	private String bedCode;		//Ïπ®ÎåÄÎ≤àÌò∏, A,B,C,D ,not nulll
-	private String assignmentState;	//Î∞∞Ï†ïÏÉÅÌÉú, O,X, not null	-> booleanÏúºÎ°ú Ìï¥ÎèÑ Ï¢ãÏùÑÍ±∞ Í∞ôÏùå
+	private String dormitoryCode;	//ª˝»∞∞¸∫–∑˘ƒ⁄µÂ, not null
+	private String roomCode;		//»£Ω«ƒ⁄µÂ, not null
+	private String bedCode;			//ƒß¥Îπ¯»£, A,B,C,D ,not nulll
+	private String assignmentState;	//πË¡§ªÛ≈¬, O,X, not null	-> boolean¿∏∑Œ «ÿµµ ¡¡¿ª∞≈ ∞∞¿Ω
 	
 	public DormitoryRoom()
 	{
@@ -16,19 +18,19 @@ public class DormitoryRoom implements serializable
 	}
 	public DormitoryRoom(DormitoryRoom some)
 	{
-		this.dormitorycode = some.getDormitoryCode();
+		this.dormitoryCode = some.getDormitoryCode();
 		this.roomCode = some.getRoomCode();
 		this.bedCode = some.getBedCode();
-		this.assignmentState = some.assignmentState();
+		this.assignmentState = some.getAssignmentState();
 	}
 
-	public String getDormitoryCode() {return dormitorycode;}
+	public String getDormitoryCode() {return dormitoryCode;}
 	public String getRoomCode() {return roomCode;}
 	public String getBedCode() {return bedCode;}
 	public String getAssignmentState() {return assignmentState;}
 
 	public void setDormitoryCode(String dormitoryCode) {this.dormitoryCode = dormitoryCode;}
 	public void setRoomCode(String roomCode) {this.roomCode = roomCode;}
-        public void setBedCode(String bedCode) {this.bedCode = bedCode;}
-	public ovid setAssignmentState(String assignmentState) {this.assignmentState = assignmentState;}
+       public void setBedCode(String bedCode) {this.bedCode = bedCode;}
+	public void setAssignmentState(String assignmentState) {this.assignmentState = assignmentState;}
 }
