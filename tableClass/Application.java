@@ -1,0 +1,74 @@
+public class Application implements serializable
+{
+	private String applilcaitonNumber;	//신청번호, 2019010000, not null
+	private String studentId;		//학번, not null
+	private String year;			//년도, not null
+	private String semester;		//학기, not null
+	private String dormitoryCode;		//생활관분류코드
+	private String mealDivision;		//식사구분, 5일식, 7일식, not null
+	private double grade;			//학점, not null
+	private double distancePoint;		//거리가산점, not null
+	private String wish;			//지망, not null
+	private String applicationDay;		//신청일, not null
+	private String applicationState;	//신청상태, 합격, 예비, 불합격, not null
+	private String standbyNumber;		//대기번호, 총점을 기준으로 한 순위
+	private String oneYearWhether;		//1년여부, not null
+	private String acceptanceOfAgreement;	//입사서약동의여부, O,X, not null
+
+	public Application()
+	{
+		applicationNumber = null; studentId = null;
+		year = null; semester = null; dormitorycode = null; mealDivision = null;
+		grade = null; distancePoint = null; wish= null;
+		applicationDay = null; applicationState = null; standbyNumber = null;
+		oneYearWhether = null; acceptanceOfagreemnet = null;
+	}
+	public Application(String applicationNumber, String studentId, String dormitoryCode)
+	{
+		this.applicationNumber = applicationNumber;
+		this.studentId = stduentId; this.dormitoryCode = dormitoryCode;
+		year = null; semester = null; mealDivision = null;
+		grade = null; distancePoint = null; wish= null;
+		applicationDay = null; applicationState = null; standbyNumber = null;
+		oneYearWhether = null; acceptanceOfagreemnet = null;
+	}
+	public Application(Application some)
+	{
+		applicationNumber = some.applicationNumber(); studentId = some.getStudentId();
+		year = some.getYear(); semester = some.getSemester(); dormitoryCode = some.getDormitoryCode();
+		grade = some.getGrade(); distancePoint = some.getDistancePoint();
+		wish = some.getWisht(); applicationDay = some.GetApplicationDay();
+		applicationState = some.getApplicationState(); standbyNumber = some.getStandbyNumber();
+		oneYearWhether = soem.getOneYearWhether(); acceptanceOfAgreement = some.getAcceptanceOfAgreement();	
+	}
+
+	public String getApplicationNumber() {return applicationNumber;}
+	public String getStudentId() {return studentId;}
+	public String getYear() {return year;}
+	public String getSemester() {return Semester;}
+	public String getDormitoryCode() {return DormitoryCode;}
+	public String getMealDivision() {return mealDivision;}
+	public double getGrade() {return grade;}
+	public double getDistancePoint() {return distancePoint;}
+	public String getWish() {return wish;}
+	public String getApplicationDay() {return applicationDay;}
+	public String getApplicationState() {return applicationDay;}
+	public String getStandbyNumber() {return standbyNumber;}
+	public String getOneYearWhether() {return oneYearWhether;}
+	public String getAcceptanceOfAgreement() {return acceptanceOfAgreement;}
+
+	public void setApplicationNumber(String applicationNumber) {this.applicationNumber = applicationNumber;}
+	public void setStudentId(String studentId) {this.studentId = studentId;}
+	public void setYear(String year) {this.year = year;}
+	public void setSemester(String semester) {this.semester = semester;}	
+	public void setDormitoryCode(String dormitoryCode) {this.dormitoryCode = dormitoryCode;}
+	public void setMealDivision(String mealDivision) {this.mealDivision = mealDivision;}
+	public void setGrade(double grade) {this.grade = grade;}
+	public void setDistancePoint(double distancePoint) {this.distancePoint = distancePoint;}
+	public void setWish(String wish) {this.wish = wish;}
+	public void setApplicationDay(String applicationDay) {this.applicationDay = applicationDay;}\
+	public void setApplicationState(String applicationState) {this.applicationState = applicationState;}
+	public void setStandbyNumber(String standbyNumber) {this.standbyNumber = standbyNumber;}
+	public void setOneYearWhether(String oneYearWhether) {this.oneYearWhether = oneYearWhether;}
+	public void setAcceptanceOfAgreement(String acceptanceOfAgreement) {this.acceptanceOfAgreement = acceptanceOfAgreement;}
+}
