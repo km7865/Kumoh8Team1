@@ -2,10 +2,10 @@ package tableClass;
 //생활관 호실 테이블
 public class DormitoryRoom
 {
-	private String dormitoryCode;	//��Ȱ���з��ڵ�, not null
-	private String roomCode;		//ȣ���ڵ�, not null
-	private String bedCode;			//ħ���ȣ, A,B,C,D ,not nulll
-	private String assignmentState;	//��������, O,X, not null	-> boolean���� �ص� ������ ����
+	private String dormitoryCode;	//생활관분류코드, not null
+	private String roomCode;		//호실코드, not null
+	private String bedCode;			//침대코드, not null
+	private String assignmentState;	//배정상태, O,X, not null	-> boolean으로 해도 좋을거 같음
 	
 	public DormitoryRoom()
 	{
