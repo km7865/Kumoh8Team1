@@ -1,3 +1,4 @@
+package tableClass;
 
 public class Dormitory_cost {
 	private String kind_code;

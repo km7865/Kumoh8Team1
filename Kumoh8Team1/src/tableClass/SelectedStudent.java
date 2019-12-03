@@ -1,3 +1,4 @@
+package tableClass;
 
 public class SelectedStudent {
 	private String sign_up_number;

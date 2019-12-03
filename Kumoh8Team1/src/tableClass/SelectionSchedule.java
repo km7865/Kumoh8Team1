@@ -1,3 +1,4 @@
+package tableClass;
 
 public class SelectionSchedule {
 	private int year;

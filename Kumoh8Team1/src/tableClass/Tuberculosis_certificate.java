@@ -1,3 +1,4 @@
+package tableClass;
 
 public class Tuberculosis_certificate {
 	private int year;

@@ -72,6 +72,10 @@ public class ProtocolManager
 		}
 	}
 	
+	public void makeLoginPacket()
+	{
+		
+	}
 	public void dormitoryApplication() throws Exception	//maintype 11, 입사신청 
 	{
 		switch(protocol.getSubType())
@@ -130,6 +134,56 @@ public class ProtocolManager
 			break;
 		case 2:		//결핵진단서 파일
 			//클라이언트가 서버에게 결핵진단서 파일을 보내고 서버는 db에 저장한다
+			break;
+		}
+	}
+	
+	public void enrollSelectionSchedule() throws Exception	//maintype 21, 선발일정 등록
+	{
+		switch(protocol.getSubType())
+		{
+		case 1:		//선발일정
+			//클라이언트가 서버에게 선발일정 등록 내용을 보낸다
+			break;
+		case 2:		//선알빌정 등록 처리 결과
+			//서버가 받은 내용을 db에 저장한다, 저장 결과를 클라이언트로 보냄
+			break;
+		}
+	}
+	
+	public void enrollDormitoryCost() throws Exception	//maintype 22, 생활관 사용료 및 급식비 등록
+	{
+		switch(protocol.getSubType())
+		{
+		case 1:		//생홀관 사용료 및 급식비 정보
+			//클라이언트가 서버에게 생홀관 사용료 및 급식비 정보를 보낸다
+			break;
+		case 2:		//생활관 사용료 및 급식비 정보 등록 결과
+			//서버가 받은 정보를 db에 저장한다, 저장 결과를 클라이언트로 보냄
+			break;
+		}
+	}
+	public void enrollFinalSelectedStudent() throws Exception	//maintype 23, 입사자 등록(최종)
+	{
+		switch(protocol.getSubType())
+		{
+		case 1:		//입사자 등록 요청
+			// 클라이언트가 서버에 입사자 등록 요청 메세지를 전송
+			break;
+		case 2:		//입사자 등록 처리 결과
+			//서버는 입사 선발자 테이블을 조회해 납부가 완료된 학생들을 입사자로 등록함(등록 여부 업데이트)
+			break;
+		}
+	}
+	public void inquireFinalSelectedStudent() throws Exception	//maintype 24, 입사자 조회
+	{
+		switch(protocol.getSubType())
+		{
+		case 1:		// 입사자 조회 요청
+			//클라이언트가 서버에게 입사자 조회를 요청함
+			break;
+		case 2:		//입사자 목록 정보
+			//서버가 입사선발자의 등록여부가 최종합격인 학생들을 조회해서 클라이언트로 전송
 			break;
 		}
 	}
