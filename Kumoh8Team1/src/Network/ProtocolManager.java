@@ -1,17 +1,47 @@
 package Network;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+import tableClass.*;
+
 public class ProtocolManager 
 {
 	private Protocol protocol;
-
-	public void workProtocol()
+	
+	Socket socket= null;
+	InputStream is;
+	ObjectInputStream reader;
+	OutputStream os;
+	ObjectOutputStream writer;
+	
+	public ProtocolManager(Socket socket) 
+	{
+		try
+		{
+			this.socket = socket;
+			is = socket.getInputStream();
+			reader = new ObjectInputStream(is);
+			os = socket.getOutputStream();
+			writer = new ObjectOutputStream(os);
+		}
+		catch(IOException e)
+		{
+			e.getStackTrace();
+		}
+	}
+	
+	public void workProtocol(Socket theSocket)
 	{
 		try
 		{
 			switch(protocol.getMainType())
 			{
 			case 1:		//로그인
-				//do 로그인
+				Login();
 				break;
 			case 11:	//입사신청
 				//do 입사신청
@@ -47,35 +77,69 @@ public class ProtocolManager
 				//do 결핵진단서 제출확인
 				break;
 			
-		}
-		}
+			}//end of switch
+		}//end of try
 		catch(Exception e)
 		{
-			
+			//각 기능에서 던져진 오류코드 처리
 		}
 	}
+	
 	
 	//exception 사용자 정의 예외 만들어야함, 여기에 적은 exception은 예외 클래스를 아직 안만들어서 적어둔거임
 	public void Login()	throws Exception //maintype 1, 로그인
 	{	
-		switch(protocol.getSubType())
+		int subType = protocol.getSubType();
+		
+		if(subType==1)		//로그인 정보 요청, 서버의 동작
 		{
-		case 1:		//로그인 정보 요청
-			//서버가 client에게 로그인 정보 요청하는 packet을 보냄
-			break;
-		case 2:
-			//클라이언트가 서버에게 로그인 정보 데이터를 보냄
-			break;
-		case 3:
-			//로그인 정보가 맞는지 검사
-			break;
+			protocol = new Protocol(makeLoginPacket(1,0,null));
+			writer.writeObject(protocol);	//로그인 정보를 요청하는 패킷을 보낸다.
+			writer.flush();
+		}
+		else if(subType==2)	//로그인 정보 전송, 클라이언트의 동작
+		{
+			reader.readObject();	//서버한테서 뭔가를 읽어온다
+			if(protocol.getMainType()==1 && subType==1)
+			{
+				//클라이언트가 로그인 정보를 입력함
+				//protocol = new Protocol(makeLoginPacket(2,0, User data))
+				writer.writeObject(protocol);
+				writer.flush();	//서버로 전송
+			}
+		}
+		else if(subType==3)	//로그인 처리에 대한 결과
+		{
+			reader.readObject();
+			
+			if(protocol.getMainType()==1 && subType==2)
+			{
+				//받은 로그인 정보로 db에 접속해서 해당 정보가 맞는지 검색
+				/*
+				if(로그인 정보가 맞는 경우)
+					protocol = new Protocol(makeLoginPacket(subType, 1));
+		
+				else	//로그인 정보가 없거나 틀린 경우
+					throw Exception;
+				
+				writer.writeObject(protocol);
+				writer.flush()
+				*/
+			}
 		}
 	}
-	
-	public void makeLoginPacket()
+
+	public Protocol makeLoginPacket(int subType,int code, User user)
 	{
-		
+		if(subType==1)
+			protocol = new Protocol(1,subType);
+		else if(subType==2)
+			protocol = new Protocol(1,subType,user);
+		else if(subType==3)
+			protocol = new Protocol(1,subType,code);
+		return protocol;
 	}
+	//--------------------------------------------------------------------------------------------------
 	public void dormitoryApplication() throws Exception	//maintype 11, 입사신청 
 	{
 		switch(protocol.getSubType())
@@ -88,7 +152,11 @@ public class ProtocolManager
 			break;
 		}
 	}
-	
+	public Protocol makeDormitoryApplicationPakcet(int subType, int code, dormitoryApplication application)
+	{
+		if(sybType==1)
+			protocol = new Protocol()
+	}
 	public void inquireDormitoryRoom() throws Exception	//maintype 12, 호실조회
 	{
 		switch(protocol.getSubType())
