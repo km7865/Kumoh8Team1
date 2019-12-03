@@ -21,7 +21,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
-public class Test1 extends Application {
+public class Test3 extends Application {
 	private Label label1, label2;
 	private Button button1;
 	private Scene scene;
