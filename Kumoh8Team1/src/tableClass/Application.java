@@ -1,27 +1,27 @@
 package tableClass;
-//ì‹ ì²­ í…Œì´ë¸”
+//½ÅÃ» Å×ÀÌºí
 public class Application
 {
-	private String applicatonNumber;	//ì‹ ì²­ë²ˆí˜¸, 2019010000, not null
-	private String studentId;			//í•™ë²ˆ, not null
-	private String year;				//ë…„ë„, not null
-	private String semester;			//í•™ê¸°, not null
-	private String dormitoryCode;		//ìƒí™œê´€ë¶„ë¥˜ì½”ë“œ
-	private String mealDivision;		//ì‹ì‚¬êµ¬ë¶„, 5ì¼ì‹, 7ì¼ì‹, not null
-	private double grade;				//í•™ì , not null
-	private double distancePoint;		//ê±°ë¦¬ê°€ì‚°ì , not null
-	private String wish;				//ì§€ë§, not null
-	private String applicationDay;		//ì‹ ì²­ì¼, not null
-	private String applicationState;	//ì‹ ì²­ìƒíƒœ, í•©ê²©, ì˜ˆë¹„, ë¶ˆí•©ê²©, not null
-	private String standbyNumber;		//ëŒ€ê¸°ë²ˆí˜¸, ì´ì ì„ ê¸°ì¤€ìœ¼ë¡œ í•œ ìˆœìœ„
-	private String oneYearWhether;		//1ë…„ì—¬ë¶€, not null
-	private String acceptanceOfAgreement;	//ì…ì‚¬ì„œì•½ë™ì˜ì—¬ë¶€, O,X, not null
+	private String applicatonNumber;	//½ÅÃ»¹øÈ£, 2019010000, not null
+	private String studentId;			//ÇĞ¹ø, not null
+	private String year;				//³âµµ, not null
+	private String semester;			//ÇĞ±â, not null
+	private String dormitoryCode;		//»ıÈ°°ü ÄÚµå
+	private String mealDivision;		//½Äºñ±¸ºĞ, 5ÀÏ½Ä, 7ÀÏ½Ä, not null
+	private double grade;				//ÇĞÁ¡, not null
+	private double distancePoint;		//°Å¸®°¡»êÁ¡, not null
+	private String dormitoryWish;		//»ıÈ°°ü Áö¸Á, not null
+	private String applicationDay;		//½ÅÃ»ÀÏ, not null
+	private String applicationState;	//½ÅÃ»»óÅÂ, ÇĞ°ã, ¿¹ºñ, ºÒÇÕ°İ, not null
+	private String standbyNumber;		//´ë±â¹øÈ£, ÃÑÁ¢À» ±âÁØÀ¸·Î ÇÑ ¼øÀ§
+	private String oneYearWhether;		//1³â¿©ºÎ, not null
+	private String acceptanceOfAgreement;	//ÀÔ»ç¼­¾àµ¿ÀÇ¿©ºÎ, O,X, not null
 
 	public Application()
 	{
 		applicatonNumber = null; studentId = null;
 		year = null; semester = null; dormitoryCode = null; mealDivision = null;
-		grade = 0; distancePoint = 0; wish= null;
+		grade = 0; distancePoint = 0; dormitoryWish= null;
 		applicationDay = null; applicationState = null; standbyNumber = null;
 		oneYearWhether = null; acceptanceOfAgreement = null; 
 	}
@@ -30,7 +30,7 @@ public class Application
 		this.applicatonNumber = applicationNumber;
 		this.studentId = studentId; this.dormitoryCode = dormitoryCode;
 		year = null; semester = null; mealDivision = null;
-		grade = 0; distancePoint = 0; wish= null;
+		grade = 0; distancePoint = 0; dormitoryWish= null;
 		applicationDay = null; applicationState = null; standbyNumber = null;
 		oneYearWhether = null; acceptanceOfAgreement = null;
 	}
@@ -39,7 +39,7 @@ public class Application
 		applicatonNumber = some.getApplicatonNumber(); studentId = some.getStudentId();
 		year = some.getYear(); semester = some.getSemester(); dormitoryCode = some.getDormitoryCode();
 		grade = some.getGrade(); distancePoint = some.getDistancePoint();
-		wish = some.getWish(); applicationDay = some.getApplicationDay();
+		dormitoryWish = some.getdormitoryWish(); applicationDay = some.getApplicationDay();
 		applicationState = some.getApplicationState(); standbyNumber = some.getStandbyNumber();
 		oneYearWhether = some.getOneYearWhether(); acceptanceOfAgreement = some.getAcceptanceOfAgreement();	
 	}
@@ -52,7 +52,7 @@ public class Application
 	public String getMealDivision() {return mealDivision;}
 	public double getGrade() {return grade;}
 	public double getDistancePoint() {return distancePoint;}
-	public String getWish() {return wish;}
+	public String getdormitoryWish() {return dormitoryWish;}
 	public String getApplicationDay() {return applicationDay;}
 	public String getApplicationState() {return applicationState;}
 	public String getStandbyNumber() {return standbyNumber;}
@@ -67,7 +67,7 @@ public class Application
 	public void setMealDivision(String mealDivision) {this.mealDivision = mealDivision;}
 	public void setGrade(double grade) {this.grade = grade;}
 	public void setDistancePoint(double distancePoint) {this.distancePoint = distancePoint;}
-	public void setWish(String wish) {this.wish = wish;}
+	public void setdormitoryWish(String dormitoryWish) {this.dormitoryWish = dormitoryWish;}
 	public void setApplicationDay(String applicationDay) {this.applicationDay = applicationDay;}
 	public void setApplicationState(String applicationState) {this.applicationState = applicationState;}
 	public void setStandbyNumber(String standbyNumber) {this.standbyNumber = standbyNumber;}

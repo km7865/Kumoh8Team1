@@ -1,13 +1,13 @@
 package tableClass;
-//ìƒí™œê´€ í…Œì´ë¸”
+//»ıÈ°°ü Å×ÀÌºí
 public class Dormitory
 {
-	private String dormitoryCode;		//ë¶„ë¥˜ì½”ë“œ, not null
-	private String genderLimit;			//ì„±ë³„ì œí•œ, M, W, not null
-	private String dormitoryName;		//ìƒí™œê´€ëª…, í‘¸ë¦„1ê´€, í‘¸ë¦„ 2ê´€, ì˜¤ë¦„1ê´€..., not null
-	private String mealTime;			//ì‹ì‚¬ì‹œê°„, ì•„ì¹¨,ì ì‹¬,ì €ë… ë“±ë“±, not null
-	private int capacityNumber;			//ìˆ˜ìš©ì¸ì›, not null
-	private String mealDuty;			//ì‹ì‚¬ì˜ë¬´, O or X, not null
+	private String dormitoryCode;		//»ıÈ°°ü ÄÚµå, not null
+	private String genderLimit;			//¼ºº°Á¦ÇÑ, M, W, not null
+	private String dormitoryName;		//»ıÈ°°ü¸í, Çª¸§1°ü, Çª¸§2°ü, ¿À¸§1°ü..., not null
+	private String mealTime;			//½Ä»ç½Ã°£, ¾ÆÄ§, Á¡½É,Àú³á, not null
+	private int capacityNumber;			//¼ö¿ëÀÎ¿ø, not null
+	private String mealDuty;			//½Ä»çÀÇ¹«, O or X, not null
 
 	public Dormitory()
 	{

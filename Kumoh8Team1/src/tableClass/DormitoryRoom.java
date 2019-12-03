@@ -1,11 +1,11 @@
 package tableClass;
-//ìƒí™œê´€ í˜¸ì‹¤ í…Œì´ë¸”
+//»ıÈ°°üÈ£½Ç Å×ÀÌºí
 public class DormitoryRoom
 {
-	private String dormitoryCode;	//ìƒí™œê´€ë¶„ë¥˜ì½”ë“œ, not null
-	private String roomCode;		//í˜¸ì‹¤ì½”ë“œ, not null
-	private String bedCode;			//ì¹¨ëŒ€ì½”ë“œ, not null
-	private String assignmentState;	//ë°°ì •ìƒíƒœ, O,X, not null	-> booleanìœ¼ë¡œ í•´ë„ ì¢‹ì„ê±° ê°™ìŒ
+	private String dormitoryCode;	//»ıÈ°°üºĞ·ùÄÚµå, not null
+	private String roomCode;		//È£½ÇÄÚµå, not null
+	private String bedCode;			//Ä§´ë¹øÈ£, not null
+	private String assignmentState;	//¹èÁ¤»óÅÂ, O,X, not null
 	
 	public DormitoryRoom()
 	{
