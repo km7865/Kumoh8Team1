@@ -1,6 +1,6 @@
 package tableClass;
 //신청 테이블
-public class Application
+public class dormitoryApplication
 {
 	private String applicatonNumber;	//신청번호, 2019010000, not null
 	private String studentId;			//학번, not null
@@ -17,7 +17,7 @@ public class Application
 	private String oneYearWhether;		//1년여부, not null
 	private String acceptanceOfAgreement;	//입사서약동의여부, O,X, not null
 
-	public Application()
+	public dormitoryApplication()
 	{
 		applicatonNumber = null; studentId = null;
 		year = null; semester = null; dormitoryCode = null; mealDivision = null;
@@ -25,7 +25,7 @@ public class Application
 		applicationDay = null; applicationState = null; standbyNumber = null;
 		oneYearWhether = null; acceptanceOfAgreement = null; 
 	}
-	public Application(String applicationNumber, String studentId, String dormitoryCode)
+	public dormitoryApplication(String applicationNumber, String studentId, String dormitoryCode)
 	{
 		this.applicatonNumber = applicationNumber;
 		this.studentId = studentId; this.dormitoryCode = dormitoryCode;
@@ -34,7 +34,7 @@ public class Application
 		applicationDay = null; applicationState = null; standbyNumber = null;
 		oneYearWhether = null; acceptanceOfAgreement = null;
 	}
-	public Application(Application some)
+	public dormitoryApplication(dormitoryApplication some)
 	{
 		applicatonNumber = some.getApplicatonNumber(); studentId = some.getStudentId();
 		year = some.getYear(); semester = some.getSemester(); dormitoryCode = some.getDormitoryCode();
