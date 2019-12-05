@@ -8,17 +8,15 @@ import java.io.OutputStream;
 import java.net.Socket;
 import tableClass.*;
 
-public class ProtocolManager 
+public class ServerProtocolManager 
 {
-	private Protocol protocol;
-	
 	Socket socket= null;
-	InputStream is;
-	ObjectInputStream reader;
-	OutputStream os;
-	ObjectOutputStream writer;
+	public InputStream is;
+	public ObjectInputStream reader;
+	public OutputStream os;
+	public ObjectOutputStream writer;
 	
-	public ProtocolManager(Socket socket) 
+	public ServerProtocolManager(Socket socket) 
 	{
 		try
 		{
@@ -34,14 +32,18 @@ public class ProtocolManager
 		}
 	}
 	
-	public void workProtocol(Socket theSocket)
+	public <T>void workProtocol()
 	{
+		Protocol protocol = new Protocol();
+			
 		try
 		{
+			protocol = (Protocol)reader.readObject();
+			
 			switch(protocol.getMainType())
 			{
 			case 1:		//로그인
-				Login();
+				Login(protocol);
 				break;
 			case 11:	//입사신청
 				//do 입사신청
@@ -79,95 +81,79 @@ public class ProtocolManager
 			
 			}//end of switch
 		}//end of try
-		catch(Exception e)
+		//catch(사용자 정의 오류)
+		//{
+		//	오류를 담은 패킷을 만들어서 클라이언트에게 전송
+		//}
+		catch(ClassNotFoundException a)
 		{
-			//각 기능에서 던져진 오류코드 처리
+			a.getStackTrace();
+		}
+		catch(IOException b)
+		{
+			b.getStackTrace();
+		}
+		catch(Exception c)
+		{
+			c.getStackTrace();
 		}
 	}
 	
 	
 	//exception 사용자 정의 예외 만들어야함, 여기에 적은 exception은 예외 클래스를 아직 안만들어서 적어둔거임
-	public void Login()	throws Exception //maintype 1, 로그인
+	public void Login(Protocol protocol) throws Exception //maintype 1, 로그인
 	{	
-		int subType = protocol.getSubType();
+		//받은 로그인 정보로 db에 접속해서 해당 정보가 맞는지 검색
+			/*
+			if(로그인 정보가 맞는 경우)
+				protocol = new Protocol(makeLoginPacket(1));
 		
-		if(subType==1)		//로그인 정보 요청, 서버의 동작
-		{
-			protocol = new Protocol(makeLoginPacket(1,0,null));
-			writer.writeObject(protocol);	//로그인 정보를 요청하는 패킷을 보낸다.
-			writer.flush();
-		}
-		else if(subType==2)	//로그인 정보 전송, 클라이언트의 동작
-		{
-			reader.readObject();	//서버한테서 뭔가를 읽어온다
-			if(protocol.getMainType()==1 && subType==1)
+			else	//로그인 정보가 없거나 틀린 경우
 			{
-				//클라이언트가 로그인 정보를 입력함
-				//protocol = new Protocol(makeLoginPacket(2,0, User data))
-				writer.writeObject(protocol);
-				writer.flush();	//서버로 전송
+				protocol = new Protocol(makeLoginPacket(2));
+				throw Exception;
 			}
-		}
-		else if(subType==3)	//로그인 처리에 대한 결과
-		{
-			reader.readObject();
-			
-			if(protocol.getMainType()==1 && subType==2)
-			{
-				//받은 로그인 정보로 db에 접속해서 해당 정보가 맞는지 검색
-				/*
-				if(로그인 정보가 맞는 경우)
-					protocol = new Protocol(makeLoginPacket(subType, 1));
-		
-				else	//로그인 정보가 없거나 틀린 경우
-					throw Exception;
-				
-				writer.writeObject(protocol);
-				writer.flush()
-				*/
-			}
-		}
+			writer.writeObject(protocol);	//처리 결과를 클라이언트에게 보냄
+			writer.flush()
+			 */
 	}
 
-	public Protocol makeLoginPacket(int subType,int code, User user)
+	public Protocol makeLoginPacket(int code)
 	{
-		if(subType==1)
-			protocol = new Protocol(1,subType);
-		else if(subType==2)
-			protocol = new Protocol(1,subType,user);
-		else if(subType==3)
-			protocol = new Protocol(1,subType,code);
+		Protocol protocol=new Protocol(1,2,code);	
 		return protocol;
 	}
 	//--------------------------------------------------------------------------------------------------
-	public void dormitoryApplication() throws Exception	//maintype 11, 입사신청 
+	public void dormitoryApplication(Protocol protocol) throws Exception	//maintype 11, 입사신청 
 	{
-		switch(protocol.getSubType())
+		//클라이언트가 서버에게 입사신청정보를 보낸걸 받았다, 이 함수 밖에서
+		//디비에 저장한다
+		//처리 결과를 클라이언트에게 보낸다.
+		/*
+		if(처리에 성공한 경우)
+			protocol = new Protocol(makeDormitoryApplicationResultPacket(1));
+		else	//처리에 실패한 경우
 		{
-		case 1:		//입사신청
-			//클라이언트가 서버에게 입사신청 정보를 보낸다
-			break;
-		case 2:
-			//클라이언트가 서버에게 정보 처리에 대한 결과를 보냄
-			break;
+			protocol = new Protocol(makeDormitoryApplicationResultPacket(1));
+			throws Exception;
 		}
+		writer.writeObject(protocol);
+		writer.flush();
+		*/
 	}
-	public Protocol makeDormitoryApplicationPakcet(int subType, int code, dormitoryApplication application)
+	
+	public Protocol makeDormitoryApplicationResultPacket(int code)
 	{
-		if(sybType==1)
-			protocol = new Protocol()
+		Protocol protocol=new Protocol(2,2,code);
+		return protocol;
 	}
-	public void inquireDormitoryRoom() throws Exception	//maintype 12, 호실조회
+	//--------------------------------------------------------------------------------------------------
+	public void inquireDormitoryRoom(Protocol protocol) throws Exception	//maintype 12, 호실조회
 	{
-		switch(protocol.getSubType())
-		{
-		case 1:		//호실정보 요청
-			//클라이언트가 서버에게 호실정보를 요청함
-			break;
-		case 2:		//호실정보
-			//db에서 호실정보를 검색해보고 클라이언트에게 전송
-			break;
-		}
+		//db에서 호실정보를 검색해본다
+		//if(정보가 있다)
+			
+		
 	}
 	public void inquireDormitoryApplication() throws Exception	//maintype 13, 입사신청내역 조회
 	{

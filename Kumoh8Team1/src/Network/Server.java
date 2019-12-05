@@ -1,5 +1,6 @@
 package Network;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
@@ -61,6 +62,12 @@ class ConnectionSocket implements Runnable
 	@Override
 	public void run()	//클라이언트와 통신
 	{
+		ServerProtocolManager manager=new ServerProtocolManager(socket);
+		Protocol protocol= new Protocol();
+		while(true)
+		{
 		
+			
+		}
 	}
 }

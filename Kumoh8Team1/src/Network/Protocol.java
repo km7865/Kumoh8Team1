@@ -11,38 +11,41 @@ public class Protocol <T> implements Serializable
 	private int code;
 	T body;	//테이블을 class화 한 것을 body 내용으로 씀
 
+
+	public Protocol()
+	{
+		mainType = 0; subType = 0;
+		code = 0; body = null;
+	}
 	public Protocol(int mainType, int subType)
 	{
 		this.mainType = mainType;
 		this.subType = subType;
 	}
-	
 	public Protocol(int mainType, int subType, int code)
 	{
 		this.mainType = mainType;
 		this.subType = subType;
 		this.code = code;
 	}
-	
 	public Protocol(int mainType, int subType, T some)
 	{
 		this.mainType = mainType;
 		this.subType = subType;
-		//body = new T(some); 
+		body = some; 
 	}
-	
 	public Protocol(Protocol some)
 	{
 		this.mainType = some.getMainType();
 		this.subType = some.getSubType();
 		this.code = some.getCode();
-	//	this.body = new T();
+		this.body = (T) some.getBody();
 	}
-//generic 이렇게 쓰는거 아닌가 ㅡㅡ 왜자꾸 오류나
+	
 	public Protocol makePacket(int mainType, int subType, int code, T some)
 	{
 		this.mainType = mainType; this.subType = subType;
-		this.code = code; this.body =new some);
+		this.code = code; this.body =some;
 		
 		return this;
 	}
@@ -50,11 +53,10 @@ public class Protocol <T> implements Serializable
 	public int getMainType() {return mainType;}
 	public int getSubType() {return subType;}
 	public int getCode() {return code;}
-	//@SuppressWarnings("unchecked")
-	public <T>T getBody() {return (T) body;}
+	public T getBody() {return body;}
 	
 	public void setMainType(int mainType) {this.mainType = mainType;}
 	public void setSubType(int subType) {this.subType = subType;}
-	//public void setBody(T some) {this.body = new <T> (some);}		//generic 생성자 알아볼것
+	public void setBody(T some) {this.body = some;}		//generic 생성자 알아볼것
 	public void setCode(int code) {this.code = code;}
 }
