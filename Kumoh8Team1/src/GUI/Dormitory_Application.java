@@ -1,4 +1,4 @@
-// ÏûÖÏÇ¨ Ïã†Ï≤≠
+// ¿‘ªÁ Ω≈√ª
 package GUI;
 
 
@@ -88,49 +88,49 @@ public class Dormitory_Application extends JFrame {
 		contentPane.setLayout(null);
 
 		textField = new JTextField("");
-		textField.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
+		textField.setFont(new Font("±º∏≤", Font.PLAIN, 16));
 		textField.setEditable(false);
 		textField.setBounds(159, 53, 190, 40);
 		contentPane.add(textField);
 		textField.setColumns(10);
 
 		textField_1 = new JTextField();
-		textField_1.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
+		textField_1.setFont(new Font("±º∏≤", Font.PLAIN, 16));
 		textField_1.setEditable(false);
 		textField_1.setColumns(10);
 		textField_1.setBounds(472, 53, 190, 40);
 		contentPane.add(textField_1);
 
 		textField_2 = new JTextField();
-		textField_2.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
+		textField_2.setFont(new Font("±º∏≤", Font.PLAIN, 16));
 		textField_2.setEditable(false);
 		textField_2.setColumns(10);
 		textField_2.setBounds(785, 53, 190, 40);
 		contentPane.add(textField_2);
 
 		textField_3 = new JTextField();
-		textField_3.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
+		textField_3.setFont(new Font("±º∏≤", Font.PLAIN, 16));
 		textField_3.setEditable(false);
 		textField_3.setColumns(10);
 		textField_3.setBounds(159, 99, 190, 40);
 		contentPane.add(textField_3);
 
 		textField_4 = new JTextField();
-		textField_4.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
+		textField_4.setFont(new Font("±º∏≤", Font.PLAIN, 16));
 		textField_4.setEditable(false);
 		textField_4.setColumns(10);
 		textField_4.setBounds(472, 99, 190, 40);
 		contentPane.add(textField_4);
 
 		textField_5 = new JTextField();
-		textField_5.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
+		textField_5.setFont(new Font("±º∏≤", Font.PLAIN, 16));
 		textField_5.setEditable(false);
 		textField_5.setColumns(10);
 		textField_5.setBounds(785, 99, 190, 40);
 		contentPane.add(textField_5);
 
 		textField_6 = new JTextField();
-		textField_6.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 17));
+		textField_6.setFont(new Font("±º∏≤", Font.PLAIN, 17));
 		textField_6.setEditable(false);
 		textField_6.setForeground(Color.RED);
 		textField_6.setText("\uC0DD\uD65C\uAD00 \uC785\uC0AC\uC2E0\uCCAD");
@@ -139,7 +139,7 @@ public class Dormitory_Application extends JFrame {
 		textField_6.setColumns(10);
 
 		textField_7 = new JTextField();
-		textField_7.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 17));
+		textField_7.setFont(new Font("±º∏≤", Font.PLAIN, 17));
 		textField_7.setText("1\uB144 \uAE30\uC219 \uBAA8\uC9D1");
 		textField_7.setForeground(new Color(255, 0, 0));
 		textField_7.setEditable(false);
@@ -150,7 +150,7 @@ public class Dormitory_Application extends JFrame {
 		JComboBox comboBox = new JComboBox();
 		comboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				String str = "ÏÑ†ÌÉùÏïàÌï®";
+				String str = "º±≈√æ»«‘";
 				String strv = comboBox.getSelectedItem().toString();
 
 				if (str == strv) {
@@ -170,7 +170,7 @@ public class Dormitory_Application extends JFrame {
 		comboBox_1.setEnabled(false);
 		comboBox_1.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				String str = "ÏÑ†ÌÉùÏïàÌï®";
+				String str = "º±≈√æ»«‘";
 				String strv = comboBox_1.getSelectedItem().toString();
 				if (str == strv) {
 					comboBox_2.setEnabled(false);
@@ -198,7 +198,7 @@ public class Dormitory_Application extends JFrame {
 		textField_9 = new JTextField();
 		textField_9.setText("\uD55C\uD559\uAE30 \uAE30\uC219 \uBAA8\uC9D1");
 		textField_9.setForeground(Color.RED);
-		textField_9.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 17));
+		textField_9.setFont(new Font("±º∏≤", Font.PLAIN, 17));
 		textField_9.setEditable(false);
 		textField_9.setColumns(10);
 		textField_9.setBounds(35, 295, 169, 40);
@@ -207,7 +207,7 @@ public class Dormitory_Application extends JFrame {
 		comboBox_3 = new JComboBox();
 		comboBox_3.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				String str = "ÏÑ†ÌÉùÏïàÌï®";
+				String str = "º±≈√æ»«‘";
 				String strv = comboBox_3.getSelectedItem().toString();
 
 				if (str == strv) {
@@ -236,7 +236,7 @@ public class Dormitory_Application extends JFrame {
 		comboBox_5 = new JComboBox();
 		comboBox_5.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				String str = "ÏÑ†ÌÉùÏïàÌï®";
+				String str = "º±≈√æ»«‘";
 				String strv = comboBox_5.getSelectedItem().toString();
 
 				if (str == strv) {
@@ -265,7 +265,7 @@ public class Dormitory_Application extends JFrame {
 		comboBox_7 = new JComboBox();
 		comboBox_7.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				String str = "ÏÑ†ÌÉùÏïàÌï®";
+				String str = "º±≈√æ»«‘";
 				String strv = comboBox_7.getSelectedItem().toString();
 
 				if (str == strv) {
@@ -300,7 +300,7 @@ public class Dormitory_Application extends JFrame {
 		JButton btnNewButton = new JButton("\uC2E0\uCCAD");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Ïã†Ï≤≠Ïù¥ ÏÑ±Í≥µÏ†ÅÏúºÎ°ú ÏôÑÎ£åÎêòÏóàÏäµÎãàÎã§!!");
+				JOptionPane.showMessageDialog(null, "Ω≈√ª¿Ã º∫∞¯¿˚¿∏∑Œ øœ∑·µ«æ˙Ω¿¥œ¥Ÿ!!");
 			}
 		});
 
@@ -310,7 +310,7 @@ public class Dormitory_Application extends JFrame {
 		textField_14 = new JTextField();
 		textField_14.setText("\uD559\uBC88");
 		textField_14.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_14.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
+		textField_14.setFont(new Font("±º∏≤", Font.PLAIN, 16));
 		textField_14.setEditable(false);
 		textField_14.setColumns(10);
 		textField_14.setBackground(Color.LIGHT_GRAY);
@@ -320,7 +320,7 @@ public class Dormitory_Application extends JFrame {
 		textField_15 = new JTextField();
 		textField_15.setText("\uD559\uACFC");
 		textField_15.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_15.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
+		textField_15.setFont(new Font("±º∏≤", Font.PLAIN, 16));
 		textField_15.setEditable(false);
 		textField_15.setColumns(10);
 		textField_15.setBackground(Color.LIGHT_GRAY);
@@ -330,7 +330,7 @@ public class Dormitory_Application extends JFrame {
 		textField_16 = new JTextField();
 		textField_16.setText("\uCD5C\uADFC\uD559\uC801");
 		textField_16.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_16.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
+		textField_16.setFont(new Font("±º∏≤", Font.PLAIN, 16));
 		textField_16.setEditable(false);
 		textField_16.setColumns(10);
 		textField_16.setBackground(Color.LIGHT_GRAY);
@@ -340,7 +340,7 @@ public class Dormitory_Application extends JFrame {
 		textField_17 = new JTextField();
 		textField_17.setText("\uC131\uBA85");
 		textField_17.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_17.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
+		textField_17.setFont(new Font("±º∏≤", Font.PLAIN, 16));
 		textField_17.setEditable(false);
 		textField_17.setColumns(10);
 		textField_17.setBackground(Color.LIGHT_GRAY);
@@ -350,7 +350,7 @@ public class Dormitory_Application extends JFrame {
 		textField_18 = new JTextField();
 		textField_18.setText("\uD559\uB144(\uD559\uAE30\uCC28)");
 		textField_18.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_18.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
+		textField_18.setFont(new Font("±º∏≤", Font.PLAIN, 16));
 		textField_18.setEditable(false);
 		textField_18.setColumns(10);
 		textField_18.setBackground(Color.LIGHT_GRAY);
@@ -360,7 +360,7 @@ public class Dormitory_Application extends JFrame {
 		textField_19 = new JTextField();
 		textField_19.setText("\uD559\uC801\uBCC0\uB3D9\uC77C");
 		textField_19.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_19.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
+		textField_19.setFont(new Font("±º∏≤", Font.PLAIN, 16));
 		textField_19.setEditable(false);
 		textField_19.setColumns(10);
 		textField_19.setBackground(Color.LIGHT_GRAY);
@@ -370,7 +370,7 @@ public class Dormitory_Application extends JFrame {
 		textField_20 = new JTextField();
 		textField_20.setText("\uAD6C\uBD84");
 		textField_20.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_20.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
+		textField_20.setFont(new Font("±º∏≤", Font.PLAIN, 16));
 		textField_20.setEditable(false);
 		textField_20.setColumns(10);
 		textField_20.setBackground(Color.LIGHT_GRAY);
@@ -380,7 +380,7 @@ public class Dormitory_Application extends JFrame {
 		textField_21 = new JTextField();
 		textField_21.setText("\uC2DD\uC0AC\uAD6C\uBD84\r\n(2\uD559\uAE30)");
 		textField_21.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_21.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 13));
+		textField_21.setFont(new Font("±º∏≤", Font.PLAIN, 13));
 		textField_21.setEditable(false);
 		textField_21.setColumns(10);
 		textField_21.setBackground(Color.LIGHT_GRAY);
@@ -390,7 +390,7 @@ public class Dormitory_Application extends JFrame {
 		textField_22 = new JTextField();
 		textField_22.setText("\uC2DD\uC0AC\uAD6C\uBD84\r\n(\uB3D9\uACC4\uBC29\uD559)");
 		textField_22.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_22.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 13));
+		textField_22.setFont(new Font("±º∏≤", Font.PLAIN, 13));
 		textField_22.setEditable(false);
 		textField_22.setColumns(10);
 		textField_22.setBackground(Color.LIGHT_GRAY);
@@ -400,7 +400,7 @@ public class Dormitory_Application extends JFrame {
 		textField_23 = new JTextField();
 		textField_23.setText("\uC0DD\uD65C\uAD00\uBE44");
 		textField_23.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_23.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
+		textField_23.setFont(new Font("±º∏≤", Font.PLAIN, 16));
 		textField_23.setEditable(false);
 		textField_23.setColumns(10);
 		textField_23.setBackground(Color.LIGHT_GRAY);
@@ -410,7 +410,7 @@ public class Dormitory_Application extends JFrame {
 		textField_24 = new JTextField();
 		textField_24.setText("\uC0DD\uD65C\uAD00\uBE44");
 		textField_24.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_24.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
+		textField_24.setFont(new Font("±º∏≤", Font.PLAIN, 16));
 		textField_24.setEditable(false);
 		textField_24.setColumns(10);
 		textField_24.setBackground(Color.LIGHT_GRAY);
@@ -420,7 +420,7 @@ public class Dormitory_Application extends JFrame {
 		textField_25 = new JTextField();
 		textField_25.setText("\uC0DD\uD65C\uAD00\uBE44");
 		textField_25.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_25.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
+		textField_25.setFont(new Font("±º∏≤", Font.PLAIN, 16));
 		textField_25.setEditable(false);
 		textField_25.setColumns(10);
 		textField_25.setBackground(Color.LIGHT_GRAY);
@@ -430,7 +430,7 @@ public class Dormitory_Application extends JFrame {
 		textField_26 = new JTextField();
 		textField_26.setText("\uC0DD\uD65C\uAD00\uBE44");
 		textField_26.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_26.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
+		textField_26.setFont(new Font("±º∏≤", Font.PLAIN, 16));
 		textField_26.setEditable(false);
 		textField_26.setColumns(10);
 		textField_26.setBackground(Color.LIGHT_GRAY);
@@ -440,7 +440,7 @@ public class Dormitory_Application extends JFrame {
 		textField_27 = new JTextField();
 		textField_27.setText("\uC2DD\uC0AC\uAD6C\uBD84");
 		textField_27.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_27.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
+		textField_27.setFont(new Font("±º∏≤", Font.PLAIN, 16));
 		textField_27.setEditable(false);
 		textField_27.setColumns(10);
 		textField_27.setBackground(Color.LIGHT_GRAY);
@@ -450,7 +450,7 @@ public class Dormitory_Application extends JFrame {
 		textField_28 = new JTextField();
 		textField_28.setText("\uC2DD\uC0AC\uAD6C\uBD84");
 		textField_28.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_28.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
+		textField_28.setFont(new Font("±º∏≤", Font.PLAIN, 16));
 		textField_28.setEditable(false);
 		textField_28.setColumns(10);
 		textField_28.setBackground(Color.LIGHT_GRAY);
@@ -460,7 +460,7 @@ public class Dormitory_Application extends JFrame {
 		textField_29 = new JTextField();
 		textField_29.setText("\uC2DD\uC0AC\uAD6C\uBD84");
 		textField_29.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_29.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
+		textField_29.setFont(new Font("±º∏≤", Font.PLAIN, 16));
 		textField_29.setEditable(false);
 		textField_29.setColumns(10);
 		textField_29.setBackground(Color.LIGHT_GRAY);
@@ -470,7 +470,7 @@ public class Dormitory_Application extends JFrame {
 		textField_30 = new JTextField();
 		textField_30.setText("1\uC9C0\uB9DD");
 		textField_30.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_30.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
+		textField_30.setFont(new Font("±º∏≤", Font.PLAIN, 16));
 		textField_30.setEditable(false);
 		textField_30.setColumns(10);
 		textField_30.setBackground(Color.LIGHT_GRAY);
@@ -480,7 +480,7 @@ public class Dormitory_Application extends JFrame {
 		textField_31 = new JTextField();
 		textField_31.setText("2\uC9C0\uB9DD");
 		textField_31.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_31.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
+		textField_31.setFont(new Font("±º∏≤", Font.PLAIN, 16));
 		textField_31.setEditable(false);
 		textField_31.setColumns(10);
 		textField_31.setBackground(Color.LIGHT_GRAY);
@@ -490,7 +490,7 @@ public class Dormitory_Application extends JFrame {
 		textField_32 = new JTextField();
 		textField_32.setText("3\uC9C0\uB9DD");
 		textField_32.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_32.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
+		textField_32.setFont(new Font("±º∏≤", Font.PLAIN, 16));
 		textField_32.setEditable(false);
 		textField_32.setColumns(10);
 		textField_32.setBackground(Color.LIGHT_GRAY);
@@ -500,7 +500,7 @@ public class Dormitory_Application extends JFrame {
 		textField_33 = new JTextField();
 		textField_33.setText("\uD734\uB300\uC804\uD654\uBC88\uD638");
 		textField_33.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_33.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 16));
+		textField_33.setFont(new Font("±º∏≤", Font.PLAIN, 16));
 		textField_33.setEditable(false);
 		textField_33.setColumns(10);
 		textField_33.setBackground(Color.LIGHT_GRAY);
