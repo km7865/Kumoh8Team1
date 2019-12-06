@@ -1,4 +1,5 @@
-// å¯ƒê³ ë¹‘ï§žê¾¨ë–’ï¿½ê½Œ ï¿½ì £ç•°ï¿½ ï¿½ì†—ï¿½ì”¤
+// °áÇÙÁø´Ü¼­ Á¦Ãâ È®ÀÎ
+
 package GUI;
 
 import java.awt.BorderLayout;
@@ -42,7 +43,7 @@ public class TuberculosisDiagnosis_check extends JFrame {
 	}
 
 	public TuberculosisDiagnosis_check() {
-		setTitle("å¯ƒê³ ë¹‘ï§žê¾¨ë–’ï¿½ê½Œ ï¿½ì £ç•°ï¿½ ï¿½ì†—ï¿½ì”¤");
+		setTitle("°áÇÙÁø´Ü¼­ Á¦Ãâ È®ÀÎ");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 815, 675);
 		contentPane = new JPanel();
