@@ -13,7 +13,6 @@ public class Server
 	private static ExecutorService threadPool = Executors.newFixedThreadPool(THREADPOOL_CAPACITY);
 	
 	//private static ServerSocket serverSocket;
-	ProtocolManager protocolManager;
 	
 	public static void main(String[] args)
 	{
@@ -63,10 +62,9 @@ class ConnectionSocket implements Runnable
 	public void run()	//클라이언트와 통신
 	{
 		ServerProtocolManager manager=new ServerProtocolManager(socket);
-		Protocol protocol= new Protocol();
 		while(true)
 		{
-		
+			manager.workProtocol();
 			
 		}
 	}
