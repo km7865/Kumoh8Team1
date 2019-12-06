@@ -1,18 +1,18 @@
 package tableClass;
-//í•™ìƒ í…Œì´ë¸”
+//ÇĞ»ı Å×ÀÌºí
 public class Student
 {
-	private String university;			//ëŒ€í•™ êµ¬ë¶„, not null
-	private String studentId;			//í•™ë²ˆ, not null
-	private String name;				//ì„±ëª…, not null
-	private String registrationNumber;	//ì£¼ë¯¼ë“±ë¡ë²ˆí˜¸, not null
-	private String gender;				//ì„±ë³„
-	private String departmentCode;		//í•™ê³¼ì½”ë“œ
-	private String departmentName;		//í•™ê³¼ëª…
-	private double grade;				//í•™ë…„
-	private String major;				//ì „ê³µêµ¬ë¶„
-	private String studentAddress;		//í•™ìƒì£¼ì†Œ
-	private String studentPhoneNumber;	//í•™ìƒì „í™”ë²ˆí˜¸
+	private String university;			//´ëÇĞ ±¸ºĞ, not null
+	private String studentId;			//ÇĞ¹ø, not null
+	private String name;				//¼º¸í, not null
+	private String registrationNumber;	//ÁÖ¹Îµî·Ï¹øÈ£, not null
+	private String gender;				//¼ºº°
+	private String departmentCode;		//ÇĞ°úÄÚµå
+	private String departmentName;		//ÇĞ°ú¸í
+	private double grade;				//ÇĞ³â
+	private String major;				//Àü°ø±¸ºĞ
+	private String studentAddress;		//ÇĞ»ıÁÖ¼Ò
+	private String studentPhoneNumber;	//ÇĞ»ıÀüÈ­¹øÈ£
 
 	public Student(String university, String studentId, String name, String registrationNumber)
 	{
