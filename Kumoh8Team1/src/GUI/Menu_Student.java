@@ -1,4 +1,4 @@
-// í•™ìƒ ë©”ë‰´
+// ÇĞ»ı ¸Ş´º
 package GUI;
 
 import java.awt.BorderLayout;
