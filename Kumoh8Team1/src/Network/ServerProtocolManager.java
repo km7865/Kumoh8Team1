@@ -1,5 +1,6 @@
 package Network;
 
+import tableClass.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -127,9 +128,11 @@ public class ServerProtocolManager
 		System.out.println(p.getBody().getUserID());
 		System.out.println(p.getBody().getPassword());
 		
+		/*
 		dbManager.getConnection();
 		dbManager.loginCheck(p);
 		dbManager.closeConnection();
+		*/
 	}
 	//--------------------------------------------------------------------------------------------------
 	public void dormitoryApplication(Protocol protocol) throws ServerException	//maintype 11, 입사신청 
