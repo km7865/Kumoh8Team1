@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 //import com.mysql.cj.xdevapi.Statement;
 // jdbc:mysql://192.168.209.250:3306/dorm
-// Ä«Æä 192.168.209.250
+// ì¹´í˜ 192.168.209.250
 public class DBManager {
 	public static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
 	public static final String URL = "jdbc:mysql://" + "localhost" + ":3306" + "/dorm" + "?characterEncoding=UTF-8&serverTimezone=UTC";
@@ -30,14 +30,14 @@ public class DBManager {
 	private Statement stmt;
 	private ResultSet rs;
 
-	public DBManager(ObjectOutputStream oos, ObjectInputStream ois) throws ClassNotFoundException	//»ı¼ºÀÚ
+	public DBManager(ObjectOutputStream oos, ObjectInputStream ois) throws ClassNotFoundException	//ìƒì„±ì
 	{
 		try{
-			// 1. µå¶óÀÌ¹ö ·Îµù
-			// µå¶óÀÌ¹ö ÀÎÅÍÆäÀÌ½º¸¦ ±¸ÇöÇÑ Å¬·¡½º¸¦ ·Îµù
-			// mysql, oracle µî °¢ º¥´õ»ç ¸¶´Ù Å¬·¡½º ÀÌ¸§ÀÌ ´Ù¸£´Ù.
-			// mysqlÀº "com.mysql.jdbc.Driver"ÀÌ¸ç, ÀÌ´Â ¿Ü¿ì´Â °ÍÀÌ ¾Æ´Ï¶ó ±¸±Û¸µÇÏ¸é µÈ´Ù.
-			// Âü°í·Î ÀÌÀü¿¡ ¿¬µ¿Çß´ø jar ÆÄÀÏÀ» º¸¸é com.mysql.jdbc ÆĞÅ°Áö¿¡ Driver ¶ó´Â Å¬·¡½º°¡ ÀÖ´Ù.
+			// 1. ë“œë¼ì´ë²„ ë¡œë”©
+			// ë“œë¼ì´ë²„ ì¸í„°í˜ì´ìŠ¤ë¥¼ êµ¬í˜„í•œ í´ë˜ìŠ¤ë¥¼ ë¡œë”©
+			// mysql, oracle ë“± ê° ë²¤ë”ì‚¬ ë§ˆë‹¤ í´ë˜ìŠ¤ ì´ë¦„ì´ ë‹¤ë¥´ë‹¤.
+			// mysqlì€ "com.mysql.jdbc.Driver"ì´ë©°, ì´ëŠ” ì™¸ìš°ëŠ” ê²ƒì´ ì•„ë‹ˆë¼ êµ¬ê¸€ë§í•˜ë©´ ëœë‹¤.
+			// ì°¸ê³ ë¡œ ì´ì „ì— ì—°ë™í–ˆë˜ jar íŒŒì¼ì„ ë³´ë©´ com.mysql.jdbc íŒ¨í‚¤ì§€ì— Driver ë¼ëŠ” í´ë˜ìŠ¤ê°€ ìˆë‹¤.
 			Class.forName(JDBC_DRIVER);
 			writer = oos;
 			reader = ois; 
@@ -48,20 +48,20 @@ public class DBManager {
 
 	public void getConnection() throws SQLException
 	{
-		// 2. ¿¬°áÇÏ±â
-		// µå¶óÀÌ¹ö ¸Å´ÏÀú¿¡°Ô Connection °´Ã¼¸¦ ´Ş¶ó°í ¿äÃ»ÇÑ´Ù.
-		// mysqlÀº "jdbc:mysql://localhost/»ç¿ëÇÒdbÀÌ¸§" ÀÌ´Ù.
+		// 2. ì—°ê²°í•˜ê¸°
+		// ë“œë¼ì´ë²„ ë§¤ë‹ˆì €ì—ê²Œ Connection ê°ì²´ë¥¼ ë‹¬ë¼ê³  ìš”ì²­í•œë‹¤.
+		// mysqlì€ "jdbc:mysql://localhost/ì‚¬ìš©í• dbì´ë¦„" ì´ë‹¤.
 		// @param  getConnection(url, userName, password);
 		// @return Connection
 
 		conn = DriverManager.getConnection(URL, ID, PW);
-		//System.out.println("¿¬°á ¼º°ø");
+		//System.out.println("ì—°ê²° ì„±ê³µ");
 	}
 	
 	public void closeConnection() throws SQLException
 	{
 		try {
-			//ÀÚ¿ø ¹İÈ¯
+			//ìì› ë°˜í™˜
 			conn.close();
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -71,7 +71,7 @@ public class DBManager {
 		}
 	}
 	////////////////////////////////////////////////////////////////////////////
-	//±â´É
+	//ê¸°ëŠ¥
 
 	public void loginCheck(Protocol<User> protocol)
 	{
@@ -80,17 +80,17 @@ public class DBManager {
 		String loginId = p.getBody().getUserID();
 		String loginPw = p.getBody().getPassword();
 		try {
-			stmt = conn.createStatement();  	// ¨é SQL¹® ±¸¼º/Àü¼Û(½ÇÇà)/°á°ú È¹µæ
-			String SQL = "SELECT * FROM dorm.»ç¿ëÀÚ";
+			stmt = conn.createStatement();  	// â‘¢ SQLë¬¸ êµ¬ì„±/ì „ì†¡(ì‹¤í–‰)/ê²°ê³¼ íšë“
+			String SQL = "SELECT * FROM dorm.ì‚¬ìš©ì";
 			rs = stmt.executeQuery(SQL);
 
-			//»ç¿ëÀÚ Å×ÀÌºíÀÇ ¸ğµç ID °Ë»ö È¤Àº ÀÏÄ¡ÇÏ´Â ID°¡ ÀÖ´Ù¸é PW ÀÏÄ¡ È®ÀÎ 
+			//ì‚¬ìš©ì í…Œì´ë¸”ì˜ ëª¨ë“  ID ê²€ìƒ‰ í˜¹ì€ ì¼ì¹˜í•˜ëŠ” IDê°€ ìˆë‹¤ë©´ PW ì¼ì¹˜ í™•ì¸ 
 			while(rs.next()) { 	
-				if (loginId.equals(rs.getString("»ç¿ëÀÚID"))) {
+				if (loginId.equals(rs.getString("ì‚¬ìš©ìID"))) {
 					if (loginPw.equals(rs.getString("password"))) {
-						System.out.println("·Î±×ÀÎ¼º°ø");
-						user = new User(rs.getString("»ç¿ëÀÚID"),rs.getString("password"),
-								rs.getString("¼º¸í"), rs.getString("»ç¿ëÀÚ±¸ºĞ"));
+						System.out.println("ë¡œê·¸ì¸ì„±ê³µ");
+						user = new User(rs.getString("ì‚¬ìš©ìID"),rs.getString("password"),
+								 rs.getString("ì‚¬ìš©ìêµ¬ë¶„"), rs.getString("ì„±ëª…"));
 						protocol = new Protocol<User>(1,2,user);
 						protocol.setCode(1);
 						break;
@@ -105,7 +105,7 @@ public class DBManager {
 				if (!rs.next())
 					protocol = new Protocol<User>(1,2,2);
 			}
-			//while¹® Á¾·á ÈÄ ÆĞÅ¶ Àü¼Û
+			//whileë¬¸ ì¢…ë£Œ í›„ íŒ¨í‚· ì „ì†¡
 			writer.writeObject(protocol);
 			writer.flush();
 		} catch (SQLException e) {
@@ -126,15 +126,15 @@ public class DBManager {
 			pstmt.setInt(2, 1);
 
 			int row = pstmt.executeUpdate();
-			System.out.println("º¯°æµÈ row: "+ row);
+			System.out.println("ë³€ê²½ëœ row: "+ row);
 
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} // 4. pstmt.set<µ¥ÀÌÅÍÅ¸ÀÔ>(? ¼ø¼­, °ª) ex).setString(), .setInt ... pstmt.setString(1, "1234");
-		//pstmt.setString(2, "¸Ş¶Ñ±â"); pstmt.setString(3, "grasshopper"); 
-		// 5. SQL ¹®ÀåÀ» ½ÇÇàÇÏ°í °á°ú¸¦ ¸®ÅÏ - SQL ¹®Àå ½ÇÇà ÈÄ, º¯°æµÈ row ¼ö int type ¸®ÅÏ int r = pstmt.executeUpdate(); System.out.println("º¯°æµÈ row : " + r);
+		} // 4. pstmt.set<ë°ì´í„°íƒ€ì…>(? ìˆœì„œ, ê°’) ex).setString(), .setInt ... pstmt.setString(1, "1234");
+		//pstmt.setString(2, "ë©”ëšœê¸°"); pstmt.setString(3, "grasshopper"); 
+		// 5. SQL ë¬¸ì¥ì„ ì‹¤í–‰í•˜ê³  ê²°ê³¼ë¥¼ ë¦¬í„´ - SQL ë¬¸ì¥ ì‹¤í–‰ í›„, ë³€ê²½ëœ row ìˆ˜ int type ë¦¬í„´ int r = pstmt.executeUpdate(); System.out.println("ë³€ê²½ëœ row : " + r);
 	}
 
 	public void insert()	//test
@@ -154,10 +154,10 @@ public class DBManager {
 			//pstmt.executeUpdate():create, insert,update,delete
 
 			int row = pstmt.executeUpdate();
-			System.out.println("Çà : "+row);
+			System.out.println("í–‰ : "+row);
 		} catch (SQLException e){
 			e.printStackTrace();
-		} finally { //»ç¿ë¼ø¼­¿Í ¹İ´ë·Î close ÇÔ if (pstmt != null) { try { pstmt.close(); } catch (SQLException e) { e.printStackTrace(); } } if (con != null) { try { con.close(); } catch (SQLException e) { e.printStackTrace(); } }
+		} finally { //ì‚¬ìš©ìˆœì„œì™€ ë°˜ëŒ€ë¡œ close í•¨ if (pstmt != null) { try { pstmt.close(); } catch (SQLException e) { e.printStackTrace(); } } if (con != null) { try { con.close(); } catch (SQLException e) { e.printStackTrace(); } }
 			try {
 				pstmt.close();
 				conn.close();
@@ -172,23 +172,23 @@ public class DBManager {
 	public void getData() //test
 	{
 		try {
-			stmt = conn.createStatement();  	// ¨é SQL¹® ±¸¼º/Àü¼Û(½ÇÇà)/°á°ú È¹µæ
-			String SQL = "SELECT * FROM dorm.ÇĞ»ı";
+			stmt = conn.createStatement();  	// â‘¢ SQLë¬¸ êµ¬ì„±/ì „ì†¡(ì‹¤í–‰)/ê²°ê³¼ íšë“
+			String SQL = "SELECT * FROM dorm.í•™ìƒ";
 			rs = stmt.executeQuery(SQL);
 			// int executeUpdate(insert /delete/update)
 			//int uCount = stmt.executeUpdate(" ");
 
 			/*
-        	while (rs.next()) { 				// ¨ê °á°úÁıÇÕ¿¡¼­ ´ÙÀ½ Çà È¹µæ
+        	while (rs.next()) { 				// â‘£ ê²°ê³¼ì§‘í•©ì—ì„œ ë‹¤ìŒ í–‰ íšë“
         		Student st = new Student();
-        		st.setStudentId(rs.getString( "ÇĞ¹ø"));
-        		st.setName(rs.getString("¼º¸í")); 		// ¨ë ÇàÀÇ Ä®·³ È¹µæ getX  name ¼Ó¼º¸¸ ¹ŞÀ½
+        		st.setStudentId(rs.getString( "í•™ë²ˆ"));
+        		st.setName(rs.getString("ì„±ëª…")); 		// â‘¤ í–‰ì˜ ì¹¼ëŸ¼ íšë“ getX  name ì†ì„±ë§Œ ë°›ìŒ
 
-        		System.out.println("ÇĞ¹ø : " + st.getStudentId() +  "¼º¸í : " + st.getName());
+        		System.out.println("í•™ë²ˆ : " + st.getStudentId() +  "ì„±ëª… : " + st.getName());
         	}
 			 */
 
-			//°á°ú¸¦ ´ãÀ» ArrayList»ı¼º
+			//ê²°ê³¼ë¥¼ ë‹´ì„ ArrayListìƒì„±
 
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -200,9 +200,9 @@ public class DBManager {
 	private static void checkWarnings(SQLWarning w) throws SQLException {
 		if (w != null) {
 			while (w != null) {
-				System.out.println("SQL »óÅÂ:" + w.getSQLState());
-				System.out.println("ÀÚ¹Ù ¿¹¿Ü ¸Ş½ÃÁö:" + w.getMessage());
-				System.out.println("DBMS ¿¡·¯ ÄÚµå:" + w.getErrorCode());
+				System.out.println("SQL ìƒíƒœ:" + w.getSQLState());
+				System.out.println("ìë°” ì˜ˆì™¸ ë©”ì‹œì§€:" + w.getMessage());
+				System.out.println("DBMS ì—ëŸ¬ ì½”ë“œ:" + w.getErrorCode());
 				w.getNextWarning();
 			}
 		}
