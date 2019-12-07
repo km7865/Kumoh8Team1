@@ -1,4 +1,4 @@
-// 결핵진단서 제출 확인
+// 寃고빑吏꾨떒?꽌 ?젣異? ?솗?씤
 
 package GUI;
 
@@ -43,7 +43,7 @@ public class TuberculosisDiagnosis_check extends JFrame {
 	}
 
 	public TuberculosisDiagnosis_check() {
-		setTitle("결핵진단서 제출 확인");
+		setTitle("寃고빑吏꾨떒?꽌 ?젣異? ?솗?씤");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 815, 675);
 		contentPane = new JPanel();

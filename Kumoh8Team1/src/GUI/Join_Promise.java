@@ -1,4 +1,5 @@
 // 입사서약서
+
 package GUI;
 
 import java.awt.BorderLayout;
@@ -47,7 +48,7 @@ public class Join_Promise extends JFrame {
 	}
 
 	public Join_Promise() {
-		setTitle("\uC785\uC0AC\uC11C\uC57D\uC11C");
+		setTitle("입사서약서");
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 975, 730);
@@ -71,12 +72,12 @@ public class Join_Promise extends JFrame {
 		textArea_1.setForeground(Color.BLACK);
 		textArea_1.setFont(new Font("돋움", Font.BOLD, 18));
 		textArea_1.setEditable(false);
-		textArea_1.setText("\u25C8 \uC11C\uC57D\uC11C");
+		textArea_1.setText("\u25C8 서약서");
 		textArea_1.setBackground(SystemColor.control);
 		textArea_1.setBounds(71, 27, 140, 20);
 		contentPane.add(textArea_1);
 
-		JButton button = new JButton("\uB3D9\uC758\uD569\uB2C8\uB2E4");
+		JButton button = new JButton("동의합니다");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new Dormitory_Application();
@@ -86,7 +87,7 @@ public class Join_Promise extends JFrame {
 		button.setBounds(205, 635, 182, 48);
 		contentPane.add(button);
 
-		JButton button_1 = new JButton("\uB3D9\uC758\uD558\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4");
+		JButton button_1 = new JButton("동의하지 않습니다");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "동의하지 않아 메인메뉴로 이동합니다.");
