@@ -1,4 +1,4 @@
-// ï¿½Î±ï¿½ï¿½ï¿½
+
 
 package GUI;
 
@@ -97,11 +97,11 @@ public class Login extends JFrame {
 		setBounds(100, 100, 570, 270);
 		getContentPane().setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("\uC544\uC774\uB514");
+		JLabel lblNewLabel = new JLabel("¾ÆÀÌµð");
 		lblNewLabel.setBounds(60, 92, 60, 40);
 		getContentPane().add(lblNewLabel);
 
-		JLabel lblNewLabel_1 = new JLabel("\uBE44\uBC00\uBC88\uD638");
+		JLabel lblNewLabel_1 = new JLabel("ºñ¹Ð¹øÈ£");
 		lblNewLabel_1.setBounds(60, 142, 60, 40);
 		getContentPane().add(lblNewLabel_1);
 
@@ -118,7 +118,7 @@ public class Login extends JFrame {
 		});
 		getContentPane().add(textPassword);
 
-		btnOk = new JButton("\uB85C\uADF8\uC778");
+		btnOk = new JButton("·Î±×ÀÎ");
 		btnOk.setBounds(416, 92, 80, 90);
 		btnOk.addActionListener(new ActionListener() {
 
