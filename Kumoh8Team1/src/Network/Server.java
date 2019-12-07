@@ -4,6 +4,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.Scanner;
 
 public class Server 
 {
@@ -29,9 +30,8 @@ public class Server
 									"의 호스트가 접속");
 				try 
 				{
-					//접속된 클라이언트 소켓을 스레드풀로 넣어줌
-					//이후는 스레드 내에서 처리
-					threadPool.execute(new ConnectionSocket(socket));
+					threadPool.execute(new ConnectionSocket(socket));//접속된 클라이언트 소켓을 스레드풀로 넣어줌
+									//후는 스레드 내에서 처리
 				}
 				catch(Exception e)
 				{

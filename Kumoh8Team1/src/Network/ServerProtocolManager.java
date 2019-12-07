@@ -1,21 +1,26 @@
 package Network;
 
+import tableClass.*;
+import UserDefinedException.*;
+import connectionDB.*;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import tableClass.*;
-import UserDefinedException.*;
+import java.sql.SQLException;
+import java.util.Scanner;
 
 public class ServerProtocolManager 
 {
-	Socket socket= null;
-	public InputStream is;
-	public ObjectInputStream reader;
-	public OutputStream os;
-	public ObjectOutputStream writer;
+	private Socket socket= null;
+	private InputStream is;
+	private ObjectInputStream reader;
+	private OutputStream os;
+	private ObjectOutputStream writer;
+	private DBManager dbManager=null;
 	
 	public ServerProtocolManager(Socket socket) 
 	{
@@ -33,10 +38,11 @@ public class ServerProtocolManager
 		}
 	}
 	
-	public <T>void workProtocol()
+	
+	public void workProtocol()
 	{
 		Protocol protocol = new Protocol();
-			
+		
 		try
 		{
 			protocol = (Protocol)reader.readObject();
@@ -86,21 +92,14 @@ public class ServerProtocolManager
 		}//end of try
 		catch(ServerException a)
 		{
-			protocol.setBody(a);
+			protocol.setBody("오류가 발생했습니다");
 			//오류를 담은 패킷을 만듬 ->finally에서 클라이언트로 전송
 			//protocol.setBody(Exception 객체);
 		}
-		catch(ClassNotFoundException b)
-		{
-			b.getStackTrace();
-		}
-		catch(IOException c)
-		{
-			c.getStackTrace();
-		}
-		catch(Exception d)
+		catch(SQLException d)
 		{
 			d.getStackTrace();
+			protocol.setBody("오류가 발생했습니다");
 		}
 		finally
 		{
@@ -113,23 +112,22 @@ public class ServerProtocolManager
 			{
 				e.getStackTrace();
 			}
-			
 		}
-	}
+}
+		/**/
 	
 	//현재 구조에서 동작 함수에서 프로토콜의 값을 바꾸는데, call by reference로 작동할지 헷갈린다! ->확인해볼것
 	
 	//exception 사용자 정의 예외 만들어야함, 여기에 적은 exception은 예외 클래스를 아직 안만들어서 적어둔거임
-	public void Login(Protocol protocol) throws ServerException //maintype 1, 로그인
+	public void Login(Protocol protocol) throws ServerException, SQLException //maintype 1, 로그인
 	{	
-		Protocol<User> p = protocol;
-		
-		System.out.println(p.getBody().getUserID());
-		System.out.println(p.getBody().getPassword());
-		
-		dbManager.getConnection();
-		dbManager.loginCheck(p);
-		dbManager.closeConnection();
+		if(dbManager.loginCheck((User)protocol.getBody()))	//로그인 정보가 맞다면 true
+		{
+			protocol = new Protocol(protocol.makePacket(1, 2, 1, null));
+			return;
+		}
+		else if(!dbManager.loginCheck((User)protocol.getBody()))	//loginCheck() ==false
+			protocol = new Protocol(protocol.makePacket(1, 2, 2, "사용자 정보가 없습니다"));
 	}
 	//--------------------------------------------------------------------------------------------------
 	public void dormitoryApplication(Protocol protocol) throws ServerException	//maintype 11, 입사신청 
