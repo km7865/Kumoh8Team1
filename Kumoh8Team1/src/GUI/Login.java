@@ -2,6 +2,9 @@
 
 package GUI;
 
+import tableClass.*;
+import Network.*;
+
 import java.io.*;
 import java.util.*;
 import java.net.*;
@@ -34,19 +37,19 @@ public class Login extends JFrame {
 	private JButton btnOk;
 	private Login owner;
 	private JTextArea textArea;
-	private static Protocol_test p;
+	private static Protocol p;
 	private static Socket socket;
 	private static OutputStream os;
 	private static ObjectOutputStream writer;
 	private static InputStream is;
 	private static ObjectInputStream reader;
-	
+
 	public static void main(String[] args) {
 		String host = null;
-	    Scanner sc = new Scanner(System.in);
-	    
-	    System.out.print("서버의 IP 입력 : ");
-	    host = sc.next();
+		Scanner sc = new Scanner(System.in);
+
+		System.out.print("서버의 IP 입력 : ");
+		host = sc.next();
 		try
 		{
 			socket = new Socket(host, 5000);
@@ -54,13 +57,13 @@ public class Login extends JFrame {
 			writer = new ObjectOutputStream(os);
 			is = socket.getInputStream();
 			reader = new ObjectInputStream(is);
-			p = new Protocol_test(1, 2, "클라이언트", "접속");
-			writer.writeObject(p);		
-	        writer.flush();
-	        p = (Protocol_test)reader.readObject();
-	        System.out.println(p.getMsg2());
-	        
-	        EventQueue.invokeLater(new Runnable() {
+			//p = new Protocol_test(1, 2, "클라이언트", "접속");
+			//writer.writeObject(p);		
+			// writer.flush();
+			//p = (Protocol_test)reader.readObject();
+			//System.out.println(p.getMsg2());
+
+			EventQueue.invokeLater(new Runnable() {
 				public void run() {
 					try {
 						Login frame = new Login();
@@ -72,15 +75,12 @@ public class Login extends JFrame {
 				}
 			});
 		}
-		
+
 		catch (IOException e) {
 			// TODO 
 			e.printStackTrace();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
 		}
-		
+
 	}
 
 	public void setCursor() {
@@ -89,83 +89,92 @@ public class Login extends JFrame {
 
 	public Login() {
 
-			super("로그인");
+		super("로그인");
 
-			owner = this;
+		owner = this;
 
-			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			setBounds(100, 100, 570, 270);
-			getContentPane().setLayout(null);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 570, 270);
+		getContentPane().setLayout(null);
 
-			JLabel lblNewLabel = new JLabel("\uC544\uC774\uB514");
-			lblNewLabel.setBounds(60, 92, 60, 40);
-			getContentPane().add(lblNewLabel);
+		JLabel lblNewLabel = new JLabel("\uC544\uC774\uB514");
+		lblNewLabel.setBounds(60, 92, 60, 40);
+		getContentPane().add(lblNewLabel);
 
-			JLabel lblNewLabel_1 = new JLabel("\uBE44\uBC00\uBC88\uD638");
-			lblNewLabel_1.setBounds(60, 142, 60, 40);
-			getContentPane().add(lblNewLabel_1);
+		JLabel lblNewLabel_1 = new JLabel("\uBE44\uBC00\uBC88\uD638");
+		lblNewLabel_1.setBounds(60, 142, 60, 40);
+		getContentPane().add(lblNewLabel_1);
 
-			textLogin = new JTextField();
-			textLogin.setBounds(146, 93, 259, 39);
-			getContentPane().add(textLogin);
-			textLogin.setColumns(10);
-			textPassword = new JPasswordField();
-			textPassword.setBounds(146, 143, 260, 40);
-			textPassword.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					btnOk.doClick();
-				}
-			});
-			getContentPane().add(textPassword);
+		textLogin = new JTextField();
+		textLogin.setBounds(146, 93, 259, 39);
+		getContentPane().add(textLogin);
+		textLogin.setColumns(10);
+		textPassword = new JPasswordField();
+		textPassword.setBounds(146, 143, 260, 40);
+		textPassword.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnOk.doClick();
+			}
+		});
+		getContentPane().add(textPassword);
 
-			btnOk = new JButton("\uB85C\uADF8\uC778");
-			btnOk.setBounds(416, 92, 80, 90);
-			btnOk.addActionListener(new ActionListener() {
-				
-				@Override				
-				public void actionPerformed(ActionEvent e) {
-					try
+		btnOk = new JButton("\uB85C\uADF8\uC778");
+		btnOk.setBounds(416, 92, 80, 90);
+		btnOk.addActionListener(new ActionListener() {
+
+			@Override				
+			public void actionPerformed(ActionEvent e) {
+				int userType = 0;
+				try
+				{
+					p = new Protocol<User>(1, 1, new User(textLogin.getText(), textPassword.getText()));
+					writer.writeObject(p);
+					writer.flush();
+					p = (Protocol)reader.readObject();
+
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}	
+
+				if(p.getSubType() == 2)
+				{
+					if(p.getCode() == 1)
 					{
-						p = new Protocol_test(1, 1, textLogin.getText(), textPassword.getText());
-						writer.writeObject(p);
-						writer.flush();
-						p = (Protocol_test)reader.readObject();
-						
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					} catch (ClassNotFoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}					
-					if(p.getSubType() == 1)
-					{
-						new Menu_Student();
-						dispose();
+						//사용자 타입에 따라 학생 메뉴 / 관리자 메뉴
+						userType = Integer.parseInt(((Protocol<User>)p).getBody().getSeparaterUser());
+						if(userType == 1) {
+							new Menu_Student();
+							dispose();
+						}
+						else if(userType == 2 || userType == 3) {
+							new Menu_Admin();
+							dispose();
+						}
+						else {
+							//오류 메세지 출력
+						}
 					}
-					
-					else if(p.getSubType() == 2)
-					{
-						new Menu_Admin();
-						dispose();
-					}
-					
-					else if(p.getSubType() == 3)
+					else if(p.getCode() == 2)
 					{
 						JOptionPane.showMessageDialog(owner, "로그인 실패");
 						textPassword.setText("");
 						textPassword.requestFocus();
 					}
 				}
-			});
-			getContentPane().add(btnOk);
+			}
+		});
+		getContentPane().add(btnOk);
 
-			textArea = new JTextArea();
-			textArea.setEditable(false);
-			textArea.setText("<\uC2DC\uC2A4\uD15C \uC0AC\uC6A9\uC548\uB0B4>\r\n\r\n \u25A0 \uC544\uC774\uB514(\uD559\uC0DD : \uD559\uBC88, \uAD50\uC9C1\uC6D0 : \uAD50\uC9C1\uC6D0\uCF54\uB4DC) * \uC544\uC774\uB514\uB294 \uB300\uBB38\uC790\uB9CC \uC785\uB825 \uAC00\uB2A5");
-			textArea.setBackground(SystemColor.control);
-			textArea.setBounds(32, 20, 497, 62);
-			getContentPane().add(textArea);
-		
+		textArea = new JTextArea();
+		textArea.setEditable(false);
+		textArea.setText("<\uC2DC\uC2A4\uD15C \uC0AC\uC6A9\uC548\uB0B4>\r\n\r\n \u25A0 \uC544\uC774\uB514(\uD559\uC0DD : \uD559\uBC88, \uAD50\uC9C1\uC6D0 : \uAD50\uC9C1\uC6D0\uCF54\uB4DC) * \uC544\uC774\uB514\uB294 \uB300\uBB38\uC790\uB9CC \uC785\uB825 \uAC00\uB2A5");
+		textArea.setBackground(SystemColor.control);
+		textArea.setBounds(32, 20, 497, 62);
+		getContentPane().add(textArea);
+
 	}
-		
+
 }

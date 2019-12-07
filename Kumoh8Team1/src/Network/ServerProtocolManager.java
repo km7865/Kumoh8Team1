@@ -122,17 +122,14 @@ public class ServerProtocolManager
 	//exception 사용자 정의 예외 만들어야함, 여기에 적은 exception은 예외 클래스를 아직 안만들어서 적어둔거임
 	public void Login(Protocol protocol) throws ServerException //maintype 1, 로그인
 	{	
-		//받은 로그인 정보로 db에 접속해서 해당 정보가 맞는지 검색
-			/*
-			if(로그인 정보가 맞는 경우)
-				protocol = new Protocol(protocol.makePacket(1,2,1,null));
+		Protocol<User> p = protocol;
 		
-			else	//로그인 정보가 없거나 틀린 경우
-			{
-				protocol = new Protocol(protocol.makePacket(1,2,1,null));
-				throw new ServerException("로그인에 실패 했습니다.");
-			}	
-			 */
+		System.out.println(p.getBody().getUserID());
+		System.out.println(p.getBody().getPassword());
+		
+		dbManager.getConnection();
+		dbManager.loginCheck(p);
+		dbManager.closeConnection();
 	}
 	//--------------------------------------------------------------------------------------------------
 	public void dormitoryApplication(Protocol protocol) throws ServerException	//maintype 11, 입사신청 
