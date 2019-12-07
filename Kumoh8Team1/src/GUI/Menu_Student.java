@@ -31,6 +31,7 @@ public class Menu_Student extends JFrame {
 	private JTextField textField_6;
 	private JTextField textField_7;
 
+	//a
 	public Menu_Student() {
 		setTitle("\uD559\uC0DD \uBA54\uB274");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
