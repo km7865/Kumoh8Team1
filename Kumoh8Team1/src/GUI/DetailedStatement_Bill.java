@@ -9,6 +9,9 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Network.Protocol;
+
 import javax.swing.JTextField;
 import java.awt.Font;
 import java.awt.Color;
@@ -17,6 +20,10 @@ import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.awt.SystemColor;
 import java.awt.event.ActionListener;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.awt.event.ActionEvent;
 
 public class DetailedStatement_Bill extends JFrame {
@@ -34,12 +41,18 @@ public class DetailedStatement_Bill extends JFrame {
 	private JTextField textField_13;
 	private JTextField textField_9;
 	private JTextField textField_10;
+	
+	private static Protocol p;
+	private static OutputStream os;
+	private static ObjectOutputStream writer;
+	private static InputStream is;
+	private static ObjectInputStream reader;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					DetailedStatement_Bill frame = new DetailedStatement_Bill();
+					DetailedStatement_Bill frame = new DetailedStatement_Bill(p);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -48,7 +61,7 @@ public class DetailedStatement_Bill extends JFrame {
 		});
 	}
 
-	public DetailedStatement_Bill() {
+	public DetailedStatement_Bill(Protocol p) {
 		setVisible(true);
 		setTitle("입사신청 내역조회 및 고지서 출력");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

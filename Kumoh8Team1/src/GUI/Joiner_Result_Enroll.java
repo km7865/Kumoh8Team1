@@ -9,6 +9,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Network.Protocol;
+
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
@@ -28,10 +31,20 @@ import javax.swing.JOptionPane;
 import java.awt.SystemColor;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.awt.event.ActionEvent;
 
 public class Joiner_Result_Enroll extends JFrame {
-
+	private static Protocol p;
+	private static OutputStream os;
+	private static ObjectOutputStream writer;
+	private static InputStream is;
+	private static ObjectInputStream reader;
+	
 	private JPanel contentPane;
 	private JTextField textField;
 
@@ -68,6 +81,38 @@ public class Joiner_Result_Enroll extends JFrame {
 		contentPane.add(textArea_1);
 
 		JButton button = new JButton("예");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try
+				{
+					p = new Protocol(25, 1);
+					writer.writeObject(p);
+					writer.flush();
+					p = (Protocol)reader.readObject();
+
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}	
+
+				if(p.getSubType() == 2)
+				{
+					if(p.getCode() == 1)
+					{
+						JOptionPane.showMessageDialog(null, "입사선발자들이 정상적으로 등록되었습니다.");
+						dispose();
+					}
+					else if(p.getCode() == 2)
+					{
+						String err = (String)p.getBody();
+						JOptionPane.showMessageDialog(null, err); //입사신청자가 없는 경우
+						dispose();
+					}
+				}
+			}
+		});
 		button.setBounds(35, 165, 182, 48);
 		contentPane.add(button);
 

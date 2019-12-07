@@ -9,6 +9,9 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Network.Protocol;
+
 import javax.swing.JTextArea;
 import java.awt.Color;
 import javax.swing.JTextField;
@@ -16,6 +19,10 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.awt.event.ActionEvent;
 
 public class DormitoryNumber_check extends JFrame {
@@ -46,12 +53,18 @@ public class DormitoryNumber_check extends JFrame {
 	private JButton btnNewButton;
 	private JTextField textField_3;
 	private JTextField textField_6;
+	
+	private static Protocol p;
+	private static OutputStream os;
+	private static ObjectOutputStream writer;
+	private static InputStream is;
+	private static ObjectInputStream reader;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					DormitoryNumber_check frame = new DormitoryNumber_check();
+					DormitoryNumber_check frame = new DormitoryNumber_check(p);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -60,7 +73,7 @@ public class DormitoryNumber_check extends JFrame {
 		});
 	}
 
-	public DormitoryNumber_check() {
+	public DormitoryNumber_check(Protocol p) {
 		setTitle("호실조회");
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

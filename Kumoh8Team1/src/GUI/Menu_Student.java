@@ -7,13 +7,26 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
+
+import Network.Protocol;
+import tableClass.User;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Color;
 import javax.swing.JTextArea;
@@ -31,6 +44,12 @@ public class Menu_Student extends JFrame {
 	private JTextField textField_5;
 	private JTextField textField_6;
 	private JTextField textField_7;
+	
+	private static Protocol p;
+	private static OutputStream os;
+	private static ObjectOutputStream writer;
+	private static InputStream is;
+	private static ObjectInputStream reader;
 
 	public Menu_Student() {
 		setTitle("학생메뉴");
@@ -44,7 +63,31 @@ public class Menu_Student extends JFrame {
 		JButton button = new JButton("결핵진단서 제출");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new TuberculosisDiagnosis_storage();
+				try
+				{
+					p = new Protocol(15, 1);
+					writer.writeObject(p);
+					writer.flush();
+					p = (Protocol)reader.readObject();
+
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}	
+
+				if(p.getSubType() == 2)
+				{
+					if(p.getCode() == 1)
+						new TuberculosisDiagnosis_storage();
+					else if(p.getCode() == 2)
+					{
+						String err = (String)p.getBody();
+						JOptionPane.showMessageDialog(null, err); //제출대상 아님 or 제출기간 아님		
+					}
+						
+				}
 			}
 		});
 
@@ -54,16 +97,62 @@ public class Menu_Student extends JFrame {
 		JButton button_1 = new JButton("입사 신청");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new Join_Promise();
+				try
+				{
+					p = new Protocol(11, 1);
+					writer.writeObject(p);
+					writer.flush();
+					p = (Protocol)reader.readObject();
+
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}	
+
+				if(p.getSubType() == 2)
+				{
+					if(p.getCode() == 1)
+						new Join_Promise();
+					else if(p.getCode() == 2)
+					{
+						String err = (String)p.getBody();
+						JOptionPane.showMessageDialog(null, err); //제출대상 아님 or 제출기간 아님		
+					}
+				}
 			}
 		});
 		button_1.setBounds(50, 246, 285, 50);
 		contentPane.add(button_1);
 
-		JButton button_2 = new JButton("입사신청 내역조회 및 고지서 출력");
+		JButton button_2 = new JButton("입사신청 내역조회 및 고지서 출력");	//13, 14의 서브타입 1, 2를 한번에 처리, 즉 14의 1, 2는 사용하지 않음
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new DetailedStatement_Bill();
+				try
+				{
+					p = new Protocol(13, 1);
+					writer.writeObject(p);
+					writer.flush();
+					p = (Protocol)reader.readObject();
+
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}	
+
+				if(p.getSubType() == 2)
+				{
+					if(p.getCode() == 1)
+						new DetailedStatement_Bill(p);
+					else if(p.getCode() == 2)
+					{
+						String err = (String)p.getBody();
+						JOptionPane.showMessageDialog(null, err); //제출대상 아님 or 제출기간 아님		
+					}
+				}
 			}
 		});
 		button_2.setBounds(360, 325, 285, 50);
@@ -72,7 +161,30 @@ public class Menu_Student extends JFrame {
 		JButton button_4 = new JButton("호실 조회");
 		button_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new DormitoryNumber_check();
+				try
+				{
+					p = new Protocol(12, 1);
+					writer.writeObject(p);
+					writer.flush();
+					p = (Protocol)reader.readObject();
+
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}	
+
+				if(p.getSubType() == 2)
+				{
+					if(p.getCode() == 1)
+						new DormitoryNumber_check(p);
+					else if(p.getCode() == 2)
+					{
+						String err = (String)p.getBody();
+						JOptionPane.showMessageDialog(null, err); //제출대상 아님 or 제출기간 아님		
+					}
+				}
 			}
 		});
 		button_4.setBounds(360, 246, 285, 50);

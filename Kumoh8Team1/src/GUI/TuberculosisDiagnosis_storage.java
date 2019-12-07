@@ -1,4 +1,4 @@
-// Í≤∞ÌïµÏßÑÎã®?Ñú ?†úÏ∂?
+// ∞·«Ÿ¡¯¥‹º≠ ¡¶√‚ («–ª˝)
 
 package GUI;
 
@@ -17,6 +17,10 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.*;
+
+import Network.Protocol;
+import tableClass.User;
+
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -30,6 +34,12 @@ import java.awt.Font;
 import java.awt.GridLayout;
 
 public class TuberculosisDiagnosis_storage extends JFrame {
+	private static Protocol p;
+	private static OutputStream os;
+	private static ObjectOutputStream writer;
+	private static InputStream is;
+	private static ObjectInputStream reader;
+	
 	private JPanel contentPane;
 	JLabel label = new JLabel("");
 	private JTextField textField;
@@ -49,7 +59,7 @@ public class TuberculosisDiagnosis_storage extends JFrame {
 	}
 
 	public TuberculosisDiagnosis_storage() {
-		setTitle("Í≤∞ÌïµÏßÑÎã®?Ñú ?†úÏ∂?");
+		setTitle("∞·«Ÿ¡¯¥‹º≠ ¡¶√‚");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 815, 675);
 		setVisible(true);
@@ -57,55 +67,61 @@ public class TuberculosisDiagnosis_storage extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		label.setBounds(5, 5, 791, 590);
+		label.setBounds(5, 59, 791, 536);
 		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setFont(new Font("Íµ¥Î¶º", Font.PLAIN, 35));
+		label.setFont(new Font("±º∏≤", Font.PLAIN, 35));
 		contentPane.add(label);
 
-		JButton btnNewButton = new JButton("?åå?ùº Ï∞æÍ∏∞");
+		JButton btnNewButton = new JButton("∆ƒ¿œ √£±‚");
 		btnNewButton.setBounds(56, 605, 140, 25);
 		btnNewButton.addActionListener(new OpenActionListener());
 		contentPane.add(btnNewButton);
 
-		textField = new JTextField(); // ?åå?ùº Í≤ΩÎ°ú
+		textField = new JTextField();  // ∆ƒ¿œ ∞Ê∑Œ
 		textField.setEditable(false);
 		textField.setBounds(194, 605, 520, 25);
 		contentPane.add(textField);
 		textField.setColumns(10);
 
-		JButton btnNewButton_1 = new JButton("?†úÏ∂?");
+		JButton btnNewButton_1 = new JButton("¡¶√‚");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Socket theSocket = null;
 				// String host;
-				InputStream is;
-				BufferedReader reader, userInput;
-				OutputStream os;
-				BufferedWriter writer;
-				String theLine;
+				
+				if(filePath != null)
+				{
+					File file = new File(filePath); // filepath : ≈¨∂Û¿Ãæ∆Æ∞° º±≈√«— ∆ƒ¿œ
+					long length = file.length();
+					System.out.println(file.toString() + " length : " + length + "byte");
+					try
+					{
+						p = new Protocol<File>(15, 3, file);
+						writer.writeObject(p);
+						writer.flush();
+						p = (Protocol)reader.readObject();
 
-				File file = new File(filePath); // filepath : ?Å¥?ùº?ù¥?ñ∏?ä∏Í∞? ?Ñ†?Éù?ïú ?åå?ùº
-				long length = file.length();
-				System.out.println(file.toString() + " length : " + length);
-
-				byte[] buf = new byte[1024];
-
-				// host = "192.168.0.83"; // Î°úÏª¨ ?ò∏?ä§?ä∏Î•? ?Ç¨?ö©
-
-				try {
-					// theSocket = new Socket(host, 5000); // echo ?ÑúÎ≤ÑÏóê ?†ë?Üç?ïú?ã§.
-
-					is = new FileInputStream(file);
-					// os = theSocket.getOutputStream();
-					// writer = new BufferedWriter(new OutputStreamWriter(os));
-					int count;
-					while ((count = is.read(buf)) != -1) {
-						// os.write(buf, 0, count);
-
-						System.out.println("?ÑúÎ≤ÑÏóê ?†Ñ?Ü°Ï§? ?å®?Ç∑ ?Å¨Í∏? : " + count);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}	
+					
+					if(p.getSubType() == 4)
+					{
+						if(p.getCode() == 1)
+							JOptionPane.showMessageDialog(null, "¿¸º€¿Ã ¡§ªÛ¿˚¿∏∑Œ ¿Ã∑ÁæÓ ¡≥Ω¿¥œ¥Ÿ.");
+						else if(p.getCode() == 2)
+						{
+							String err = (String)p.getBody();
+							JOptionPane.showMessageDialog(null, err); //¡¶√‚¥ÎªÛ æ∆¥‘ or ¡¶√‚±‚∞£ æ∆¥‘		
+						}
 					}
-				} catch (IOException e1) {
-					}
+				}
+				
+				else
+					JOptionPane.showMessageDialog(null, "∆ƒ¿œ¿ª º±≈√«ÿ ¡÷ººø‰!");
 				}
 			});
 		btnNewButton_1.setBounds(680, 23, 91, 23);
@@ -126,7 +142,7 @@ public class TuberculosisDiagnosis_storage extends JFrame {
 
 			int ret = chooser.showOpenDialog(null);
 			if (ret != JFileChooser.APPROVE_OPTION) {
-				JOptionPane.showMessageDialog(null, "?åå?ùº?ùÑ ?Ñ†?Éù?ïòÏß? ?ïä?ïò?äµ?ãà?ã§!", "Í≤ΩÍ≥†", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null, "∆ƒ¿œ¿ª º±≈√«œ¡ˆ æ æ“Ω¿¥œ¥Ÿ!", "∞Ê∞Ì", JOptionPane.WARNING_MESSAGE);
 				return;
 			}
 
