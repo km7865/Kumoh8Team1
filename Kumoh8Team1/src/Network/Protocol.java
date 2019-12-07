@@ -34,6 +34,7 @@ public class Protocol <T> implements Serializable
 		this.subType = subType;
 		body = some; 
 	}
+	
 	public Protocol(Protocol some)
 	{
 		this.mainType = some.getMainType();
@@ -42,12 +43,10 @@ public class Protocol <T> implements Serializable
 		this.body = (T) some.getBody();
 	}
 	
-	public Protocol makePacket(int mainType, int subType, int code, T some)
+	public Protocol(int mainType, int subType, int code, T some)
 	{
 		this.mainType = mainType; this.subType = subType;
 		this.code = code; this.body =some;
-		
-		return this;
 	}
 	
 	public int getMainType() {return mainType;}

@@ -38,7 +38,12 @@ public class ServerProtocolManager
 		}
 	}
 	
-	
+	public void finalize() throws IOException, ClassNotFoundException, InterruptedException
+	{
+		is.close();
+		os.close();
+		socket.close();
+	}
 	public void workProtocol()
 	{
 		Protocol protocol = new Protocol();
@@ -101,6 +106,16 @@ public class ServerProtocolManager
 			d.getStackTrace();
 			protocol.setBody("오류가 발생했습니다");
 		}
+		catch(ClassNotFoundException c)
+		{
+			c.getStackTrace();
+			protocol.setBody("오류가 발생했습니다");
+		}
+		catch(IOException e)
+		{
+			e.getStackTrace();
+			protocol.setBody("오류가 발생했습니다");
+		}
 		finally
 		{
 			try
@@ -123,11 +138,11 @@ public class ServerProtocolManager
 	{	
 		if(dbManager.loginCheck((User)protocol.getBody()))	//로그인 정보가 맞다면 true
 		{
-			protocol = new Protocol(protocol.makePacket(1, 2, 1, null));
+			protocol = new Protocol(1, 2, 1, null);
 			return;
 		}
 		else if(!dbManager.loginCheck((User)protocol.getBody()))	//loginCheck() ==false
-			protocol = new Protocol(protocol.makePacket(1, 2, 2, "사용자 정보가 없습니다"));
+			protocol = new Protocol(1, 2, 2, "사용자 정보가 없습니다");
 	}
 	//--------------------------------------------------------------------------------------------------
 	public void dormitoryApplication(Protocol protocol) throws ServerException	//maintype 11, 입사신청 
@@ -137,10 +152,10 @@ public class ServerProtocolManager
 		//처리 결과를 클라이언트에게 보낸다.
 		/*
 		if(처리에 성공한 경우)
-			protocol = new Protocol(protocol.makePacket(11,2,1,null));
+			protocol = new Protocol(11,2,1,null);
 		else 	//처리에 실패한 경우
 		{
-			protocol = new Protocol(makePacket(11,2,2,null));
+			protocol = new Protocol(11,2,2,null);
 			throws new ServerException("저장에 실패 했습니다.");
 		}
 		*/
@@ -153,11 +168,11 @@ public class ServerProtocolManager
 		if(정보가 있다)
 		{
 			//해당 정보를 호실정보 객체에 담는다
-			protocol = new Protocol(protocol.makePacket(12,2,1,호실정보객체));	//code는 안써서 0으로 초기화했다
+			protocol = new Protocol(12,2,1,호실정보객체);	//code는 안써서 0으로 초기화했다
 		}
 		else 	//정보가없다
 		{
-			protocol = new Protocol(makePacket(12,2,2,null));
+			protocol = new Protocol((12,2,2,null);
 			throws new ServerException("해당 정보 없습니다");
 		}
 		*/	
@@ -170,11 +185,11 @@ public class ServerProtocolManager
 		if(정보가 있다)
 		{
 			//해당 정보를 입사신청내역 객체에 담는다
-			 protocol = new Protocol(protocol.makePacket(13,2,1,입사신청내역객체));
+			 protocol = new Protocol(13,2,1,입사신청내역객체);
 		}
 		else	//정보가 없다
 		{
-			protocol = new Protocol(protocol.makePacket(13,2,2,null))
+			protocol = new Protocol(13,2,2,null)
 			throws new ServerException("해당 정보가 없습니다")
 		}
 		
@@ -188,7 +203,7 @@ public class ServerProtocolManager
 		if(정보가 있다)
 		{
 			//학생의 기숙사비와 식사비를 합쳐서 고지서 내역을 클라이언트로 전송
-			protocol = new Protocol(protocol.makePacket(14,2,1,고지서내역객체));
+			protocol = new Protocol(14,2,1,고지서내역객체);
 		}
 		else if(아직 입사선발자를 뽑지 않은 경우)
 		{
@@ -197,7 +212,7 @@ public class ServerProtocolManager
 		}
 		else if(입사선발자가 뽑힘 && 클라이언트가 입사 선발자가 아님)
 		{
-			protocol = new Protocol(protocol.makePacket(14,2,2,null));
+			protocol = new Protocol(14,2,2,null);
 			throws new ServerException("해당 정보가 없습니다");
 		}
 		*/
@@ -209,11 +224,11 @@ public class ServerProtocolManager
 		클라이언트로부터 받은 결핵진단서 파일=>protocol.getBody()을 db에 저장한다
 		if(저장 성공)
 		{
-			protocol = new Protocol(protocol.makePacket(15,2,1,null));
+			protocol = new Protocol(15,2,1,null);
 		}
 		else	//저장 실패
 		{
-			protocol = new Protocol(protocol.makePacket(15,2,2,null));
+			protocol = new Protocol(15,2,2,null);
 			throws new ServerException("저장에 실패 했습니다");
 		}
 		*/
@@ -225,11 +240,11 @@ public class ServerProtocolManager
 		클라이언트가 보낸 선발일정 정보=>protocol.getBody()를 디비에 저장한다
 		if(저장 성공)
 		{
-			protocol = new Protocol(protocol.makePacket(21,2,1,null));
+			protocol = new Protocol(21,2,1,null);
 		}
 		else	//저장 실패
 		{
-			protocol = new Procotol(protocol.makePacket(21,2,2,null));
+			protocol = new Procotol(21,2,2,null);
 			throws new ServerException("저장에 실패 했습니다");
 		}
 		*/
@@ -241,11 +256,11 @@ public class ServerProtocolManager
 		/*
 		if(저장 성공)
 		{
-			protocol = new Protocol(protocol.makePacket(22,2,1,null));
+			protocol = new Protocol(22,2,1,null);
 		}
 		else	//저장 실패
 		{
-			protocol = new Protocol(protocol.makePacket(22,2,2,null));
+			protocol = new Protocol(22,2,2,null);
 			throws new ServerException("저장에 실패 했습니다");
 		}
 		*/
@@ -266,7 +281,7 @@ public class ServerProtocolManager
 		}
 		else	//처리 실패
 		{
-			protocol = new Protocol(protocol.makePacket(23,2, null));
+			protocol = new Protocol(23,2, null);
 			throws new ServerException("처리 실패 했습니다);
 		}
 		 */
@@ -294,11 +309,11 @@ public class ServerProtocolManager
 		/*
 		if(결과등록 성공)
 		{
-			protocol = new Protocol(protocol.makePacket(25, 2,1,null));
+			protocol = new Protocol(25, 2,1,null);
 		}
 		else	//결과등록 실패
 		{
-			protocol = new Protocol(protocol.makePakcet(25,2,2,null));
+			protocol = new Protocol(25,2,2,null);
 			throws 
 		}
 		

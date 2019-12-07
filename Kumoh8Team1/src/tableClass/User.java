@@ -14,6 +14,7 @@ public class User implements Serializable
 	
 	public User()
 	{
+		userID =""; password =""; separaterUser =""; name ="";
 	}
 	
 	public User(String userID, String password, String separaterUser, String name)
@@ -21,16 +22,11 @@ public class User implements Serializable
 		this.userID= userID; this.password = password; 
 		this.separaterUser = separaterUser; this.name = name;
 	}
-	
 
 	public User(String userID, String password)
 	{
-		this.userID= userID; this.password = password; 
-	}
-	
-	public User(String separaterUser)
-	{
-		this.separaterUser = separaterUser;
+		this.userID= userID; this.password = password;
+		separaterUser =""; name ="";
 	}
 	
 	public String getUserID() {return userID;}
