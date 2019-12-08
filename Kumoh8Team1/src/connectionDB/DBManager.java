@@ -10,8 +10,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Date;
 
 
 //import com.mysql.cj.xdevapi.Statement;
@@ -114,6 +116,77 @@ public class DBManager {
 		protocol.makePacket(1,2,3, "해당정보 없음");
 		}
 
+	public void insertDormitoryApplication(Protocol protocol, dormitoryApplication app)	//입사신청
+	{
+		try
+		{
+			String sql = "select * from 신청";
+			rs =stmt.executeQuery(sql);
+			Integer count=rs.getRow()+1;
+			String applicationCount="201902".concat(count.toString());	//신청번호 생성
+			
+			sql ="select 학번, convert(sum(case 성적등급 " 
+					 + "when \"A+\" then convert(4.5*학점,float) when \"A\" then convert(4.0*학점,float)"
+					  +  "when \"B+\" then convert(3.5*학점,float) when \"B\" then convert(3.0*학점,float)"
+					   + "when \"C+\" then convert(2.5*학점,float) when \"C\" then convert(2.0*학점,float)"
+					  + "when \"D+\" then convert(1.5*학점,float) when \"D\" then convert(1.0*학점,float)" 
+					 +" when \"F\" then convert(0.0*학점,float) end) /sum(학점),decimal(3,2)) as 평점평균"
+					+ "group by 학번;" + "from 성적;";
+			rs = stmt.executeQuery(sql);
+			Double grade = rs.getDouble("평점평균");
+			
+			Date date = new Date();
+			String today = date.toString();
+	       
+	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			today = sdf.toString();
+			
+			sql = "insert into 신청 (신청번호, 학번, 년도, 학기, 생활관분류코드, 식비구분, 학점, 거리가산점, 지망, 신청일, 신청상태, 1년여부, 입사서약동의여부)"
+				     + "values(" + applicationCount + ", " + app.getStandbyNumber() + ", 2019, 2, " + app.getDormitoryCode() +", "
+				     + app.getMealDivision() + ", " + grade.toString() + "," + "거리가산점" +", " + app.getdormitoryWish() + ", " 
+				     + today + ", 신청" + app.getOneYearWhether() + ", yes);";
+			rs = stmt.executeQuery(sql);
+			protocol.makePacket(11, 2, 1, null);
+		}
+		catch(SQLException e)
+		{
+			protocol.makePacket(11, 2, 2, "저장 실패했습니다");
+		}
+		
+	}
+	
+	//호실조회
+	
+	//입사신청내역 조회
+	public void inquireDormitoryApplication(Protocol protocol, Student student)
+	{
+		try
+		{
+			String sql = "select * frome 신청 where 학번=" + student.getStudentId() + "and 년도=2019 and 학기=2;";
+			rs = stmt.executeQuery(sql);
+			dormitoryApplication[] array = new dormitoryApplication[rs.getRow()];	//해당 학번에 해당하는 신청번호 행들을 저장할 배열 생성
+			//rs의 각 인덱스 값을 하나씩짤라서 배열에 저장
+			 
+			int i=0;
+			while(rs.next()) 
+			{
+				if(rs.getString("일년유무") =="O")	//일년을 신청하는 경우
+				{
+					array[i]= new dormitoryApplication(rs.getString("신청번호"), rs.getString("학번"), rs.getString("생활관분류코드"));
+					//나머지 변수 초기화 필요
+				}
+			}
+			
+		}
+		catch(SQLException e)
+		{
+			protocol.makePacket(13, 2, 1, null);
+		}
+	}
+		/*
+	public void update() //test
+	{
+		String SQL = "update world.city set name=? where ID=?";
 		public void update() //test
 		{
 			String SQL = "update world.city set name=? where ID=?";
@@ -176,7 +249,7 @@ public class DBManager {
 				// int executeUpdate(insert /delete/update)
 				//int uCount = stmt.executeUpdate(" ");
 
-				/*
+				
         	while (rs.next()) { 				/  결과집합에서 다음 행 획득
         		Student st = new Student();
         		st.setStudentId(rs.getString( "학번"));
@@ -184,7 +257,7 @@ public class DBManager {
 
         		System.out.println("학번 : " + st.getStudentId() +  "성명 : " + st.getName());
         	}
-				 */
+				 
 
 				//결과를 담을 ArrayList생성
 
@@ -192,7 +265,7 @@ public class DBManager {
 				e.printStackTrace();
 			}
 		}
-
+*/
 		private static void checkWarnings(SQLWarning w) throws SQLException {
 			if (w != null) {
 				while (w != null) {
