@@ -134,18 +134,7 @@ public class ServerProtocolManager
 	//--------------------------------------------------------------------------------------------------
 	public void dormitoryApplication(Protocol protocol)	//maintype 11, 입사신청 
 	{
-		//클라이언트가 서버에게 입사신청정보를 보낸걸 받았다, 이 함수 밖에서
-		//디비에 저장한다
-		//처리 결과를 클라이언트에게 보낸다.
-		/*
-		if(처리에 성공한 경우)
-			protocol = new Protocol(11,2,1,null);
-		else 	//처리에 실패한 경우
-		{
-			protocol = new Protocol(11,2,2,null);
-			throws new ServerException("저장에 실패 했습니다.");
-		}
-		*/
+		dbManager.insertDormitoryApplication(protocol, (dormitoryApplication)protocol.getBody());
 	}
 	//--------------------------------------------------------------------------------------------------
 	public void inquireDormitoryRoom(Protocol protocol)	//maintype 12, 호실조회

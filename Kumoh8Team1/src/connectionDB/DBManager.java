@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Date;
 
+
 //import com.mysql.cj.xdevapi.Statement;
 // jdbc:mysql://192.168.209.250:3306/dorm
 // 카페 192.168.209.250
@@ -95,7 +96,7 @@ public class DBManager {
 		protocol.makePacket(1,2,2, "해당정보 없음");
 		}
 
-	public void insertDormitoryApplication(Protocol protocol, dormitoryApplication app)
+	public void insertDormitoryApplication(Protocol protocol, dormitoryApplication app)	//입사신청
 	{
 		try
 		{
@@ -134,24 +135,11 @@ public class DBManager {
 		
 	}
 	
-	public void roomCheck(Protocol protocol, User user) throws SQLException
+	//호실조회
+	
+	//입사신청내역 조회
+	public void inquireDormitoryApplication(Protocol protocol, Student student)
 	{
-		String id = user.getUserID();
-		String loginPw = user.getPassword();
-		DormitoryRoom dRoom = new DormitoryRoom();  
-
-		String SQL = "SELECT * FROM 신청 natural join on 입사선발자 WHERE 학번=" + id;
-		rs = stmt.executeQuery(SQL);
-		//사용자 테이블의 모든 ID 검색 혹은 일치하는 ID가 있다면 PW 일치 확인 
-		if (rs.next()) {
-			dRoom.setDormitoryCode(rs.getString("생활관분류코드"));
-			dRoom.setRoomCode(rs.getString("호실코드"));
-			dRoom.setBedCode(rs.getString("침대번호"));
-			dRoom.setAssignmentState(rs.getString("배정상태"));
-			protocol.makePacket(12, 2, 0, dRoom);
-		} else {
-			protocol.makePacket(1,2,2, "해당정보 없음");
-		}
 		
 	}
 		/*
