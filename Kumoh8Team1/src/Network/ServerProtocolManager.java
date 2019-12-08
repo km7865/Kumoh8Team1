@@ -30,6 +30,7 @@ public class ServerProtocolManager
 			reader = new ObjectInputStream(is);
 			os = socket.getOutputStream();
 			writer = new ObjectOutputStream(os);
+			dbManager = new DBManager("test5", "1234");
 		}
 		catch(IOException e)
 		{
@@ -128,6 +129,24 @@ public class ServerProtocolManager
 	//exception 사용자 정의 예외 만들어야함, 여기에 적은 exception은 예외 클래스를 아직 안만들어서 적어둔거임
 	public void Login(Protocol protocol) throws SQLException //maintype 1, 로그인
 	{	
+		Protocol<User> p = protocol;
+		
+		System.out.println(p.getBody().getUserID());
+		System.out.println(p.getBody().getPassword());
+		
+		/*
+		dbManager.getConnection();
+		dbManager.loginCheck(p);
+		dbManager.closeConnection();
+		*/
+		
+		if(dbManager.loginCheck((User)protocol.getBody()) == true)	//로그인 정보가 맞다면 true
+		{
+			protocol = new Protocol(1, 2, 1, null);
+			return;
+		}
+		else if(!dbManager.loginCheck((User)protocol.getBody()))	//loginCheck() ==false
+			protocol = new Protocol(1, 2, 2, "사용자 정보가 없습니다");
 		dbManager.loginCheck(protocol, (User)protocol.getBody());
 	}
 	//--------------------------------------------------------------------------------------------------
