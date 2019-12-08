@@ -1,6 +1,6 @@
 package connectionDB;
 
-import tableClass.User;
+import tableClass.*;
 import Network.*;
 
 import java.io.*;
@@ -45,8 +45,8 @@ public class DBManager {
 			//			System.out.print("db manager password :");
 			//			dbPW = scan.nextLine();		//db manager 생성시 id와 pw를 입력받아서 원격으로 db에 로그인한다
 
-			conn = DriverManager.getConnection(URL, id, pw);
 			Class.forName(JDBC_DRIVER);
+			conn = DriverManager.getConnection(URL, id, pw);
 			stmt = conn.createStatement();
 
 		}catch (Exception e){
@@ -84,14 +84,34 @@ public class DBManager {
 				if (loginPw.equals(rs.getString("password"))) 
 				{
 					System.out.println("로그인성공");
-					user = new User(rs.getString("사용자ID"),rs.getString("password"),
-							rs.getString("사용자구분"), rs.getString("성명"));
-					protocol.makePacket(1,2,1, user);
-					break;
+					if(rs.getString("사용자구분").equals("1") == true)
+					{
+						String st_number = rs.getString("사용자ID");
+						SQL = "SELECT * FROM dorm.학생 where 학번 = " + st_number;
+						rs = stmt.executeQuery(SQL);
+						
+						rs.next();
+						Student student = new Student(rs.getString("대학구분"), rs.getString("학번"), 
+								rs.getString("성명"), rs.getString("주민등록번호"));
+						
+						student.setGender(rs.getString("성별"));
+						student.setDepartmentName(rs.getString("학과명"));
+						student.setGrade(rs.getInt("학년"));
+						student.setStudentAddress(rs.getString("학생주소"));
+						student.setStudentPhoneNumber(rs.getString("학생전화번호"));
+						protocol.makePacket(1,2,1, student);
+						return;
+					}
+					
+					else
+					{
+						protocol.makePacket(1,2,2, rs.getString("성명"));
+						return;
+					}
 				} 
 			}
 		}
-		protocol.makePacket(1,2,2, "해당정보 없음");
+		protocol.makePacket(1,2,3, "해당정보 없음");
 		}
 
 		public void update() //test
