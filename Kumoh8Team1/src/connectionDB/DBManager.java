@@ -134,7 +134,6 @@ public class DBManager {
 		}
 		
 	}
-	//asdf
 	
 	//호실조회
 	
