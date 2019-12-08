@@ -27,6 +27,8 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemListener;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.awt.event.ItemEvent;
 import javax.swing.SwingConstants;
 
@@ -77,8 +79,14 @@ public class Dormitory_Application extends JFrame {
 	private JTextField textField_33;
 	private JTextField textField_2;
 	private JTextField textField_5;
+	
+	private static ObjectOutputStream writer;
+	private static ObjectInputStream reader;
 
-	public Dormitory_Application() {
+	public Dormitory_Application(ObjectOutputStream oos, ObjectInputStream ois) {
+		writer = oos;
+		reader = ois;
+		
 		this.setResizable(false); // 최대화 단추 없애기
 		setTitle("입사신청");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -567,9 +575,5 @@ public class Dormitory_Application extends JFrame {
 		setVisible(true);
 		setSize(1050, 600);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-	}
-
-	public static void main(String[] args) {
-		new Dormitory_Application();
 	}
 }

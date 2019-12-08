@@ -54,25 +54,14 @@ public class DormitoryNumber_check extends JFrame {
 	private JTextField textField_6;
 
 	private static Protocol p;
-	private static OutputStream os;
 	private static ObjectOutputStream writer;
-	private static InputStream is;
 	private static ObjectInputStream reader;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					DormitoryNumber_check frame = new DormitoryNumber_check(p);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	public DormitoryNumber_check(Protocol p) {
+	public DormitoryNumber_check(Protocol p_t, ObjectOutputStream oos, ObjectInputStream ois) {
+		p = p_t;
+		writer = oos;
+		reader = ois;
+		
 		this.setResizable(false); // 최대화 단추 없애기
 		setTitle("호실조회");
 		setVisible(true);

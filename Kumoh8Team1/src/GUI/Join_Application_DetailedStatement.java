@@ -45,25 +45,13 @@ public class Join_Application_DetailedStatement extends JFrame {
 	private JTextField textField_9;
 	private JTextField textField_10;
 	private static Protocol p;
-	private static OutputStream os;
 	private static ObjectOutputStream writer;
-	private static InputStream is;
 	private static ObjectInputStream reader;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Join_Application_DetailedStatement frame = new Join_Application_DetailedStatement(p);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	public Join_Application_DetailedStatement(Protocol p) {
+	public Join_Application_DetailedStatement(Protocol p, ObjectOutputStream oos, ObjectInputStream ois) {
+		writer = oos;
+		reader = ois;
+		
 		this.setResizable(false); // 최대화 단추 없애기
 		setVisible(true);
 		setTitle("입사신청 내역조회");

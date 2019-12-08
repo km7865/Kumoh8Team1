@@ -28,6 +28,8 @@ import javax.swing.JOptionPane;
 import java.awt.SystemColor;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.awt.event.ActionEvent;
 
 import Network.Protocol;
@@ -35,21 +37,14 @@ import tableClass.*;
 
 public class Join_Promise extends JFrame {
 	private JPanel contentPane;
+	
+	private static ObjectOutputStream writer;
+	private static ObjectInputStream reader;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Join_Promise frame = new Join_Promise();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	public Join_Promise() {
+	public Join_Promise(ObjectOutputStream oos, ObjectInputStream ois) {
+		writer = oos;
+		reader = ois;
+		
 		this.setResizable(false); // 최대화 단추 없애기
 		setTitle("입사서약서");
 		setVisible(true);
@@ -84,7 +79,7 @@ public class Join_Promise extends JFrame {
 		JButton button = new JButton("동의합니다");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new Dormitory_Application();
+				new Dormitory_Application(writer, reader);
 				dispose();
 			}
 		});
