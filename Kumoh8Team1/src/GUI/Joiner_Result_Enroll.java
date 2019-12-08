@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Network.Protocol;
+import tableClass.*;
 
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
@@ -44,7 +45,7 @@ public class Joiner_Result_Enroll extends JFrame {
 	private static ObjectOutputStream writer;
 	private static InputStream is;
 	private static ObjectInputStream reader;
-	
+
 	private JPanel contentPane;
 	private JTextField textField;
 
@@ -62,6 +63,7 @@ public class Joiner_Result_Enroll extends JFrame {
 	}
 
 	public Joiner_Result_Enroll() {
+		this.setResizable(false); // 최대화 단추 없애기
 		setTitle("입사선발자 결과등록");
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -83,31 +85,26 @@ public class Joiner_Result_Enroll extends JFrame {
 		JButton button = new JButton("예");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try
-				{
+				try {
 					p = new Protocol(25, 1);
 					writer.writeObject(p);
 					writer.flush();
-					p = (Protocol)reader.readObject();
+					p = (Protocol) reader.readObject();
 
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				} catch (ClassNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				}	
+				}
 
-				if(p.getSubType() == 2)
-				{
-					if(p.getCode() == 1)
-					{
+				if (p.getSubType() == 2) {
+					if (p.getCode() == 1) {
 						JOptionPane.showMessageDialog(null, "입사선발자들이 정상적으로 등록되었습니다.");
 						dispose();
-					}
-					else if(p.getCode() == 2)
-					{
-						String err = (String)p.getBody();
-						JOptionPane.showMessageDialog(null, err); //입사신청자가 없는 경우
+					} else if (p.getCode() == 2) {
+						String err = (String) p.getBody();
+						JOptionPane.showMessageDialog(null, err); // 입사신청자가 없는 경우
 						dispose();
 					}
 				}
@@ -125,7 +122,7 @@ public class Joiner_Result_Enroll extends JFrame {
 		});
 		button_1.setBounds(274, 165, 182, 48);
 		contentPane.add(button_1);
-		
+
 		textField = new JTextField();
 		textField.setBackground(Color.WHITE);
 		textField.setEditable(false);

@@ -12,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import Network.Protocol;
+import tableClass.*;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -25,6 +26,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import java.awt.Color;
+import java.awt.Font;
 
 public class Menu_Admin extends JFrame {
 	private static Protocol p;
@@ -35,7 +39,8 @@ public class Menu_Admin extends JFrame {
 
 	private JPanel contentPane;
 
-	public Menu_Admin(Protocol p) {
+	public Menu_Admin(Protocol p_t) {
+		this.setResizable(false); // 최대화 단추 없애기
 		setTitle("관리자 메뉴");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 745, 470);
@@ -59,53 +64,7 @@ public class Menu_Admin extends JFrame {
 		JButton button = new JButton("선발일정 등록");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser chooser = new JFileChooser();
-
-				FileNameExtensionFilter filter = new FileNameExtensionFilter("xlsx", "xlsx", "xlsm", "xlsb", "xls", "xml", "xltx",
-						"xltm", "xlt", "xlam", "xla", "xps");
-				chooser.setFileFilter(filter);
-
-				int ret = chooser.showSaveDialog(null);
-				if (ret != JFileChooser.APPROVE_OPTION) {
-					JOptionPane.showMessageDialog(null, "파일을 선택하지 않았습니다!", "경고", JOptionPane.WARNING_MESSAGE);
-					return;
-				}
-				
-				String filePath = chooser.getSelectedFile().getPath();
-				
-				if(filePath != null)
-				{
-					File file = new File(filePath); // filepath : 클라이언트가 선택한 파일
-					long length = file.length();
-					System.out.println(file.toString() + " length : " + length + "byte");
-					try
-					{
-						p = new Protocol<File>(15, 3, file);
-						writer.writeObject(p);
-						writer.flush();
-						p = (Protocol)reader.readObject();
-
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					} catch (ClassNotFoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}	
-					
-					if(p.getSubType() == 2)
-					{
-						if(p.getCode() == 1)
-							JOptionPane.showMessageDialog(null, "등록이 정상적으로 이루어 졌습니다.");
-						else if(p.getCode() == 2)
-						{
-							String err = (String)p.getBody();
-							JOptionPane.showMessageDialog(null, err); //파일양식이 잘못됨	
-						}
-					}
-				}
-				
-				else
-					JOptionPane.showMessageDialog(null, "파일을 선택해 주세요!");
+				new Selection_Schedule_Enroll();
 			}
 		});
 		button.setBounds(45, 87, 285, 50);
@@ -114,53 +73,7 @@ public class Menu_Admin extends JFrame {
 		JButton button_1 = new JButton("생활관비 등록");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser chooser = new JFileChooser();
-
-				FileNameExtensionFilter filter = new FileNameExtensionFilter("xlsx", "xlsx", "xlsm", "xlsb", "xls", "xml", "xltx",
-						"xltm", "xlt", "xlam", "xla", "xps");
-				chooser.setFileFilter(filter);
-
-				int ret = chooser.showSaveDialog(null);
-				if (ret != JFileChooser.APPROVE_OPTION) {
-					JOptionPane.showMessageDialog(null, "파일을 선택하지 않았습니다!", "경고", JOptionPane.WARNING_MESSAGE);
-					return;
-				}
-				
-				String filePath = chooser.getSelectedFile().getPath();
-				
-				if(filePath != null)
-				{
-					File file = new File(filePath); // filepath : 클라이언트가 선택한 파일
-					long length = file.length();
-					System.out.println(file.toString() + " length : " + length + "byte");
-					try
-					{
-						p = new Protocol<File>(15, 3, file);
-						writer.writeObject(p);
-						writer.flush();
-						p = (Protocol)reader.readObject();
-
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					} catch (ClassNotFoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}	
-					
-					if(p.getSubType() == 2)
-					{
-						if(p.getCode() == 1)
-							JOptionPane.showMessageDialog(null, "등록이 정상적으로 이루어 졌습니다.");
-						else if(p.getCode() == 2)
-						{
-							String err = (String)p.getBody();
-							JOptionPane.showMessageDialog(null, err); //파일양식이 잘못됨	
-						}
-					}
-				}
-				
-				else
-					JOptionPane.showMessageDialog(null, "파일을 선택해 주세요!");
+				new LivingHall_Cost_Enroll();
 			}
 		});
 		button_1.setBounds(353, 87, 285, 50);
@@ -185,13 +98,26 @@ public class Menu_Admin extends JFrame {
 		contentPane.add(button_3);
 
 		JButton button_4 = new JButton("결핵진단서 업로드 및 제출확인");
+		button_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new TuberculosisDiagnosis_upload_submit_check();
+			}
+		});
 		button_4.setBounds(45, 235, 285, 50);
 		contentPane.add(button_4);
+		
+		String name = (String)(p_t.getBody());
+		JLabel lblNewLabel = new JLabel(name + "님 환영합니다!");
+		lblNewLabel.setFont(new Font("굴림", Font.PLAIN, 15));
+		lblNewLabel.setForeground(Color.BLUE);
+		lblNewLabel.setBackground(Color.BLACK);
+		lblNewLabel.setBounds(49, 18, 160, 40);
+		contentPane.add(lblNewLabel);
 
 		setVisible(true);
 	}
 
 	public static void main(String[] args) {
-		new Menu_Admin();
+		new Menu_Admin(p);
 	}
 }

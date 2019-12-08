@@ -33,9 +33,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class Menu_Student extends JFrame {
-
 	private JPanel contentPane;
-	JFrame frame = new JFrame();
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
@@ -44,7 +42,6 @@ public class Menu_Student extends JFrame {
 	private JTextField textField_5;
 	private JTextField textField_6;
 	private JTextField textField_7;
-	
 	private static Protocol p;
 	private static OutputStream os;
 	private static ObjectOutputStream writer;
@@ -52,6 +49,7 @@ public class Menu_Student extends JFrame {
 	private static ObjectInputStream reader;
 
 	public Menu_Student(Protocol p_t) {
+		this.setResizable(false); // 최대화 단추 없애기
 		setTitle("학생메뉴");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 520);
@@ -63,62 +61,50 @@ public class Menu_Student extends JFrame {
 		JButton button = new JButton("결핵진단서 제출");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try
-				{
+				try {
 					p = new Protocol(15, 1);
 					writer.writeObject(p);
 					writer.flush();
-					p = (Protocol)reader.readObject();
-
+					p = (Protocol) reader.readObject();
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				} catch (ClassNotFoundException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				}	
+				}
 
-				if(p.getSubType() == 2)
-				{
-					if(p.getCode() == 1)
+				if (p.getSubType() == 2) {
+					if (p.getCode() == 1)
 						new TuberculosisDiagnosis_storage();
-					else if(p.getCode() == 2)
-					{
-						String err = (String)p.getBody();
-						JOptionPane.showMessageDialog(null, err); //제출대상 아님 or 제출기간 아님		
+					else if (p.getCode() == 2) {
+						String err = (String) p.getBody();
+						JOptionPane.showMessageDialog(null, err); // 제출대상 아님 or 제출기간 아님
 					}
-						
 				}
 			}
 		});
 
 		button.setBounds(50, 325, 285, 50);
 		contentPane.add(button);
-
 		JButton button_1 = new JButton("입사 신청");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try
-				{
+				try {
 					p = new Protocol(11, 1);
 					writer.writeObject(p);
 					writer.flush();
-					p = (Protocol)reader.readObject();
-
+					p = (Protocol) reader.readObject();
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				} catch (ClassNotFoundException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				}	
+				}
 
-				if(p.getSubType() == 2)
-				{
-					if(p.getCode() == 1)
+				if (p.getSubType() == 2) {
+					if (p.getCode() == 1)
 						new Join_Promise();
-					else if(p.getCode() == 2)
-					{
-						String err = (String)p.getBody();
-						JOptionPane.showMessageDialog(null, err); //제출대상 아님 or 제출기간 아님		
+					else if (p.getCode() == 2) {
+						String err = (String) p.getBody();
+						JOptionPane.showMessageDialog(null, err); // 제출대상 아님 or 제출기간 아님
 					}
 				}
 			}
@@ -126,31 +112,26 @@ public class Menu_Student extends JFrame {
 		button_1.setBounds(50, 246, 285, 50);
 		contentPane.add(button_1);
 
-		JButton button_2 = new JButton("입사신청 내역조회 및 고지서 출력");	//13, 14의 서브타입 1, 2를 한번에 처리, 즉 14의 1, 2는 사용하지 않음
+		JButton button_2 = new JButton("입사신청 내역조회 및 고지서 출력"); // 13, 14의 서브타입 1, 2를 한번에 처리, 즉 14의 1, 2는 사용하지 않음
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try
-				{
+				try {
 					p = new Protocol(13, 1);
 					writer.writeObject(p);
 					writer.flush();
-					p = (Protocol)reader.readObject();
-
+					p = (Protocol) reader.readObject();
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				} catch (ClassNotFoundException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				}	
+				}
 
-				if(p.getSubType() == 2)
-				{
-					if(p.getCode() == 1)
+				if (p.getSubType() == 2) {
+					if (p.getCode() == 1)
 						new DetailedStatement_Bill(p);
-					else if(p.getCode() == 2)
-					{
-						String err = (String)p.getBody();
-						JOptionPane.showMessageDialog(null, err); //제출대상 아님 or 제출기간 아님		
+					else if (p.getCode() == 2) {
+						String err = (String) p.getBody();
+						JOptionPane.showMessageDialog(null, err); // 제출대상 아님 or 제출기간 아님
 					}
 				}
 			}
@@ -161,28 +142,22 @@ public class Menu_Student extends JFrame {
 		JButton button_4 = new JButton("호실 조회");
 		button_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try
-				{
+				try {
 					p = new Protocol(12, 1);
 					writer.writeObject(p);
 					writer.flush();
-					p = (Protocol)reader.readObject();
-
+					p = (Protocol) reader.readObject();
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				} catch (ClassNotFoundException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				}	
-
-				if(p.getSubType() == 2)
-				{
-					if(p.getCode() == 1)
+				}
+				if (p.getSubType() == 2) {
+					if (p.getCode() == 1)
 						new DormitoryNumber_check(p);
-					else if(p.getCode() == 2)
-					{
-						String err = (String)p.getBody();
-						JOptionPane.showMessageDialog(null, err); //제출대상 아님 or 제출기간 아님		
+					else if (p.getCode() == 2) {
+						String err = (String) p.getBody();
+						JOptionPane.showMessageDialog(null, err); // 제출대상 아님 or 제출기간 아님
 					}
 				}
 			}
@@ -205,6 +180,7 @@ public class Menu_Student extends JFrame {
 		contentPane.add(btnNewButton);
 
 		Student student = (Student)p_t.getBody();
+		
 		textField = new JTextField();
 		textField.setEditable(false);
 		textField.setHorizontalAlignment(SwingConstants.RIGHT);
