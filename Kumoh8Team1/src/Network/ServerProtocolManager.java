@@ -122,7 +122,7 @@ public class ServerProtocolManager
 			}
 		}
 }	//asdf
-		/**/
+	
 	
 	//현재 구조에서 동작 함수에서 프로토콜의 값을 바꾸는데, call by reference로 작동할지 헷갈린다! ->확인해볼것
 	
