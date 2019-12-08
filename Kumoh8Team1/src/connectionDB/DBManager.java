@@ -29,7 +29,7 @@ public class DBManager {
 	private Statement stmt;
 	private ResultSet rs;
 
-	public DBManager()	//생성자
+	public DBManager(String id, String pw)	//생성자
 	{
 		try{
 			// 1. 드라이버 로딩
@@ -45,7 +45,7 @@ public class DBManager {
 			//			System.out.print("db manager password :");
 			//			dbPW = scan.nextLine();		//db manager 생성시 id와 pw를 입력받아서 원격으로 db에 로그인한다
 
-			conn = DriverManager.getConnection(URL, "test5", "1234");
+			conn = DriverManager.getConnection(URL, id, pw);
 			Class.forName(JDBC_DRIVER);
 			stmt = conn.createStatement();
 
@@ -91,7 +91,7 @@ public class DBManager {
 				} 
 			}
 		}
-		protocol.makePacket(1,2,2, "해당정보 없음");	
+		protocol.makePacket(1,2,2, "해당정보 없음");
 		}
 
 		public void update() //test
