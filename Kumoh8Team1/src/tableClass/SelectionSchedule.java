@@ -1,6 +1,8 @@
 package tableClass;
 
 public class SelectionSchedule {
+	
+	private static final long serialVersionUID = 10L;
 	private int year;
 	private int semester;
 	private String program_code;

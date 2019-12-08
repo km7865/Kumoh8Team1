@@ -1,7 +1,10 @@
 package tableClass;
+
+import java.io.Serializable;
 //학생 테이블
-public class Student
+public class Student implements Serializable
 {
+	private static final long serialVersionUID = 11L;
 	private String university;			//대학 구분, not null
 	private String studentId;			//학번, not null
 	private String name;				//성명, not null
@@ -9,7 +12,7 @@ public class Student
 	private String gender;				//성별
 	private String departmentCode;		//학과코드
 	private String departmentName;		//학과명
-	private double grade;				//학년
+	private int grade;					//학년
 	private String major;				//전공구분
 	private String studentAddress;		//학생주소
 	private String studentPhoneNumber;	//학생전화번호
@@ -42,7 +45,7 @@ public class Student
 	public String getGender() {return gender;}
 	public String getDepartmentCode() {return departmentCode;}
 	public String getDepartmentName() {return departmentName;}
-	public double getGrade() {return grade;}
+	public int getGrade() {return grade;}
 	public String getMajor() {return major;}
 	public String getStudentAddress() {return studentAddress;}
 	public String getStudentPhoneNumber() {return studentPhoneNumber;}
@@ -54,7 +57,9 @@ public class Student
 	public void setGender(String gender) {this.gender = gender;}
 	public void setDepartmenCode(String departmentCode) {this.departmentCode = departmentCode;}
 	public void serDepartmentName(String departmentName) {this.departmentName = departmentName;}
-	public void setGrade(double grade) {this.grade = grade;}
+
+	public void setDepartmentName(String departmentName) {this.departmentName = departmentName;}
+	public void setGrade(int grade) {this.grade = grade;}
 	public void setStudentAddress(String studentAddress) {this.studentAddress = studentAddress;}
 	public void setStudentPhoneNumber(String studentPhoneNumber) {this.studentPhoneNumber = studentPhoneNumber;}
 }

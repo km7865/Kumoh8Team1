@@ -1,6 +1,7 @@
 package tableClass;
 
 public class Dormitory_cost {
+	private static final long serialVersionUID = 5L;
 	private String kind_code;
 	private int mng_cost1;
 	private int mng_cost2;

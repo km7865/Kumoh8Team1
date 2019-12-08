@@ -1,6 +1,9 @@
 package tableClass;
 
 public class Tuberculosis_certificate {
+	
+	private static final long serialVersionUID = 3L;
+	
 	private int year;
 	private int semester;
 	private String std_number;

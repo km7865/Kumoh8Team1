@@ -23,14 +23,13 @@ public class DBManager {
 	public static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
 	public static final String URL = "jdbc:mysql://" + "192.168.208.38" + ":3306" + "/dorm" + "?characterEncoding=UTF-8&serverTimezone=UTC";
 
-	private String ID;
-	private String PW;
-
 	private Connection conn;
 	private PreparedStatement pstmt;
 	private Statement stmt;
 	private ResultSet rs;
 
+	private User currentUser;
+	
 	public DBManager(String id, String pw)	//생성자
 	{
 		try{
@@ -47,8 +46,8 @@ public class DBManager {
 			//			System.out.print("db manager password :");
 			//			dbPW = scan.nextLine();		//db manager 생성시 id와 pw를 입력받아서 원격으로 db에 로그인한다
 
-			conn = DriverManager.getConnection(URL, id, pw);
 			Class.forName(JDBC_DRIVER);
+			conn = DriverManager.getConnection(URL, id, pw);
 			stmt = conn.createStatement();
 
 		}catch (Exception e){
@@ -86,14 +85,35 @@ public class DBManager {
 				if (loginPw.equals(rs.getString("password"))) 
 				{
 					System.out.println("로그인성공");
-					user = new User(rs.getString("사용자ID"),rs.getString("password"),
-							rs.getString("사용자구분"), rs.getString("성명"));
-					protocol.makePacket(1,2,1, user);
-					return;
+					
+					if(rs.getString("사용자구분").equals("1") == true)
+					{
+						String st_number = rs.getString("사용자ID");
+						SQL = "SELECT * FROM dorm.학생 where 학번 = " + st_number;
+						rs = stmt.executeQuery(SQL);
+						
+						rs.next();
+						Student student = new Student(rs.getString("대학구분"), rs.getString("학번"), 
+								rs.getString("성명"), rs.getString("주민등록번호"));
+						
+						student.setGender(rs.getString("성별"));
+						student.setDepartmentName(rs.getString("학과명"));
+						student.setGrade(rs.getInt("학년"));
+						student.setStudentAddress(rs.getString("학생주소"));
+						student.setStudentPhoneNumber(rs.getString("학생전화번호"));
+						protocol.makePacket(1,2,1, student);
+						return;
+					}
+					
+					else
+					{
+						protocol.makePacket(1,2,2, rs.getString("성명"));
+						return;
+					}
 				} 
 			}
 		}
-		protocol.makePacket(1,2,2, "해당정보 없음");
+		protocol.makePacket(1,2,3, "해당정보 없음");
 		}
 
 	public void insertDormitoryApplication(Protocol protocol, dormitoryApplication app)	//입사신청
@@ -136,6 +156,25 @@ public class DBManager {
 	}
 	
 	//호실조회
+	public void roomCheck(Protocol protocol, User user) throws SQLException
+	{
+		String id = user.getUserID();
+		String loginPw = user.getPassword();
+		DormitoryRoom dRoom = new DormitoryRoom();  
+
+		String SQL = "SELECT * FROM 신청 natural join on 입사선발자 WHERE 학번=" + id;
+		rs = stmt.executeQuery(SQL);
+		//사용자 테이블의 모든 ID 검색 혹은 일치하는 ID가 있다면 PW 일치 확인 
+		if (rs.next()) {
+			dRoom.setDormitoryCode(rs.getString("생활관분류코드"));
+			dRoom.setRoomCode(rs.getString("호실코드"));
+			dRoom.setBedCode(rs.getString("침대번호"));
+			dRoom.setAssignmentState(rs.getString("배정상태"));
+			protocol.makePacket(12, 2, 0, dRoom);
+		} else {
+			protocol.makePacket(1,2,2, "해당정보 없음");
+		}
+	}
 	
 	//입사신청내역 조회
 	public void inquireDormitoryApplication(Protocol protocol, Student student)

@@ -9,7 +9,7 @@ public class Protocol <T> implements Serializable
 	private int mainType;
 	private int subType;
 	private int code;
-	T body;	//테이블을 class화 한 것을 body 내용으로 씀
+	private T body;	//테이블을 class화 한 것을 body 내용으로 씀
 
 
 	public Protocol()
