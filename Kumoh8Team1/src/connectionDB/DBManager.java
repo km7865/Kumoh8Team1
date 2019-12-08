@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Scanner;
 import java.util.Date;
 
@@ -29,6 +31,8 @@ public class DBManager {
 	private ResultSet rs;
 
 	private User currentUser;
+	private int year = 2019;
+	private int semester = 2;
 	
 	public DBManager(String id, String pw)	//생성자
 	{
@@ -199,7 +203,7 @@ public class DBManager {
 	{
 		try
 		{
-			String sql = "select * frome 신청 where 학번=" + student.getStudentId() + "and 년도=2019 and 학기=2;";
+			String sql = "select * from 신청 where 학번=" + student.getStudentId() + "and 년도=2019 and 학기=2;";
 			rs = stmt.executeQuery(sql);
 			dormitoryApplication[] array = new dormitoryApplication[rs.getRow()];	//해당 학번에 해당하는 신청번호 행들을 저장할 배열 생성
 			//rs의 각 인덱스 값을 하나씩짤라서 배열에 저장
@@ -221,6 +225,124 @@ public class DBManager {
 			protocol.makePacket(13, 2, 1, "조회 실패");
 		}
 	}
+	
+	//여기서부터 관리자메뉴
+	public void insertSchedule(Protocol protocol, SelectionSchedule schedule)
+	{
+		String year = Integer.toString(schedule.getYear());
+		String semester = Integer.toString(schedule.getSemester());
+		String program_code = schedule.getProgram_code();
+		String start_date = schedule.getStart_date();
+		String end_date = schedule.getEnd_date();
+		String content = schedule.getContent();
+		
+		String sql="INSERT INTO 선발일정 VALUES(" + year + ", " + semester + ", "  + program_code + ", " 
+				+ start_date + ", "  + end_date + ", "  + content + ")";
+        try {
+			stmt.executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        protocol.makePacket(21, 2, 1, null);
+	}
+	
+	public void enrollJoiner(Protocol protocol)
+	{
+		String sql1 = "SET SQL_SAFE_UPDATES = 0";
+		String sql2 = "update 입사선발자 set 등록여부=" + "O" + "where 납부상태="+ "O" + " and 결핵진단서제출여부=" + 
+				"O" + " and 년도=" + year + "and 학기=" + semester;
+		String sql = sql1 + "\n" + sql2;
+		try {
+			rs = stmt.executeQuery(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		protocol.makePacket(23, 2, 1, null);
+	}
+	
+	public void joinerCheck(Protocol protocol)
+	{	
+		int cnt = 0;
+		String sql1 = "select 학번, 생활관분류코드, 호실코드, 침대번호 from 입사선발자 where 등록여부=\"O\"";
+		try {
+			rs = stmt.executeQuery(sql1);
+			while(rs.next())
+				cnt += 1;
+			String[][] arr = new String[cnt][5];
+			rs.beforeFirst();
+			int i = 0;
+			while(rs.next())
+			{
+				arr[i][0] = rs.getString("학번");			
+				arr[i][3] = rs.getString("호실코드");
+				arr[i][4] = rs.getString("침대번호");
+				i++;
+			}
+			i = 0;
+			String sql2 = "select 생활관명 from 생활관 where 생활관분류코드 in (select 생활관분류코드 from 입사선발자"
+					+ " where 등록여부=\"O\")";
+			rs = stmt.executeQuery(sql2);
+			while(rs.next())
+			{
+				arr[i][2] = rs.getString("생활관명");
+				i++;
+			}
+			i = 0;
+			sql2 = "select 성명 from 학생 where 학번 in (select 생활관분류코드 from 입사선발자 " + 
+					" where 등록여부=\"O\")";
+			rs = stmt.executeQuery(sql2);
+			while(rs.next())
+			{
+				arr[i][1] = rs.getString("성명");
+				i++;
+			}
+			i = 0;
+			protocol.makePacket(24, 2, 1, arr);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void checkTuberculosisDiagnosis(Protocol protocol)
+	{
+		int cnt = 0;
+		String sql="select 신청번호, 이름, 결핵진단서제출여부 from 입사선발자";
+        try {
+        	rs = stmt.executeQuery(sql);
+        	while(rs.next())
+				cnt += 1;
+			String[][] arr = new String[cnt][3];
+			rs.beforeFirst();
+			int i = 0;
+			while(rs.next())
+			{
+				arr[i][0] = rs.getString("신청번호");
+				arr[i][1] = rs.getString("이름");
+				arr[i][2] = rs.getString("결핵진단서 여부");
+				i++;
+			}
+			
+			Arrays.sort(arr, new Comparator<String[]>() {
+	            @Override
+	            public int compare(final String[] entry1, final String[] entry2) {
+	            	if( ((Comparable)entry2[1]).compareTo(entry1[1]) < 0 )
+	                    return 1;
+	                else
+	                    return -1;
+	            }
+	        });
+			protocol.makePacket(26, 2, 1, arr);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 		/*
 	public void update() //test
 	{

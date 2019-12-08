@@ -100,7 +100,7 @@ public class Menu_Admin extends JFrame {
 		JButton button_4 = new JButton("결핵진단서 업로드 및 제출확인");
 		button_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new TuberculosisDiagnosis_upload_submit_check();
+				new TuberculosisDiagnosis_upload_submit_check(p, writer, reader);
 			}
 		});
 		button_4.setBounds(45, 235, 285, 50);

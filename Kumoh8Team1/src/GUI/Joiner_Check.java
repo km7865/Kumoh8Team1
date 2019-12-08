@@ -52,6 +52,7 @@ public class Joiner_Check extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		
 		try {
 			p.makePacket(24, 1, 0, null);
 			writer.writeObject(p);
@@ -63,13 +64,12 @@ public class Joiner_Check extends JFrame {
 			e1.printStackTrace();
 		}
 		
+		
 		// 테이블에 출력할 컬럼 이름 배열
-		String columnNames[] = {"이름", "학번"};
+		String columnNames[] = {"학번", "이름", "생활관", "호실", "침대번호"};
 
 		// 테이블에 출력할 데이터 배열
-		int i = 4; // 범위
-		String data[][] = new String[1000][i]; // 데이터 들어갈 범위
-		data[0][0] = "홍길동"; // 데이터 들어갈 부분
+		String[][] data = (String [][])p.getBody();		//받아온 데이터
 
 		DefaultTableModel model = new DefaultTableModel(data, columnNames);
 		JTable tbl = new JTable(model);

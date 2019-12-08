@@ -27,9 +27,7 @@ import javax.swing.JFileChooser;
 
 public class TuberculosisDiagnosis_upload_submit_check extends JFrame {
 	private static Protocol p;
-	private static OutputStream os;
 	private static ObjectOutputStream writer;
-	private static InputStream is;
 	private static ObjectInputStream reader;
 	private JPanel contentPane;
 
@@ -37,7 +35,7 @@ public class TuberculosisDiagnosis_upload_submit_check extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TuberculosisDiagnosis_upload_submit_check frame = new TuberculosisDiagnosis_upload_submit_check();
+					TuberculosisDiagnosis_upload_submit_check frame = new TuberculosisDiagnosis_upload_submit_check(p, writer, reader);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -46,7 +44,10 @@ public class TuberculosisDiagnosis_upload_submit_check extends JFrame {
 		});
 	}
 
-	public TuberculosisDiagnosis_upload_submit_check() {
+	public TuberculosisDiagnosis_upload_submit_check(Protocol p_t, ObjectOutputStream writer_t, ObjectInputStream reader_t) {
+		p = p_t;
+		writer = writer_t;
+		reader = reader_t;
 		this.setResizable(false); // 최대화 단추 없애기
 		setVisible(true);
 		setTitle("결핵진단서 업로드 및 제출확인");
@@ -79,7 +80,7 @@ public class TuberculosisDiagnosis_upload_submit_check extends JFrame {
 		JButton button = new JButton("결핵진단서 제출확인");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new TuberculosisDiagnosis_submit_check();
+				new TuberculosisDiagnosis_submit_check(p, writer, reader);
 			}
 		});
 		button.setBounds(195, 40, 145, 40);
