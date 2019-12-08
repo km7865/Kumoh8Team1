@@ -54,6 +54,7 @@ public class Bill extends JFrame {
 		DefaultTableModel model = new DefaultTableModel(data, columnNames);
 		JTable tbl = new JTable(model);
 		tbl.setRowHeight(25);
+		//String a = (String)tbl.getValueAt(0, 0);    테이블 값 가져오기
 
 		// JTable tbl = new JTable(data,columnNames);
 		// Table은 JScrollPane위에 출력해야 컬럼 이름이 출력된다! 명심할것

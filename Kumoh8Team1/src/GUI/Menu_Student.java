@@ -102,7 +102,7 @@ public class Menu_Student extends JFrame {
 
 				if (p.getSubType() == 2) {
 					if (p.getCode() == 1)
-						new Join_Promise();
+						new Join_Promise(writer, reader);
 					else if (p.getCode() == 2) {
 						String err = (String) p.getBody();
 						JOptionPane.showMessageDialog(null, err); // 제출대상 아님 or 제출기간 아님
@@ -129,7 +129,7 @@ public class Menu_Student extends JFrame {
 
 				if (p.getSubType() == 2) {
 					if (p.getCode() == 1)
-						new DetailedStatement_Bill(p);
+						new DetailedStatement_Bill(p, writer, reader);
 					else if (p.getCode() == 2) {
 						String err = (String) p.getBody();
 						JOptionPane.showMessageDialog(null, err); // 제출대상 아님 or 제출기간 아님
@@ -155,7 +155,7 @@ public class Menu_Student extends JFrame {
 				}
 				if (p.getSubType() == 2) {
 					if (p.getCode() == 1)
-						new DormitoryNumber_check(p);
+						new DormitoryNumber_check(p, writer, reader);
 					else if (p.getCode() == 2) {
 						String err = (String) p.getBody();
 						JOptionPane.showMessageDialog(null, err); // 제출대상 아님 or 제출기간 아님
@@ -250,6 +250,6 @@ public class Menu_Student extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		new Menu_Student(p);
+		new Menu_Student(p, writer, reader);
 	}
 }

@@ -24,9 +24,7 @@ import javax.swing.JButton;
 
 public class Joiner_Enroll_and_Check extends JFrame {
 	private static Protocol p;
-	private static OutputStream os;
 	private static ObjectOutputStream writer;
-	private static InputStream is;
 	private static ObjectInputStream reader;
 
 	private JPanel contentPane;
@@ -35,7 +33,7 @@ public class Joiner_Enroll_and_Check extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Joiner_Enroll_and_Check frame = new Joiner_Enroll_and_Check();
+					Joiner_Enroll_and_Check frame = new Joiner_Enroll_and_Check(p, writer, reader);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -44,7 +42,10 @@ public class Joiner_Enroll_and_Check extends JFrame {
 		});
 	}
 
-	public Joiner_Enroll_and_Check() {
+	public Joiner_Enroll_and_Check(Protocol p_t, ObjectOutputStream writer_t, ObjectInputStream reader_t) {
+		p = p_t;
+		writer = writer_t;
+		reader = reader_t;
 		this.setResizable(false); // 최대화 단추 없애기
 		setVisible(true);
 		setTitle("입사자 등록 및 조회");
@@ -90,7 +91,7 @@ public class Joiner_Enroll_and_Check extends JFrame {
 		JButton button = new JButton("입사자 조회");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new Joiner_Check(); // 입사자 조회
+				new Joiner_Check(p, writer, reader); // 입사자 조회
 			}
 		});
 		button.setBounds(195, 40, 110, 40);

@@ -17,6 +17,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JScrollBar;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -35,12 +37,15 @@ public class LivingHall_Cost_Enroll extends JFrame {
 	private JTextField textField_4;
 	private JTextField textField_6;
 	private JButton btnNewButton;
+	private static Protocol p;
+	private static ObjectOutputStream writer;
+	private static ObjectInputStream reader;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					LivingHall_Cost_Enroll frame = new LivingHall_Cost_Enroll();
+					LivingHall_Cost_Enroll frame = new LivingHall_Cost_Enroll(p, writer, reader);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -49,7 +54,10 @@ public class LivingHall_Cost_Enroll extends JFrame {
 		});
 	}
 
-	public LivingHall_Cost_Enroll() {
+	public LivingHall_Cost_Enroll(Protocol p_t, ObjectOutputStream writer_t, ObjectInputStream reader_t) {
+		p = p_t;
+		writer = writer_t;
+		reader = reader_t;
 		this.setResizable(false); // 최대화 단추 없애기
 		setVisible(true);
 		setTitle("생활관비 등록");
