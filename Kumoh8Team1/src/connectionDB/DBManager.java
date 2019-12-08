@@ -23,14 +23,13 @@ public class DBManager {
 	public static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
 	public static final String URL = "jdbc:mysql://" + "192.168.208.38" + ":3306" + "/dorm" + "?characterEncoding=UTF-8&serverTimezone=UTC";
 
-	private String ID;
-	private String PW;
-
 	private Connection conn;
 	private PreparedStatement pstmt;
 	private Statement stmt;
 	private ResultSet rs;
 
+	private User currentUser;
+	
 	public DBManager(String id, String pw)	//생성자
 	{
 		try{
@@ -86,6 +85,7 @@ public class DBManager {
 				if (loginPw.equals(rs.getString("password"))) 
 				{
 					System.out.println("로그인성공");
+					
 					if(rs.getString("사용자구분").equals("1") == true)
 					{
 						String st_number = rs.getString("사용자ID");
@@ -156,6 +156,25 @@ public class DBManager {
 	}
 	
 	//호실조회
+	public void roomCheck(Protocol protocol, User user) throws SQLException
+	{
+		String id = user.getUserID();
+		String loginPw = user.getPassword();
+		DormitoryRoom dRoom = new DormitoryRoom();  
+
+		String SQL = "SELECT * FROM 신청 natural join on 입사선발자 WHERE 학번=" + id;
+		rs = stmt.executeQuery(SQL);
+		//사용자 테이블의 모든 ID 검색 혹은 일치하는 ID가 있다면 PW 일치 확인 
+		if (rs.next()) {
+			dRoom.setDormitoryCode(rs.getString("생활관분류코드"));
+			dRoom.setRoomCode(rs.getString("호실코드"));
+			dRoom.setBedCode(rs.getString("침대번호"));
+			dRoom.setAssignmentState(rs.getString("배정상태"));
+			protocol.makePacket(12, 2, 0, dRoom);
+		} else {
+			protocol.makePacket(1,2,2, "해당정보 없음");
+		}
+	}
 	
 	//입사신청내역 조회
 	public void inquireDormitoryApplication(Protocol protocol, Student student)
