@@ -1,6 +1,6 @@
 package connectionDB;
 
-import tableClass.User;
+import tableClass.*;
 import Network.*;
 
 import java.io.*;
@@ -104,6 +104,33 @@ public class DBManager {
 		protocol.makePacket(1,2,2, "해당정보 없음");
 }
 
+	public void insertDormitoryApplication(Protocol protocol, dormitoryApplication app)
+	{
+		try
+		{
+			String sql = "select * from 신청";
+			rs =stmt.executeQuery(sql);
+			Integer count=rs.getRow()+1;
+			String applicationCount="2019".concat(count.toString());	//신청번호 생성
+			
+			sql ="select 학번, convert(sum(case 성적등급 " 
+					 + "when \"A+\" then convert(4.5*학점,float) when \"A\" then convert(4.0*학점,float)"
+					  +  "when \"B+\" then convert(3.5*학점,float) when \"B\" then convert(3.0*학점,float) 
+					    when "C+" then convert(2.5*학점,float) when "C" then convert(2.0*학점,float) 
+					   when "D+" then convert(1.5*학점,float) when "D" then convert(1.0*학점,float) 
+					    when "F" then convert(0.0*학점,float) end) /sum(학점),decimal(3,2)) as 평점평균
+					group by 학번;
+					from 성적;
+			
+			sql = "insert 신청 (신청번호, 학번, 년도, 학기, 생활관분류코드, 식비구분, 학점, 거리가산점, 지망, 신청일. 신청상태, 1년여부, 입사서약동의여부)"
+				     + "values(" + applicationCount + ", " + app.getStandbyNumber() + ", " + 
+			
+		}
+		catch(SQLException e)
+		{
+			
+		}
+	}
 	public void update() //test
 	{
 		String SQL = "update world.city set name=? where ID=?";
