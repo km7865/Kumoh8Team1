@@ -1,7 +1,6 @@
 package Network;
 
 import tableClass.*;
-import UserDefinedException.*;
 import connectionDB.*;
 
 import java.io.IOException;
@@ -31,6 +30,7 @@ public class ServerProtocolManager
 			reader = new ObjectInputStream(is);
 			os = socket.getOutputStream();
 			writer = new ObjectOutputStream(os);
+			dbManager = new DBManager("test5", "1234");
 		}
 		catch(IOException e)
 		{
@@ -47,7 +47,6 @@ public class ServerProtocolManager
 	public void workProtocol()
 	{
 		Protocol protocol = new Protocol();
-		
 		try
 		{
 			protocol = (Protocol)reader.readObject();
@@ -95,12 +94,6 @@ public class ServerProtocolManager
 			}//end of switch
 			}
 		}//end of try
-		catch(ServerException a)
-		{
-			protocol.setBody("오류가 발생했습니다");
-			//오류를 담은 패킷을 만듬 ->finally에서 클라이언트로 전송
-			//protocol.setBody(Exception 객체);
-		}
 		catch(SQLException d)
 		{
 			d.getStackTrace();
@@ -128,51 +121,23 @@ public class ServerProtocolManager
 				e.getStackTrace();
 			}
 		}
-}
-		/**/
+}	//asdf
+	
 	
 	//현재 구조에서 동작 함수에서 프로토콜의 값을 바꾸는데, call by reference로 작동할지 헷갈린다! ->확인해볼것
 	
 	//exception 사용자 정의 예외 만들어야함, 여기에 적은 exception은 예외 클래스를 아직 안만들어서 적어둔거임
-	public void Login(Protocol protocol) throws ServerException, SQLException //maintype 1, 로그인
+	public void Login(Protocol protocol) throws SQLException //maintype 1, 로그인
 	{	
-		Protocol<User> p = protocol;
-		
-		System.out.println(p.getBody().getUserID());
-		System.out.println(p.getBody().getPassword());
-		
-		/*
-		dbManager.getConnection();
-		dbManager.loginCheck(p);
-		dbManager.closeConnection();
-		*/
-		
-		if(dbManager.loginCheck((User)protocol.getBody()))	//로그인 정보가 맞다면 true
-		{
-			protocol = new Protocol(1, 2, 1, null);
-			return;
-		}
-		else if(!dbManager.loginCheck((User)protocol.getBody()))	//loginCheck() ==false
-			protocol = new Protocol(1, 2, 2, "사용자 정보가 없습니다");
+		dbManager.loginCheck(protocol, (User)protocol.getBody());
 	}
 	//--------------------------------------------------------------------------------------------------
-	public void dormitoryApplication(Protocol protocol) throws ServerException	//maintype 11, 입사신청 
+	public void dormitoryApplication(Protocol protocol)	//maintype 11, 입사신청 
 	{
-		//클라이언트가 서버에게 입사신청정보를 보낸걸 받았다, 이 함수 밖에서
-		//디비에 저장한다
-		//처리 결과를 클라이언트에게 보낸다.
-		/*
-		if(처리에 성공한 경우)
-			protocol = new Protocol(11,2,1,null);
-		else 	//처리에 실패한 경우
-		{
-			protocol = new Protocol(11,2,2,null);
-			throws new ServerException("저장에 실패 했습니다.");
-		}
-		*/
+		dbManager.insertDormitoryApplication(protocol, (dormitoryApplication)protocol.getBody());
 	}
 	//--------------------------------------------------------------------------------------------------
-	public void inquireDormitoryRoom(Protocol protocol) throws ServerException	//maintype 12, 호실조회
+	public void inquireDormitoryRoom(Protocol protocol)	//maintype 12, 호실조회
 	{
 		/*
 		db에서 호실정보를 검색해본다
@@ -189,7 +154,7 @@ public class ServerProtocolManager
 		*/	
 	}
 	//--------------------------------------------------------------------------------------------------
-	public void inquireDormitoryApplication(Protocol protocol) throws ServerException	//maintype 13, 입사신청내역 조회
+	public void inquireDormitoryApplication(Protocol protocol)	//maintype 13, 입사신청내역 조회
 	{
 		/*
 		db에서 학생의 학번으로 입사신청내역을 조회해본다
@@ -207,7 +172,7 @@ public class ServerProtocolManager
 		*/
 	}
 	//--------------------------------------------------------------------------------------------------
-	public void printDetailedStatement_Bill(Protocol protocol) throws ServerException	//maintype 14, 고지서 출력
+	public void printDetailedStatement_Bill(Protocol protocol)	//maintype 14, 고지서 출력
 	{
 		/*
 		db에 학생의 학번으로 입사선발자 테이블에 정보가 있는지 검색해본다
@@ -229,7 +194,7 @@ public class ServerProtocolManager
 		*/
 	}
 	//--------------------------------------------------------------------------------------------------
-	public void submissionTuberculosisDiagnosis(Protocol protocol) throws ServerException	//maintype 15, 결핵진단서 제출
+	public void submissionTuberculosisDiagnosis(Protocol protocol)	//maintype 15, 결핵진단서 제출
 	{
 		/*
 		클라이언트로부터 받은 결핵진단서 파일=>protocol.getBody()을 db에 저장한다
@@ -245,7 +210,7 @@ public class ServerProtocolManager
 		*/
 	}
 	//--------------------------------------------------------------------------------------------------
-	public void enrollSelectionSchedule(Protocol protocol) throws ServerException	//maintype 21, 선발일정 등록
+	public void enrollSelectionSchedule(Protocol protocol)//maintype 21, 선발일정 등록
 	{
 		/*
 		클라이언트가 보낸 선발일정 정보=>protocol.getBody()를 디비에 저장한다
@@ -261,7 +226,7 @@ public class ServerProtocolManager
 		*/
 	}
 	//--------------------------------------------------------------------------------------------------
-	public void enrollDormitoryCost(Protocol protocol) throws ServerException	//maintype 22, 생활관 사용료 및 급식비 등록
+	public void enrollDormitoryCost(Protocol protocol)	//maintype 22, 생활관 사용료 및 급식비 등록
 	{
 		//클라이언트가 보낸 정보를 db에 저장한다
 		/*
@@ -277,7 +242,7 @@ public class ServerProtocolManager
 		*/
 	}
 	//--------------------------------------------------------------------------------------------------
-	public Protocol[] enrollFinalSelectedStudent(Protocol protocol) throws ServerException	//maintype 23, 입사자 등록(최종)
+	public Protocol[] enrollFinalSelectedStudent(Protocol protocol)	//maintype 23, 입사자 등록(최종)
 	{
 		//db에 접속해 입사선발자테이블에 받아와 생활관비를 납부했는지 결핵진단서를 제출했는지 검사하고 검사한 학생들에 대해서 등록 상태를 업데이트 시켜줌
 		//-> 입사자 목록을 list로 연결시켜 db 접속 함수에서 리턴시켜서 if문에서 사용
@@ -299,7 +264,7 @@ public class ServerProtocolManager
 		return ptList;
 	}
 	//--------------------------------------------------------------------------------------------------
-	public Protocol[] inquireFinalSelectedStudent(Protocol protocol) throws ServerException	//maintype 24, 입사자 조회
+	public Protocol[] inquireFinalSelectedStudent(Protocol protocol)	//maintype 24, 입사자 조회
 	{
 		//db에 접속해 입사선발자테이블에 등록 여부가 o인 학생들의 목록을 뽑아와서 list에 연결시킨다
 		Protocol[] ptList = new Protocol[50];	//실제로 배열 크기는 list의 크기임
@@ -313,7 +278,7 @@ public class ServerProtocolManager
 		return ptList;
 	}
 	//--------------------------------------------------------------------------------------------------
-	public void enrollSelectedStudentResult(Protocol protocol) throws ServerException	//maintype 25, 입사선발자 결과등록
+	public void enrollSelectedStudentResult(Protocol protocol)	//maintype 25, 입사선발자 결과등록
 	{
 		//입사선발자 선발 알고리즘 필요!
 		//따로 함수를 만들어서 입사신청한 목록을 땡겨와서 거기서 list에 저장해서 알고리즘대로 짤라서 입사선발자 테이블에 등록

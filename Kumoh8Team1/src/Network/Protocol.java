@@ -49,6 +49,12 @@ public class Protocol <T> implements Serializable
 		this.code = code; this.body =some;
 	}
 	
+	public void makePacket(int mainType, int subType, int code, T some)
+	{
+		this.mainType = mainType; this.subType = subType;
+		this.code = code; this.body =some;
+	}
+	
 	public int getMainType() {return mainType;}
 	public int getSubType() {return subType;}
 	public int getCode() {return code;}

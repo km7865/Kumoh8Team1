@@ -57,6 +57,8 @@ public class Student implements Serializable
 	public void setGender(String gender) {this.gender = gender;}
 	public void setDepartmenCode(String departmentCode) {this.departmentCode = departmentCode;}
 	public void serDepartmentName(String departmentName) {this.departmentName = departmentName;}
+
+	public void setDepartmentName(String departmentName) {this.departmentName = departmentName;}
 	public void setGrade(int grade) {this.grade = grade;}
 	public void setStudentAddress(String studentAddress) {this.studentAddress = studentAddress;}
 	public void setStudentPhoneNumber(String studentPhoneNumber) {this.studentPhoneNumber = studentPhoneNumber;}

@@ -64,10 +64,9 @@ class ConnectionSocket implements Runnable
 	public void run()	//클라이언트와 통신
 	{
 		ServerProtocolManager manager=new ServerProtocolManager(socket);
-		while(true)
+		while(socket.isConnected())
 		{
 			manager.workProtocol();
-			
 		}
 	}
 }
