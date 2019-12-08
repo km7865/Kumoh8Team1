@@ -46,7 +46,6 @@ public class ServerProtocolManager
 	public void workProtocol()
 	{
 		Protocol protocol = new Protocol();
-		
 		try
 		{
 			protocol = (Protocol)reader.readObject();
