@@ -2,6 +2,7 @@ package tableClass;
 //생활관 테이블
 public class Dormitory
 {
+	private static final long serialVersionUID = 6L;
 	private String dormitoryCode;		//생활관 코드, not null
 	private String genderLimit;			//성별제한, M, W, not null
 	private String dormitoryName;		//생활관명, 푸름1관, 푸름2관, 오름1관..., not null

@@ -2,6 +2,7 @@ package tableClass;
 //생활관호실 테이블
 public class DormitoryRoom
 {
+	private static final long serialVersionUID = 8L;
 	private String dormitoryCode;	//생활관분류코드, not null
 	private String roomCode;		//호실코드, not null
 	private String bedCode;			//침대번호, not null

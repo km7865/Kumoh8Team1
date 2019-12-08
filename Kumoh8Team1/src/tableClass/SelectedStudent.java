@@ -1,6 +1,7 @@
 package tableClass;
 
 public class SelectedStudent {
+	private static final long serialVersionUID = 9L;
 	private String sign_up_number;
 	private String room_code;
 	private String bed_code;

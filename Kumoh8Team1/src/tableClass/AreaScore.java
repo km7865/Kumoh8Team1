@@ -1,6 +1,7 @@
 package tableClass;
 
 public class AreaScore {
+	private static final long serialVersionUID = 4L;
 	private String area;
 	private Double score;
 	

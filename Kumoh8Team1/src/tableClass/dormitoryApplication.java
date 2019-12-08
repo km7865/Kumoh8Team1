@@ -2,6 +2,7 @@ package tableClass;
 //신청 테이블
 public class dormitoryApplication
 {
+	private static final long serialVersionUID = 7L;
 	private String applicatonNumber;	//신청번호, 2019010000, not null
 	private String studentId;			//학번, not null
 	private String year;				//년도, not null
