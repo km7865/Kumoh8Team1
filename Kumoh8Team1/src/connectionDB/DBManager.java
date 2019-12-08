@@ -116,6 +116,24 @@ public class DBManager {
 		protocol.makePacket(1,2,3, "해당정보 없음");
 		}
 
+	//입사신청 요청에 대한 응답
+	public void checkDormitoryApplication(Protocol protocol)
+	{
+		try	//해당 학기에 학생이 신청 정보가 있는지 확인한다
+		{
+			String sql = "select * from 신청 where 학번=" + currentUser.getUserID() + "and 년도=2019 and 학기=2";
+			rs = stmt.executeQuery(sql);
+			int count =rs.getRow();
+			if(count >=1)	//신청 정보가 하나라도 있으면 신청요청에 거절
+				protocol.makePacket(11, 2, 2, "신청정보가 있음");
+			else	//신청 정보가 없는 경우
+				protocol.makePacket(11, 2, 1,null);
+		}
+		catch(SQLException e)
+		{
+			e.getStackTrace();
+		}
+	}
 	public void insertDormitoryApplication(Protocol protocol, dormitoryApplication app)	//입사신청
 	{
 		try
@@ -189,17 +207,18 @@ public class DBManager {
 			int i=0;
 			while(rs.next()) 
 			{
-				if(rs.getString("일년유무") =="O")	//일년을 신청하는 경우
-				{
-					array[i]= new dormitoryApplication(rs.getString("신청번호"), rs.getString("학번"), rs.getString("생활관분류코드"));
-					//나머지 변수 초기화 필요
-				}
+				array[i]= new dormitoryApplication(rs.getString("신청번호"), rs.getString("학번"), rs.getString("생활관분류코드"));
+				array[i].setYear("2019"); array[i].setSemester("2"); array[i].setMealDivision(rs.getString("식비구분"));
+				array[i].setGrade(rs.getFloat("학점")); array[i].setGrade(rs.getFloat("거리가산점")); array[i].setdormitoryWish(rs.getString("지망"));
+				array[i].setApplicationDay(rs.getString("신청일")); array[i].setApplicationState(rs.getString("신청상태"));
+				array[i].setStandbyNumber(rs.getString("대기번호")); array[i].setOneYearWhether(rs.getString("1년여부")); array[i].setAcceptanceOfAgreement("yes"); 
+				i++;
 			}
-			
+			protocol.makePacket(13, 2, 1, array);
 		}
 		catch(SQLException e)
 		{
-			protocol.makePacket(13, 2, 1, null);
+			protocol.makePacket(13, 2, 1, "조회 실패");
 		}
 	}
 		/*

@@ -133,8 +133,10 @@ public class ServerProtocolManager
 	}
 	//--------------------------------------------------------------------------------------------------
 	public void dormitoryApplication(Protocol protocol)	//maintype 11, 입사신청 
-	{
-		dbManager.insertDormitoryApplication(protocol, (dormitoryApplication)protocol.getBody());
+	{	if(protocol.getSubType()==1)
+			dbManager.checkDormitoryApplication(protocol);
+		else if(protocol.getSubType()==3)
+			dbManager.insertDormitoryApplication(protocol, (dormitoryApplication)protocol.getBody());
 	}
 	//--------------------------------------------------------------------------------------------------
 	public void inquireDormitoryRoom(Protocol protocol)	//maintype 12, 호실조회
