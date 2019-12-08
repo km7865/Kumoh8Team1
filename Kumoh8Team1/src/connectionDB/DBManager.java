@@ -124,7 +124,7 @@ public class DBManager {
 			sql = "insert into 신청 (신청번호, 학번, 년도, 학기, 생활관분류코드, 식비구분, 학점, 거리가산점, 지망, 신청일, 신청상태, 1년여부, 입사서약동의여부)"
 				     + "values(" + applicationCount + ", " + app.getStandbyNumber() + ", 2019, 2, " + app.getDormitoryCode() +", "
 				     + app.getMealDivision() + ", " + grade.toString() + "," + "거리가산점" +", " + app.getdormitoryWish() + ", " 
-				     + today + ", 신청" + app.getOneYearWhether() + ", yes";
+				     + today + ", 신청" + app.getOneYearWhether() + ", yes);";
 			rs = stmt.executeQuery(sql);
 			protocol.makePacket(11, 2, 1, null);
 		}
@@ -140,7 +140,28 @@ public class DBManager {
 	//입사신청내역 조회
 	public void inquireDormitoryApplication(Protocol protocol, Student student)
 	{
-		
+		try
+		{
+			String sql = "select * frome 신청 where 학번=" + student.getStudentId() + "and 년도=2019 and 학기=2;";
+			rs = stmt.executeQuery(sql);
+			dormitoryApplication[] array = new dormitoryApplication[rs.getRow()];	//해당 학번에 해당하는 신청번호 행들을 저장할 배열 생성
+			//rs의 각 인덱스 값을 하나씩짤라서 배열에 저장
+			 
+			int i=0;
+			while(rs.next()) 
+			{
+				if(rs.getString("일년유무") =="O")	//일년을 신청하는 경우
+				{
+					array[i]= new dormitoryApplication(rs.getString("신청번호"), rs.getString("학번"), rs.getString("생활관분류코드"));
+					//나머지 변수 초기화 필요
+				}
+			}
+			
+		}
+		catch(SQLException e)
+		{
+			protocol.makePacket(13, 2, 1, null);
+		}
 	}
 		/*
 	public void update() //test
