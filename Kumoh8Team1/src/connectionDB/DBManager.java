@@ -87,7 +87,7 @@ public class DBManager {
 					user = new User(rs.getString("사용자ID"),rs.getString("password"),
 							rs.getString("사용자구분"), rs.getString("성명"));
 					protocol.makePacket(1,2,1, user);
-					break;
+					return;
 				} 
 			}
 		}
