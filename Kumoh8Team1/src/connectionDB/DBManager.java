@@ -19,7 +19,7 @@ import java.util.Scanner;
 // 카페 192.168.209.250
 public class DBManager {
 	public static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-	public static final String URL = "jdbc:mysql://" + "localhost" + ":3306" + "/dorm" + "?characterEncoding=UTF-8&serverTimezone=UTC";
+	public static final String URL = "jdbc:mysql://" + "192.168.208.38" + ":3306" + "/dorm" + "?characterEncoding=UTF-8&serverTimezone=UTC";
 
 	private String ID;
 	private String PW;
@@ -29,7 +29,7 @@ public class DBManager {
 	private Statement stmt;
 	private ResultSet rs;
 
-	public DBManager(String ID, String PW)	//생성자
+	public DBManager()	//생성자
 	{
 		try{
 			// 1. 드라이버 로딩
@@ -37,15 +37,15 @@ public class DBManager {
 						// mysql, oracle 등 각 벤더사 마다 클래스 이름이 다르다.
 						// mysql은 "com.mysql.jdbc.Driver"이며, 이는 외우는 것이 아니라 구글링하면 된다.
 						// 참고로 이전에 연동했던 jar 파일을 보면 com.mysql.jdbc 패키지에 Driver 라는 클래스가 있다.
-			String dbID, dbPW;
-			Scanner scan = new Scanner(System.in);
+//			String dbID, dbPW;
+//			Scanner scan = new Scanner(System.in);
+//			
+//			System.out.print("db manager id :");
+//			dbID = scan.nextLine();
+//			System.out.print("db manager password :");
+//			dbPW = scan.nextLine();		//db manager 생성시 id와 pw를 입력받아서 원격으로 db에 로그인한다
 			
-			System.out.print("db manager id :");
-			dbID = scan.nextLine();
-			System.out.print("db manager password :");
-			dbPW = scan.nextLine();		//db manager 생성시 id와 pw를 입력받아서 원격으로 db에 로그인한다
-		
-			conn = DriverManager.getConnection(URL, ID, PW);
+			conn = DriverManager.getConnection(URL, "test5", "1234");
 			Class.forName(JDBC_DRIVER);
 			stmt = conn.createStatement();
 	
