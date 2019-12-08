@@ -11,7 +11,7 @@ import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
 import Network.Protocol;
-import tableClass.User;
+import tableClass.*;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -51,7 +51,7 @@ public class Menu_Student extends JFrame {
 	private static InputStream is;
 	private static ObjectInputStream reader;
 
-	public Menu_Student() {
+	public Menu_Student(Protocol p_t) {
 		setTitle("학생메뉴");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 520);
@@ -204,6 +204,7 @@ public class Menu_Student extends JFrame {
 		btnNewButton.setBounds(560, 150, 85, 30);
 		contentPane.add(btnNewButton);
 
+		Student student = (Student)p_t.getBody();
 		textField = new JTextField();
 		textField.setEditable(false);
 		textField.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -215,6 +216,7 @@ public class Menu_Student extends JFrame {
 
 		textField_1 = new JTextField(); // 성명
 		textField_1.setEditable(false);
+		textField_1.setText(student.getName());
 		textField_1.setBounds(185, 50, 150, 40);
 		contentPane.add(textField_1);
 		textField_1.setColumns(10);
@@ -230,6 +232,7 @@ public class Menu_Student extends JFrame {
 
 		textField_3 = new JTextField(); // 학번
 		textField_3.setEditable(false);
+		textField_3.setText(student.getStudentId());
 		textField_3.setColumns(10);
 		textField_3.setBounds(495, 50, 150, 40);
 		contentPane.add(textField_3);
@@ -245,6 +248,7 @@ public class Menu_Student extends JFrame {
 
 		textField_5 = new JTextField(); // 학년
 		textField_5.setEditable(false);
+		textField_5.setText(Integer.toString(student.getGrade()));
 		textField_5.setColumns(10);
 		textField_5.setBounds(185, 100, 150, 40);
 		contentPane.add(textField_5);
@@ -260,6 +264,7 @@ public class Menu_Student extends JFrame {
 
 		textField_7 = new JTextField(); // 학과
 		textField_7.setEditable(false);
+		textField_7.setText(student.getDepartmentName());
 		textField_7.setColumns(10);
 		textField_7.setBounds(495, 100, 150, 40);
 		contentPane.add(textField_7);
@@ -268,6 +273,6 @@ public class Menu_Student extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		new Menu_Student();
+		new Menu_Student(p);
 	}
 }

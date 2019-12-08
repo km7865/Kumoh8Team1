@@ -35,7 +35,7 @@ public class Menu_Admin extends JFrame {
 
 	private JPanel contentPane;
 
-	public Menu_Admin() {
+	public Menu_Admin(Protocol p) {
 		setTitle("관리자 메뉴");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 745, 470);

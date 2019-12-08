@@ -141,23 +141,23 @@ public class Login extends JFrame {
 
 				if(p.getSubType() == 2)
 				{
-					if(p.getCode() == 1)
+					if(p.getCode() != 3)
 					{
 						//사용자 타입에 따라 학생 메뉴 / 관리자 메뉴
-						userType = Integer.parseInt(((Protocol<User>)p).getBody().getSeparaterUser());
+						userType = p.getCode();
 						if(userType == 1) {
-							new Menu_Student();
+							new Menu_Student(p);
 							dispose();
 						}
 						else if(userType == 2 || userType == 3) {
-							new Menu_Admin();
+							new Menu_Admin(p);
 							dispose();
 						}
 						else {
 							//오류 메세지 출력
 						}
 					}
-					else if(p.getCode() == 2)
+					else if(p.getCode() == 3)
 					{
 						JOptionPane.showMessageDialog(owner, "로그인 실패");
 						textPassword.setText("");
