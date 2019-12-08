@@ -1,7 +1,7 @@
 package connectionDB;
 
 import tableClass.User;
-import UserDefinedException.*;
+import Network.*;
 
 import java.io.*;
 import java.sql.*;
@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
+
 
 //import com.mysql.cj.xdevapi.Statement;
 // jdbc:mysql://192.168.209.250:3306/dorm
@@ -68,7 +69,7 @@ public class DBManager {
 	////////////////////////////////////////////////////////////////////////////
 	//기능
 
-	public boolean loginCheck(User user) throws SQLException
+	public void loginCheck(Protocol protocol, User user) throws SQLException
 	{
 		String loginId = user.getUserID();
 		String loginPw = user.getPassword();
@@ -78,15 +79,17 @@ public class DBManager {
 
 		//사용자 테이블의 모든 ID 검색 혹은 일치하는 ID가 있다면 PW 일치 확인 
 		while(rs.next()) { 	
-			if (loginId.equals(rs.getString("사용자ID"))) {	//아이디가 맞는 경우
-				if (loginPw.equals(rs.getString("password"))) {
+			if (loginId.equals(rs.getString("사용자ID"))) 
+			{	//아이디가 맞는 경우
+				if (loginPw.equals(rs.getString("password"))) 
+				{
 					System.out.println("로그인성공");
 					user = new User(rs.getString("사용자ID"),rs.getString("password"),
 							 rs.getString("사용자구분"), rs.getString("성명"));
-					return true;
+					protocol.makePacket(1,2,1, user);
 				} else 
 				{
-					return false;
+					protocol.makePacket(1,2,2,"해당정보 없음");
 				}
 //					System.out.print(String.format("%15s", id) + "  |  ");
 //					System.out.print(String.format("%15s", pw) + "  |  ");
@@ -95,10 +98,10 @@ public class DBManager {
 				}
 				if (!rs.next())	//검색했을때 id가 없을 경우
 				{
-					return false;
+					protocol.makePacket(1,2,2, "해당정보 없음");
 				}
 		}
-		return false;
+		protocol.makePacket(1,2,2, "해당정보 없음");
 }
 
 	public void update() //test

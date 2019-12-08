@@ -67,7 +67,6 @@ class ConnectionSocket implements Runnable
 		while(true)
 		{
 			manager.workProtocol();
-			
 		}
 	}
 }
