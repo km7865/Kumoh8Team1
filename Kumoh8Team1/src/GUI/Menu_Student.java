@@ -43,12 +43,13 @@ public class Menu_Student extends JFrame {
 	private JTextField textField_6;
 	private JTextField textField_7;
 	private static Protocol p;
-	private static OutputStream os;
 	private static ObjectOutputStream writer;
-	private static InputStream is;
 	private static ObjectInputStream reader;
 
-	public Menu_Student(Protocol p_t) {
+	public Menu_Student(Protocol p_t, ObjectOutputStream oos, ObjectInputStream ois) {
+		writer = oos;
+		reader = ois;
+		
 		this.setResizable(false); // 최대화 단추 없애기
 		setTitle("학생메뉴");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
