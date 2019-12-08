@@ -1,4 +1,4 @@
-// 입사 신청 
+// 입사 신청
 
 package GUI;
 
@@ -29,6 +29,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import javax.swing.SwingConstants;
+
+import Network.Protocol;
+import tableClass.*;
 
 public class Dormitory_Application extends JFrame {
 	private JPanel contentPane;
@@ -76,9 +79,10 @@ public class Dormitory_Application extends JFrame {
 	private JTextField textField_5;
 
 	public Dormitory_Application() {
+		this.setResizable(false); // 최대화 단추 없애기
 		setTitle("입사신청");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(230, 200, 1015, 610);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(300, 150, 1015, 610);
 		contentPane = new JPanel();
 		contentPane.setForeground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -165,13 +169,15 @@ public class Dormitory_Application extends JFrame {
 				}
 			}
 		});
-		comboBox_02.setModel(new DefaultComboBoxModel(new String[] {"\uC120\uD0DD\uC548\uD568", "5\uC77C\uC2DD", "7\uC77C\uC2DD", "\uC2DD\uC0AC\uC548\uD568"}));
+		comboBox_02.setModel(new DefaultComboBoxModel(new String[] { "\uC120\uD0DD\uC548\uD568", "5\uC77C\uC2DD",
+				"7\uC77C\uC2DD", "\uC2DD\uC0AC\uC548\uD568" }));
 		comboBox_02.setBounds(409, 219, 88, 40);
 		contentPane.add(comboBox_02);
 
-		comboBox_03 = new JComboBox();
+		comboBox_03 = new JComboBox(); // 콤보박스를 1개만 해서 1년 내내 그 콤보박스 1개 선택한 것으로 확정되는건지 못 정함
 		comboBox_03.setEnabled(false);
-		comboBox_03.setModel(new DefaultComboBoxModel(new String[] {"\uC120\uD0DD\uC548\uD568", "5\uC77C\uC2DD", "7\uC77C\uC2DD", "\uC2DD\uC0AC\uC548\uD568"}));
+		comboBox_03.setModel(new DefaultComboBoxModel(new String[] { "\uC120\uD0DD\uC548\uD568", "5\uC77C\uC2DD",
+				"7\uC77C\uC2DD", "\uC2DD\uC0AC\uC548\uD568" }));
 		comboBox_03.setBounds(622, 219, 88, 40);
 		contentPane.add(comboBox_03);
 
@@ -198,7 +204,7 @@ public class Dormitory_Application extends JFrame {
 		comboBox_32 = new JComboBox();
 		comboBox_21.setEnabled(false);
 		comboBox_31.setEnabled(false);
-		
+
 		comboBox_11.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				String str = "선택안함";
@@ -207,15 +213,27 @@ public class Dormitory_Application extends JFrame {
 					comboBox_12.setEnabled(false);
 					comboBox_12.setSelectedItem(str);
 					comboBox_21.setEnabled(false);
+					comboBox_21.setSelectedItem(str);
 					comboBox_22.setEnabled(false);
+					comboBox_22.setSelectedItem(str);
 					comboBox_31.setEnabled(false);
+					comboBox_31.setSelectedItem(str);
 					comboBox_32.setEnabled(false);
+					comboBox_32.setSelectedItem(str);
+				} else if (strv == "오름 1동" || strv == "오름 2동" || strv == "오름 3동") {
+					comboBox_12.removeItem("식사안함");
+					comboBox_12.setEnabled(true);
 				} else {
+					if (comboBox_12.getItemCount() < 4) {
+						comboBox_12.addItem("식사안함");
+					}
 					comboBox_12.setEnabled(true);
 				}
 			}
 		});
-		comboBox_11.setModel(new DefaultComboBoxModel(new String[] {"\uC120\uD0DD\uC548\uD568", "\uC624\uB984 1\uB3D9", "\uC624\uB984 2\uB3D9", "\uC624\uB984 3\uB3D9", "\uD478\uB984 1\uB3D9", "\uD478\uB984 2\uB3D9", "\uD478\uB984 3\uB3D9", "\uD478\uB984 4\uB3D9", "\uC2E0\uD3C9 1\uB3D9", "\uC2E0\uD3C9 2\uB3D9"}));
+		comboBox_11.setModel(new DefaultComboBoxModel(new String[] { "\uC120\uD0DD\uC548\uD568", "\uC624\uB984 1\uB3D9",
+				"\uC624\uB984 2\uB3D9", "\uC624\uB984 3\uB3D9", "\uD478\uB984 1\uB3D9", "\uD478\uB984 2\uB3D9",
+				"\uD478\uB984 3\uB3D9", "\uD478\uB984 4\uB3D9", "\uC2E0\uD3C9 1\uB3D9", "\uC2E0\uD3C9 2\uB3D9" }));
 		comboBox_11.setBounds(159, 339, 263, 40);
 		contentPane.add(comboBox_11);
 
@@ -231,7 +249,8 @@ public class Dormitory_Application extends JFrame {
 			}
 		});
 		comboBox_12.setEnabled(false);
-		comboBox_12.setModel(new DefaultComboBoxModel(new String[] {"\uC120\uD0DD\uC548\uD568", "5\uC77C\uC2DD", "7\uC77C\uC2DD", "\uC2DD\uC0AC\uC548\uD568"}));
+		comboBox_12.setModel(new DefaultComboBoxModel(new String[] { "\uC120\uD0DD\uC548\uD568", "5\uC77C\uC2DD",
+				"7\uC77C\uC2DD", "\uC2DD\uC0AC\uC548\uD568" }));
 		comboBox_12.setBounds(547, 339, 163, 40);
 		contentPane.add(comboBox_12);
 
@@ -248,17 +267,28 @@ public class Dormitory_Application extends JFrame {
 
 				if (str == strv) {
 					comboBox_22.setEnabled(false);
+					comboBox_22.setSelectedItem(str);
 					comboBox_31.setEnabled(false);
+					comboBox_31.setSelectedItem(str);
 					comboBox_32.setEnabled(false);
+					comboBox_32.setSelectedItem(str);
+				} else if (strv == "오름 1동" || strv == "오름 2동" || strv == "오름 3동") {
+					comboBox_22.removeItem("식사안함");
+					comboBox_22.setEnabled(true);
 				} else {
+					if (comboBox_22.getItemCount() < 4) {
+						comboBox_22.addItem("식사안함");
+					}
 					comboBox_22.setEnabled(true);
 				}
 			}
 		});
-		comboBox_21.setModel(new DefaultComboBoxModel(new String[] {"\uC120\uD0DD\uC548\uD568", "\uC624\uB984 1\uB3D9", "\uC624\uB984 2\uB3D9", "\uC624\uB984 3\uB3D9", "\uD478\uB984 1\uB3D9", "\uD478\uB984 2\uB3D9", "\uD478\uB984 3\uB3D9", "\uD478\uB984 4\uB3D9", "\uC2E0\uD3C9 1\uB3D9", "\uC2E0\uD3C9 2\uB3D9"}));
+		comboBox_21.setModel(new DefaultComboBoxModel(new String[] { "\uC120\uD0DD\uC548\uD568", "\uC624\uB984 1\uB3D9",
+				"\uC624\uB984 2\uB3D9", "\uC624\uB984 3\uB3D9", "\uD478\uB984 1\uB3D9", "\uD478\uB984 2\uB3D9",
+				"\uD478\uB984 3\uB3D9", "\uD478\uB984 4\uB3D9", "\uC2E0\uD3C9 1\uB3D9", "\uC2E0\uD3C9 2\uB3D9" }));
 		comboBox_21.setBounds(159, 386, 263, 40);
 		contentPane.add(comboBox_21);
-		
+
 		comboBox_22.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				String str = "선택안함";
@@ -273,7 +303,8 @@ public class Dormitory_Application extends JFrame {
 			}
 		});
 		comboBox_22.setEnabled(false);
-		comboBox_22.setModel(new DefaultComboBoxModel(new String[] {"\uC120\uD0DD\uC548\uD568", "5\uC77C\uC2DD", "7\uC77C\uC2DD", "\uC2DD\uC0AC\uC548\uD568"}));
+		comboBox_22.setModel(new DefaultComboBoxModel(new String[] { "\uC120\uD0DD\uC548\uD568", "5\uC77C\uC2DD",
+				"7\uC77C\uC2DD", "\uC2DD\uC0AC\uC548\uD568" }));
 		comboBox_22.setBounds(547, 386, 163, 40);
 		contentPane.add(comboBox_22);
 
@@ -290,17 +321,28 @@ public class Dormitory_Application extends JFrame {
 
 				if (str == strv) {
 					comboBox_32.setEnabled(false);
+					comboBox_32.setSelectedItem(str);
+				} else if (strv == "오름 1동" || strv == "오름 2동" || strv == "오름 3동") {
+					comboBox_32.removeItem("식사안함");
+					comboBox_32.setEnabled(true);
 				} else {
+					if (comboBox_32.getItemCount() < 4) {
+						comboBox_32.addItem("식사안함");
+					}
 					comboBox_32.setEnabled(true);
 				}
 			}
 		});
-		comboBox_31.setModel(new DefaultComboBoxModel(new String[] {"\uC120\uD0DD\uC548\uD568", "\uC624\uB984 1\uB3D9", "\uC624\uB984 2\uB3D9", "\uC624\uB984 3\uB3D9", "\uD478\uB984 1\uB3D9", "\uD478\uB984 2\uB3D9", "\uD478\uB984 3\uB3D9", "\uD478\uB984 4\uB3D9", "\uC2E0\uD3C9 1\uB3D9", "\uC2E0\uD3C9 2\uB3D9"}));
+
+		comboBox_31.setModel(new DefaultComboBoxModel(new String[] { "\uC120\uD0DD\uC548\uD568", "\uC624\uB984 1\uB3D9",
+				"\uC624\uB984 2\uB3D9", "\uC624\uB984 3\uB3D9", "\uD478\uB984 1\uB3D9", "\uD478\uB984 2\uB3D9",
+				"\uD478\uB984 3\uB3D9", "\uD478\uB984 4\uB3D9", "\uC2E0\uD3C9 1\uB3D9", "\uC2E0\uD3C9 2\uB3D9" }));
 		comboBox_31.setBounds(159, 432, 263, 40);
 		contentPane.add(comboBox_31);
 
 		comboBox_32.setEnabled(false);
-		comboBox_32.setModel(new DefaultComboBoxModel(new String[] {"\uC120\uD0DD\uC548\uD568", "5\uC77C\uC2DD", "7\uC77C\uC2DD", "\uC2DD\uC0AC\uC548\uD568"}));
+		comboBox_32.setModel(new DefaultComboBoxModel(new String[] { "\uC120\uD0DD\uC548\uD568", "5\uC77C\uC2DD",
+				"7\uC77C\uC2DD", "\uC2DD\uC0AC\uC548\uD568" }));
 		comboBox_32.setBounds(547, 432, 163, 40);
 		contentPane.add(comboBox_32);
 
@@ -386,7 +428,7 @@ public class Dormitory_Application extends JFrame {
 		textField_21.setBounds(284, 219, 125, 40);
 		contentPane.add(textField_21);
 
-		textField_22 = new JTextField();
+		textField_22 = new JTextField(); // 콤보박스를 1개만 해서 1년 내내 그 콤보박스 1개 선택한 것으로 확정되는건지 못 정함
 		textField_22.setText("식사구분 (동계방학)");
 		textField_22.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_22.setFont(new Font("굴림", Font.PLAIN, 13));
@@ -505,7 +547,7 @@ public class Dormitory_Application extends JFrame {
 		textField_33.setBackground(Color.LIGHT_GRAY);
 		textField_33.setBounds(35, 482, 135, 40);
 		contentPane.add(textField_33);
-		
+
 		textField_2 = new JTextField();
 		textField_2.setText("주소");
 		textField_2.setHorizontalAlignment(SwingConstants.CENTER);
@@ -515,7 +557,7 @@ public class Dormitory_Application extends JFrame {
 		textField_2.setBackground(Color.LIGHT_GRAY);
 		textField_2.setBounds(348, 99, 125, 40);
 		contentPane.add(textField_2);
-		
+
 		textField_5 = new JTextField(); // 주소
 		textField_5.setFont(new Font("굴림", Font.PLAIN, 16));
 		textField_5.setEditable(false);

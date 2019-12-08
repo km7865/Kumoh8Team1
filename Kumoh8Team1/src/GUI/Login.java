@@ -176,5 +176,4 @@ public class Login extends JFrame {
 		getContentPane().add(textArea);
 
 	}
-
 }

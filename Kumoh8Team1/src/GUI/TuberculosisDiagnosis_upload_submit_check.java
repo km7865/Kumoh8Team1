@@ -1,4 +1,4 @@
-// 입사자 등록 및 조회
+// 결핵진단서 업로드 및 제출확인
 
 package GUI;
 
@@ -16,26 +16,28 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import Network.Protocol;
 import tableClass.*;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 
-public class Joiner_Enroll_and_Check extends JFrame {
+public class TuberculosisDiagnosis_upload_submit_check extends JFrame {
 	private static Protocol p;
 	private static OutputStream os;
 	private static ObjectOutputStream writer;
 	private static InputStream is;
 	private static ObjectInputStream reader;
-
 	private JPanel contentPane;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Joiner_Enroll_and_Check frame = new Joiner_Enroll_and_Check();
+					TuberculosisDiagnosis_upload_submit_check frame = new TuberculosisDiagnosis_upload_submit_check();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -44,56 +46,43 @@ public class Joiner_Enroll_and_Check extends JFrame {
 		});
 	}
 
-	public Joiner_Enroll_and_Check() {
+	public TuberculosisDiagnosis_upload_submit_check() {
 		this.setResizable(false); // 최대화 단추 없애기
 		setVisible(true);
-		setTitle("입사자 등록 및 조회");
+		setTitle("결핵진단서 업로드 및 제출확인");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 350, 150);
+		setBounds(100, 100, 380, 150);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JButton btnNewButton = new JButton("입사자 등록");
+		JButton btnNewButton = new JButton("결핵진단서 업로드");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					p = new Protocol(23, 1);
-					writer.writeObject(p);
-					writer.flush();
-					p = (Protocol) reader.readObject();
+				JFileChooser chooser = new JFileChooser();
 
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				} catch (ClassNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("jpg", "gif", "jpeg", "bmp", "png", "psd",
+						"ai", "sketch", "tif", "tiff", "tga", "webp", "jpg");
+				chooser.setFileFilter(filter);
 
-				if (p.getSubType() == 2) {
-					if (p.getCode() == 1) {
-						JOptionPane.showMessageDialog(null, "입사자들이 정상적으로 등록되었습니다.");
-						dispose();
-					} else if (p.getCode() == 2) {
-						String err = (String) p.getBody();
-						JOptionPane.showMessageDialog(null, err); // 입사선발자가 없는 경우
-						dispose();
-					}
-
+				int ret = chooser.showSaveDialog(null);
+				if (ret != JFileChooser.APPROVE_OPTION) {
+					JOptionPane.showMessageDialog(null, "파일을 선택하지 않았습니다!", "경고", JOptionPane.WARNING_MESSAGE);
+					return;
 				}
 			}
 		});
-		btnNewButton.setBounds(30, 40, 110, 40);
+		btnNewButton.setBounds(30, 40, 145, 40);
 		contentPane.add(btnNewButton);
 
-		JButton button = new JButton("입사자 조회");
+		JButton button = new JButton("결핵진단서 제출확인");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new Joiner_Check(); // 입사자 조회
+				new TuberculosisDiagnosis_submit_check();
 			}
 		});
-		button.setBounds(195, 40, 110, 40);
+		button.setBounds(195, 40, 145, 40);
 		contentPane.add(button);
 	}
 }

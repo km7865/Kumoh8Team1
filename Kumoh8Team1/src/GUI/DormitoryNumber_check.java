@@ -4,13 +4,13 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Network.Protocol;
+import tableClass.*;
 
 import javax.swing.JTextArea;
 import java.awt.Color;
@@ -26,7 +26,6 @@ import java.io.OutputStream;
 import java.awt.event.ActionEvent;
 
 public class DormitoryNumber_check extends JFrame {
-
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextField textField_1;
@@ -53,7 +52,7 @@ public class DormitoryNumber_check extends JFrame {
 	private JButton btnNewButton;
 	private JTextField textField_3;
 	private JTextField textField_6;
-	
+
 	private static Protocol p;
 	private static OutputStream os;
 	private static ObjectOutputStream writer;
@@ -74,6 +73,7 @@ public class DormitoryNumber_check extends JFrame {
 	}
 
 	public DormitoryNumber_check(Protocol p) {
+		this.setResizable(false); // 최대화 단추 없애기
 		setTitle("호실조회");
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -289,7 +289,7 @@ public class DormitoryNumber_check extends JFrame {
 		});
 		btnNewButton.setBounds(865, 32, 110, 30);
 		contentPane.add(btnNewButton);
-		
+
 		textField_3 = new JTextField();
 		textField_3.setText("주소");
 		textField_3.setHorizontalAlignment(SwingConstants.CENTER);
@@ -299,7 +299,7 @@ public class DormitoryNumber_check extends JFrame {
 		textField_3.setBackground(Color.LIGHT_GRAY);
 		textField_3.setBounds(348, 128, 125, 40);
 		contentPane.add(textField_3);
-		
+
 		textField_6 = new JTextField(); // 주소
 		textField_6.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_6.setFont(new Font("굴림", Font.PLAIN, 16));

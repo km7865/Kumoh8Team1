@@ -1,4 +1,4 @@
-// 선발일정 등록
+// 생활관비 등록
 
 package GUI;
 
@@ -24,7 +24,7 @@ import javax.swing.JOptionPane;
 import Network.Protocol;
 import tableClass.*;
 
-public class Selection_Schedule_Enroll extends JFrame {
+public class LivingHall_Cost_Enroll extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextField textField_1;
@@ -40,7 +40,7 @@ public class Selection_Schedule_Enroll extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Selection_Schedule_Enroll frame = new Selection_Schedule_Enroll();
+					LivingHall_Cost_Enroll frame = new LivingHall_Cost_Enroll();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -49,10 +49,10 @@ public class Selection_Schedule_Enroll extends JFrame {
 		});
 	}
 
-	public Selection_Schedule_Enroll() {
+	public LivingHall_Cost_Enroll() {
 		this.setResizable(false); // 최대화 단추 없애기
 		setVisible(true);
-		setTitle("선발일정 등록");
+		setTitle("생활관비 등록");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 910, 745);
 		contentPane = new JPanel();
@@ -145,10 +145,10 @@ public class Selection_Schedule_Enroll extends JFrame {
 		txtrAsdasd.setBounds(12, 170, 872, 528);
 		contentPane.add(txtrAsdasd);
 
-		btnNewButton = new JButton("선발일정 등록");
+		btnNewButton = new JButton("생활관비 등록");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "선발일정 등록 완료");
+				JOptionPane.showMessageDialog(null, "생활관비 등록 완료");
 			}
 		});
 		btnNewButton.setBounds(775, 10, 110, 30);
