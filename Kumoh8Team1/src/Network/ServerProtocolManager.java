@@ -221,7 +221,7 @@ public class ServerProtocolManager
 		SelectionSchedule schedule = (SelectionSchedule)protocol.getBody();
 		schedule.setYear(year);
 		schedule.setSemester(semester);
-		schedule.setProgram_code(Integer.toString(program_code_number));
+		schedule.setProgram_code(Integer.toString(year) + Integer.toString(semester) + Integer.toString(program_code_number));
 		dbManager.insertSchedule(protocol, schedule);
 		
 		/*
