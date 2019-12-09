@@ -31,12 +31,9 @@ public class DBManager {
 	private ResultSet rs;
 
 	private User currentUser;
-<<<<<<< HEAD
 	private String today;	//오늘 날짜
-=======
 	private int year = 2019;
 	private int semester = 2;
->>>>>>> branch 'master' of https://github.com/km7865/Kumoh8Team1.git
 	
 	public DBManager(String id, String pw)	//생성자
 	{
@@ -181,9 +178,7 @@ public class DBManager {
 			rs = stmt.executeQuery(sql);
 			address = rs.getString("학생주소");
 			
-<<<<<<< HEAD
-			sql = "insert into 신청 (신청번호, 학번, 년도, 학기, 생활관분류코드, 1지망식비구분,2지망식비구분,3지망식비구분, 학점, 거리가산점, 총점, 지망, 신청일, 신청상태, 1년여부, 입사서약동의여부)"
-=======
+			//sql = "insert into 신청 (신청번호, 학번, 년도, 학기, 생활관분류코드, 1지망식비구분,2지망식비구분,3지망식비구분, 학점, 거리가산점, 총점, 지망, 신청일, 신청상태, 1년여부, 입사서약동의여부)";
 			double distancePoint = 0.0;
 			if (address.contains("제주도") || address.contains("울릉군")) {
 				distancePoint = 0.4;
@@ -203,14 +198,13 @@ public class DBManager {
 	       
 	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			today = sdf.toString();
-			// # 신청번호, 학번, 년도, 학기, 1지망식비구분, 2지망식비구분, 3지망식비구분, 학점, 거리가산점, 총점, 1지망, 2지망, 3지망, 신청일, 신청상태, 대기번호, 입사서약동의여부
-			sql = "insert into 신청 (신청번호, 학번, 년도, 학기, 1지망식비구분, 2지망식비구분, 3지망식비구분, 학점, 거리가산점, 총점, 1지망, 2지망, 3지망, 신청일, 신청상태, 대기번호, 입사서약동의여부)"
-				     + "values(" + applicationCount + "," + app.getStudentId() + ", 2019, 2" + ","
-				     + app.getMealDivision1() + "," + app.getMealDivision1() + "," + app.getMealDivision3() + "," + app.getMealDivisionYear() + ","
-				     + grade + "," + app.getDistancePoint() + "," + app.getFinallyValue() +"," 
-				     + app.getDormitoryWish1() + ", " + app.getDormitoryWish2() + ", " + app.getDormitoryWish3() + ", " + app.getDormitoryWishYear() + ","
-				     + today + ",신청," + app.getApplicationState() + "," + app.getStandbyNumber() + "," + "O)";
-
+			
+			sql = "insert into 신청 (신청번호, 학번, 년도, 학기, 1지망식비구분,2지망식비구분,3지망식비구분,1년식비구분, 학점, 거리가산점, 1지망, 2지망, 3지망, 1년지망, 신청일, 신청상태, 입사서약동의여부)"
+				     + "values(" + applicationCount + ", " + ", 2019, 2, "
+				     + app.getMealDivision1() + ", " + app.getMealDivision2() + ", "+ app.getMealDivision2() + ", " + app.getMealDivisionYear() + ", "
+				     + grade.toString() + "," + "거리가산점" +", " 
+				     + app.getDormitoryWish1() + ", " + app.getDormitoryWish2() + ", "+ app.getDormitoryWish3() + ", " + app.getDormitoryWishYear() + ", "
+				     + today + ", " + ", yes);";
 			rs = stmt.executeQuery(sql);
 			protocol.makePacket(11, 2, 1, null);
 		}
@@ -248,7 +242,7 @@ public class DBManager {
 			protocol.makePacket(12, 2, 2, "조회 실패");
 		}
 	}
-	/*
+	/**/
 	//입사신청내역 조회
 	public void inquireDormitoryApplication(Protocol protocol, Student student)
 	{
@@ -262,11 +256,15 @@ public class DBManager {
 			int i=0;
 			while(rs.next()) 
 			{
-				array[i]= new dormitoryApplication(rs.getString("신청번호"), rs.getString("학번"), rs.getString("생활관분류코드"));
-				array[i].setYear("2019"); array[i].setSemester("2"); array[i].setMealDivision(rs.getString("식비구분"));
-				array[i].setGrade(rs.getFloat("학점")); array[i].setGrade(rs.getFloat("거리가산점")); array[i].setdormitoryWish(rs.getString("지망"));
-				array[i].setApplicationDay(rs.getString("신청일")); array[i].setApplicationState(rs.getString("신청상태"));
-				array[i].setStandbyNumber(rs.getString("대기번호")); array[i].setOneYearWhether(rs.getString("1년여부")); array[i].setAcceptanceOfAgreement("yes"); 
+				array[i]= new dormitoryApplication(rs.getString("신청번호"), rs.getString("학번"));
+				array[i].setYear("2019"); array[i].setSemester("2"); 
+				array[i].setMealDivision1(rs.getString("1지망식비구분"));array[i].setMealDivision1(rs.getString("2지망식비구분"));
+				array[i].setMealDivision1(rs.getString("3지망식비구분"));array[i].setMealDivision1(rs.getString("1년식비구분"));
+				array[i].setGrade(rs.getFloat("학점")); array[i].setGrade(rs.getFloat("거리가산점")); 
+				array[i].setDormitoryWish1(rs.getString("1지망"));array[i].setDormitoryWish2(rs.getString("2지망"));
+				array[i].setDormitoryWish3(rs.getString("1지망"));array[i].setDormitoryWishYear(rs.getString("1년지망"));
+				array[i].setApplicationDay(rs.getString("신청일"));array[i].setApplicationState(rs.getString("신청상태"));
+				array[i].setStandbyNumber(rs.getString("대기번호"));array[i].setAcceptanceOfAgreement("yes"); array[i].setFinallyValue(rs.getFloat("학점") + rs.getFloat("거리가산점")); 
 				i++;
 			}
 			protocol.makePacket(13, 2, 1, array);
@@ -276,8 +274,7 @@ public class DBManager {
 			protocol.makePacket(13, 2, 1, "조회 실패");
 		}
 	}
-<<<<<<< HEAD
-	*/
+	
 	//결핵진단서 출력 이전에 학생이 입사선발이 됐는지 조회해본다 , 코드 재활용 가능???????ㅇ0ㅇ????
 	public void checkSelectedStudent(Protocol protocol)
 	{
@@ -313,7 +310,6 @@ public class DBManager {
 			protocol.makePacket(15, 4, 2, "파일 저장 실패");
 		}*/
 	}
-=======
 	
 	//여기서부터 관리자메뉴
 	public void insertSchedule(Protocol protocol, SelectionSchedule schedule)
@@ -432,7 +428,6 @@ public class DBManager {
 		}
 	}
 	
->>>>>>> branch 'master' of https://github.com/km7865/Kumoh8Team1.git
 		/*
 	public void update() //test
 	{
