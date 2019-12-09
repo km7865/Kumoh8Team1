@@ -1,6 +1,9 @@
 package tableClass;
+
+import java.io.Serializable;
+
 //생활관호실 테이블
-public class DormitoryRoom
+public class DormitoryRoom implements Serializable
 {
 	private static final long serialVersionUID = 8L;
 	private String dormitoryCode;	//생활관분류코드, not null

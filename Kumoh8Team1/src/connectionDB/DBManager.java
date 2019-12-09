@@ -29,9 +29,16 @@ public class DBManager {
 	private ResultSet rs;
 
 	private User currentUser;
+	private String today;	//오늘 날짜
 	
 	public DBManager(String id, String pw)	//생성자
 	{
+		Date date = new Date();
+		today = date.toString();
+       
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		today = sdf.toString();
+		
 		try{
 			// 1. 드라이버 로딩
 			// 드라이버 인터페이스를 구현한 클래스를 로딩
@@ -75,6 +82,8 @@ public class DBManager {
 		String loginId = user.getUserID();
 		String loginPw = user.getPassword();
 
+		currentUser =user;	//db manager에서 현재 client의 정보를 저장하고 있는다
+		
 		String SQL = "SELECT * FROM dorm.사용자";
 		rs = stmt.executeQuery(SQL);
 
@@ -132,8 +141,10 @@ public class DBManager {
 		catch(SQLException e)
 		{
 			e.getStackTrace();
+			protocol.makePacket(11,2,2,"조회에 오류 발생");
 		}
 	}
+	/**/
 	public void insertDormitoryApplication(Protocol protocol, dormitoryApplication app)	//입사신청
 	{
 		try
@@ -153,47 +164,48 @@ public class DBManager {
 			rs = stmt.executeQuery(sql);
 			Double grade = rs.getDouble("평점평균");
 			
-			Date date = new Date();
-			String today = date.toString();
-	       
-	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			today = sdf.toString();
-			
-			sql = "insert into 신청 (신청번호, 학번, 년도, 학기, 생활관분류코드, 식비구분, 학점, 거리가산점, 지망, 신청일, 신청상태, 1년여부, 입사서약동의여부)"
+			sql = "insert into 신청 (신청번호, 학번, 년도, 학기, 생활관분류코드, 1지망식비구분,2지망식비구분,3지망식비구분, 학점, 거리가산점, 총점, 지망, 신청일, 신청상태, 1년여부, 입사서약동의여부)"
 				     + "values(" + applicationCount + ", " + app.getStandbyNumber() + ", 2019, 2, " + app.getDormitoryCode() +", "
 				     + app.getMealDivision() + ", " + grade.toString() + "," + "거리가산점" +", " + app.getdormitoryWish() + ", " 
-				     + today + ", 신청" + app.getOneYearWhether() + ", yes);";
+				     + today + ", " + app.getOneYearWhether() + ", yes);";
 			rs = stmt.executeQuery(sql);
 			protocol.makePacket(11, 2, 1, null);
 		}
 		catch(SQLException e)
 		{
-			protocol.makePacket(11, 2, 2, "저장 실패했습니다");
+			protocol.makePacket(11, 2, 2, "저장 실패");
 		}
 		
 	}
 	
 	//호실조회
-	public void roomCheck(Protocol protocol, User user) throws SQLException
+	public void roomCheck(Protocol protocol)
 	{
-		String id = user.getUserID();
-		String loginPw = user.getPassword();
-		DormitoryRoom dRoom = new DormitoryRoom();  
+		try
+		{
+			String id = currentUser.getUserID();
+			String loginPw = currentUser.getPassword();
+			DormitoryRoom dRoom = new DormitoryRoom();  
 
-		String SQL = "SELECT * FROM 신청 natural join on 입사선발자 WHERE 학번=" + id;
-		rs = stmt.executeQuery(SQL);
-		//사용자 테이블의 모든 ID 검색 혹은 일치하는 ID가 있다면 PW 일치 확인 
-		if (rs.next()) {
-			dRoom.setDormitoryCode(rs.getString("생활관분류코드"));
-			dRoom.setRoomCode(rs.getString("호실코드"));
-			dRoom.setBedCode(rs.getString("침대번호"));
-			dRoom.setAssignmentState(rs.getString("배정상태"));
-			protocol.makePacket(12, 2, 0, dRoom);
-		} else {
-			protocol.makePacket(1,2,2, "해당정보 없음");
+			String SQL = "SELECT * FROM 신청 natural join on 입사선발자 WHERE 학번=" + id;
+			rs = stmt.executeQuery(SQL);
+			//사용자 테이블의 모든 ID 검색 혹은 일치하는 ID가 있다면 PW 일치 확인 
+			if (rs.next()) {
+				dRoom.setDormitoryCode(rs.getString("생활관분류코드"));
+				dRoom.setRoomCode(rs.getString("호실코드"));
+				dRoom.setBedCode(rs.getString("침대번호"));
+				dRoom.setAssignmentState(rs.getString("배정상태"));
+				protocol.makePacket(12, 2, 0, dRoom);
+			} else {
+				protocol.makePacket(1,2,2, "해당정보 없음");
+			}
+		}
+		catch(SQLException e)
+		{
+			protocol.makePacket(12, 2, 2, "조회 실패");
 		}
 	}
-	
+	/*
 	//입사신청내역 조회
 	public void inquireDormitoryApplication(Protocol protocol, Student student)
 	{
@@ -220,6 +232,42 @@ public class DBManager {
 		{
 			protocol.makePacket(13, 2, 1, "조회 실패");
 		}
+	}
+	*/
+	//결핵진단서 출력 이전에 학생이 입사선발이 됐는지 조회해본다 , 코드 재활용 가능???????ㅇ0ㅇ????
+	public void checkSelectedStudent(Protocol protocol)
+	{
+		int main = protocol.getMainType();
+		int sub = protocol.getSubType();
+		try
+		{
+			String sql = "select * from 입사선발자, 신청 where 신청.시청번호 =입사선발자.신청번호 and 신청.학번 = " + currentUser.getUserID();
+			rs = stmt.executeQuery(sql);
+			if(rs.getRow()==1)	//입사선발자가 아니고 해당 신청번호로 선발된 값이 하나일경우만
+				protocol.makePacket(main,sub+1, 1, null);	//요청 수락
+			else
+				protocol.makePacket(main, sub+1, 2, "입사선발 대상자가 아님");	
+		}
+		catch(SQLException e)
+		{
+			protocol.makePacket(main, sub, 2, "조회 실패");
+		}
+	}
+	//결핵진단서 파일 저장
+	public void storeTuberculosisDiagnosis(Protocol protocol)
+	{/*
+		try
+		{
+			String sql = "insert into 결핵진단서 (년도, 학기, 학번, 제출일시, 진단일시, 파일경로, 파일명)"
+						+ "values(2019,2," + ((Tuberculosis_certificate)protocol.getBody()).getStd_number() + ","
+						+ ((Tuberculosis_certificate)protocol.getBody()).getSbm_date() + ", " + ((Tuberculosis_certificate)protocol.getBody()).getCtf_date() + ","
+						+ ((Tuberculosis_certificate)protocol.getBody()).getF_path() + "," + ((Tuberculosis_certificate)protocol.getBody()).get
+		
+		}
+		catch(SQLException e)
+		{
+			protocol.makePacket(15, 4, 2, "파일 저장 실패");
+		}*/
 	}
 		/*
 	public void update() //test

@@ -1,6 +1,8 @@
 package tableClass;
 
-public class AreaScore {
+import java.io.Serializable;
+
+public class AreaScore  implements Serializable{
 	private static final long serialVersionUID = 4L;
 	private String area;
 	private Double score;

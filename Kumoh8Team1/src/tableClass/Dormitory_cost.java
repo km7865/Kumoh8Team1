@@ -1,6 +1,8 @@
 package tableClass;
 
-public class Dormitory_cost {
+import java.io.Serializable;
+
+public class Dormitory_cost  implements Serializable{
 	private static final long serialVersionUID = 5L;
 	private String kind_code;
 	private int mng_cost1;

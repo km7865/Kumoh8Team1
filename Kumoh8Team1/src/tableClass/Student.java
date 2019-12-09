@@ -1,63 +1,51 @@
 package tableClass;
 
 import java.io.Serializable;
-//ÇĞ»ı Å×ÀÌºí
+//í•™ìƒí…Œì´ë¸”
 public class Student implements Serializable
 {
 	private static final long serialVersionUID = 11L;
-	private String university;			//´ëÇĞ ±¸ºĞ, not null
-	private String studentId;			//ÇĞ¹ø, not null
-	private String name;				//¼º¸í, not null
-	private String registrationNumber;	//ÁÖ¹Îµî·Ï¹øÈ£, not null
-	private String gender;				//¼ºº°
-	private String departmentCode;		//ÇĞ°úÄÚµå
-	private String departmentName;		//ÇĞ°ú¸í
-	private int grade;					//ÇĞ³â
-	private String major;				//Àü°ø±¸ºĞ
-	private String studentAddress;		//ÇĞ»ıÁÖ¼Ò
-	private String studentPhoneNumber;	//ÇĞ»ıÀüÈ­¹øÈ£
+	private String studentId;			//í•™ë²ˆ
+	private String name;				//ì´ë¦„, not null
+	private String registrationNumber;	//ì‹ ì²­ë²ˆí˜¸
+	private String gender;				//ì„±ë³„
+	private String departmentName;		//í•™ê³¼ëª…
+	private int grade;					//í•™ë…„
+	private String studentAddress;		//í•™ìƒì£¼ì†Œ
+	private String studentPhoneNumber;	//í•™ìƒì „í™”ë²ˆí˜¸
 
 	public Student(String university, String studentId, String name, String registrationNumber)
 	{
-		this.university = university;
 		this.studentId = studentId;
 		this.name = name;
 		this.registrationNumber = registrationNumber;
-		gender = null; departmentCode = null; departmentName = null;
-		grade = 0; major = null; studentAddress = null; studentPhoneNumber = null;
+		gender = null; departmentName = null;
+		grade = 0; studentAddress = null; studentPhoneNumber = null;
 	}
 
 	public Student (Student some)
 	{
-		university = some.getUniversity();	
 		studentId = some.getStudentId();	
 		name = some.getName();
 		registrationNumber = some.getRegistrationNumber();	
-		gender = some.getGender(); departmentCode = some.getDepartmentCode(); 
-		departmentName = some.getDepartmentName(); grade = some.getGrade(); major = some.getMajor();
+		gender = some.getGender(); departmentName = some.getDepartmentName(); grade = some.getGrade();
 		studentAddress = some.getStudentAddress(); studentPhoneNumber = some.getStudentPhoneNumber();		
 	}
 	
-	public String getUniversity() {return university;}
 	public String getStudentId() {return studentId;}
 	public String getName() {return name;}
 	public String getRegistrationNumber() {return registrationNumber;}
 	public String getGender() {return gender;}
-	public String getDepartmentCode() {return departmentCode;}
 	public String getDepartmentName() {return departmentName;}
 	public int getGrade() {return grade;}
-	public String getMajor() {return major;}
 	public String getStudentAddress() {return studentAddress;}
 	public String getStudentPhoneNumber() {return studentPhoneNumber;}
 
-	public void setUniversity(String university) {this.university = university;}
 	public void setStudentId(String studentId) {this.studentId = studentId;}
 	public void setName(String name) {this.name = name;}
 	public void setRegistrationNumber(String registrationNumber) {this.registrationNumber = registrationNumber;}
 	public void setGender(String gender) {this.gender = gender;}
-	public void setDepartmenCode(String departmentCode) {this.departmentCode = departmentCode;}
 	public void serDepartmentName(String departmentName) {this.departmentName = departmentName;}
-
 	public void setDepartmentName(String departmentName) {this.departmentName = departmentName;}
 	public void setGrade(int grade) {this.grade = grade;}
 	public void setStudentAddress(String studentAddress) {this.studentAddress = studentAddress;}

@@ -1,6 +1,8 @@
 package tableClass;
 
-public class SelectionSchedule {
+import java.io.Serializable;
+
+public class SelectionSchedule  implements Serializable{
 	
 	private static final long serialVersionUID = 10L;
 	private int year;
