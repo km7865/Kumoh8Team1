@@ -201,17 +201,14 @@ public class DBManager {
 	       
 	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			today = sdf.toString();
-			
-			sql = "insert into 신청 (신청번호, 학번, 년도, 학기, 생활관분류코드, 식비구분, 학점, 거리가산점, 지망, 신청일, 신청상태, 1년여부, 입사서약동의여부)"
->>>>>>> branch 'master' of https://github.com/km7865/Kumoh8Team1.git
-				     + "values(" + applicationCount + ", " + app.getStandbyNumber() + ", 2019, 2, " + app.getDormitoryCode() +", "
-<<<<<<< HEAD
-				     + app.getMealDivision() + ", " + grade.toString() + "," + "거리가산점" +", " + app.getdormitoryWish() + ", " 
-				     + today + ", " + app.getOneYearWhether() + ", yes);";
-=======
-				     + app.getMealDivision() + ", " + grade.toString() + "," + app.getDistancePoint() +", " + app.getdormitoryWish() + ", " 
-				     + today + ", 신청" + app.getOneYearWhether() + ", yes);";
->>>>>>> branch 'master' of https://github.com/km7865/Kumoh8Team1.git
+			// # 신청번호, 학번, 년도, 학기, 1지망식비구분, 2지망식비구분, 3지망식비구분, 학점, 거리가산점, 총점, 1지망, 2지망, 3지망, 신청일, 신청상태, 대기번호, 입사서약동의여부
+			sql = "insert into 신청 (신청번호, 학번, 년도, 학기, 1지망식비구분, 2지망식비구분, 3지망식비구분, 학점, 거리가산점, 총점, 1지망, 2지망, 3지망, 신청일, 신청상태, 대기번호, 입사서약동의여부)"
+				     + "values(" + applicationCount + "," + app.getStudentId() + ", 2019, 2" + ","
+				     + app.getMealDivision1() + "," + app.getMealDivision1() + "," + app.getMealDivision3() + "," + app.getMealDivisionYear() + ","
+				     + grade + "," + app.getDistancePoint() + "," + app.getFinallyValue() +"," 
+				     + app.getDormitoryWish1() + ", " + app.getDormitoryWish2() + ", " + app.getDormitoryWish3() + ", " + app.getDormitoryWishYear() + ","
+				     + today + ",신청," + app.getApplicationState() + "," + app.getStandbyNumber() + "," + "O)";
+
 			rs = stmt.executeQuery(sql);
 			protocol.makePacket(11, 2, 1, null);
 		}
