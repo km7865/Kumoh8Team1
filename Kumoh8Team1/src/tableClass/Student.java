@@ -1,20 +1,20 @@
 package tableClass;
 
 import java.io.Serializable;
-//í•™ìƒí…Œì´ë¸”
+//ÇĞ»ıÅ×ÀÌºí
 public class Student implements Serializable
 {
 	private static final long serialVersionUID = 11L;
-	private String studentId;			//í•™ë²ˆ
-	private String name;				//ì´ë¦„, not null
-	private String registrationNumber;	//ì‹ ì²­ë²ˆí˜¸
-	private String gender;				//ì„±ë³„
-	private String departmentName;		//í•™ê³¼ëª…
-	private int grade;					//í•™ë…„
-	private String studentAddress;		//í•™ìƒì£¼ì†Œ
-	private String studentPhoneNumber;	//í•™ìƒì „í™”ë²ˆí˜¸
+	private String studentId;			//ÇĞ¹ø
+	private String name;				//ÀÌ¸§, not null
+	private String registrationNumber;	//½ÅÃ»¹øÈ£
+	private String gender;				//¼ºº°
+	private String departmentName;		//ÇĞ°ú¸í
+	private int grade;					//ÇĞ³â
+	private String studentAddress;		//ÇĞ»ıÁÖ¼Ò
+	private String studentPhoneNumber;	//ÇĞ»ıÀüÈ­¹øÈ£
 
-	public Student(String university, String studentId, String name, String registrationNumber)
+	public Student(String studentId, String name, String registrationNumber)
 	{
 		this.studentId = studentId;
 		this.name = name;
