@@ -139,18 +139,20 @@ public class DBManager {
 	{
 		try	//해당 학기에 학생이 신청 정보가 있는지 확인한다
 		{
-			String sql = "select * from 신청 where 학번=" + currentUser.getUserID() + "and 년도=2019 and 학기=2";
+			System.out.println(currentUser.getUserID());
+			String sql = "select * from dorm.신청  where 학번='" + currentUser.getUserID() + "' and 년도='2019' and 학기='2'";
 			rs = stmt.executeQuery(sql);
-			int count =rs.getRow();
-			if(count >=1)	//신청 정보가 하나라도 있으면 신청요청에 거절
+			
+			if(rs.next()) {
 				protocol.makePacket(11, 2, 2, "신청정보가 있음");
-			else	//신청 정보가 없는 경우
+			}
+			else {	//신청 정보가 없는 경우
 				protocol.makePacket(11, 2, 1,null);
+			}
 		}
 		catch(SQLException e)
 		{
 			e.getStackTrace();
-			protocol.makePacket(11,2,2,"조회에 오류 발생");
 		}
 	}
 	/**/
