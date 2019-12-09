@@ -295,21 +295,20 @@ public class DBManager {
 		}
 	}
 	//결핵진단서 파일 저장
-	public void storeTuberculosisDiagnosis(Protocol protocol)
-	{/*
-		try
+		public void updateState_TuberculosisDiagnosis(Protocol protocol)	//결핵진단서를 제출했다는 프로토콜을 받으면 결핵진단서 제출 상태를 업데이트 시킨다
 		{
-			String sql = "insert into 결핵진단서 (년도, 학기, 학번, 제출일시, 진단일시, 파일경로, 파일명)"
-						+ "values(2019,2," + ((Tuberculosis_certificate)protocol.getBody()).getStd_number() + ","
-						+ ((Tuberculosis_certificate)protocol.getBody()).getSbm_date() + ", " + ((Tuberculosis_certificate)protocol.getBody()).getCtf_date() + ","
-						+ ((Tuberculosis_certificate)protocol.getBody()).getF_path() + "," + ((Tuberculosis_certificate)protocol.getBody()).get
-		
+			try
+			{
+				String sql = "update 입사선발자 set 결핵진단서제출여부=" + "O" + "where 학번=" + currentUser.getUserID();
+				rs = stmt.executeQuery(sql);
+				protocol.makePacket(15,4,1, "결핵진단서 저장 성공");
+			}
+			catch(SQLException e)
+			{
+				e.getStackTrace();
+				protocol.makePacket(15, 4, 2, "결핵진단서 저장 실패");
+			}/**/
 		}
-		catch(SQLException e)
-		{
-			protocol.makePacket(15, 4, 2, "파일 저장 실패");
-		}*/
-	}
 	
 	//여기서부터 관리자메뉴
 	public void insertSchedule(Protocol protocol, SelectionSchedule schedule)
@@ -333,6 +332,28 @@ public class DBManager {
         protocol.makePacket(21, 2, 1, null);
 	}
 	
+	public void insertDormitoryCost(Protocol protocol)	//생할관 사용료 및 급식비 등록
+	{
+		try
+		{
+			Dormitory_cost cost = new Dormitory_cost((Dormitory_cost)protocol.getBody());
+			String sql = "insert into 생활관비 (생활관비분류코드, 관리비_1학기, 관리비_하계방학, 관리비_2학기, 관리비_동계방학, 7일식비_1학기, 7일식비_하계방학,"
+				+ "7일식비_2학기, 7일식비_동계방학, 5일식비_1학기, 5일식비_하계방학, 5일식비_2학기, 5일식비_동계방학)"
+				+ "values (" + cost.getKind_code() + ", " + cost.getMng_cost1() + "," + cost.getMng_cost2() + ", " 
+				+ cost.getMng_cost3() + "," + cost.getMng_cost4() + ", " + cost.getFd_food_cost1() + ", " + cost.getFd_food_cost2() + ","
+				+ cost.getFd_food_cost3() + ", " + cost.getFd_food_cost4() + "," + cost.getSd_food_cost1() + "," + cost.getSd_food_cost2() + ","
+				+ cost.getSd_food_cost3() + ", " + cost.getSd_food_cost4() + ")";
+			rs = stmt.executeQuery(sql);
+			protocol.makePacket(22, 2, 1, "저장 성공");
+			
+		}
+		catch(SQLException e)
+		{
+			e.getStackTrace();
+			protocol.makePacket(22, 2, 2, "결핵진단서 저장중 오류 발생");
+		}
+		
+	}
 	public void enrollJoiner(Protocol protocol)
 	{
 		String sql1 = "SET SQL_SAFE_UPDATES = 0";

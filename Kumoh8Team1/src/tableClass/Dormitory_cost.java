@@ -9,11 +9,11 @@ public class Dormitory_cost  implements Serializable{
 	private int mng_cost2;
 	private int mng_cost3;
 	private int mng_cost4;
-	private int fd_food_cost1;
+	private int fd_food_cost1;	//5 day
 	private int fd_food_cost2;
 	private int fd_food_cost3;
 	private int fd_food_cost4;
-	private int sd_food_cost1;
+	private int sd_food_cost1;	//7 day
 	private int sd_food_cost2;
 	private int sd_food_cost3;
 	private int sd_food_cost4;
@@ -34,6 +34,16 @@ public class Dormitory_cost  implements Serializable{
 		sd_food_cost2 = sfc2;
 		sd_food_cost3 = sfc3;
 		sd_food_cost4 = sfc4;
+	}
+	
+	public Dormitory_cost(Dormitory_cost some)
+	{
+		kind_code = some.getKind_code();
+		mng_cost1 = some.getMng_cost1();mng_cost2 = some.getMng_cost2();mng_cost3 = some.getMng_cost3();mng_cost4 = some.getMng_cost4();
+		fd_food_cost1= some.getFd_food_cost1();fd_food_cost2= some.getFd_food_cost2();
+		fd_food_cost3= some.getFd_food_cost3();fd_food_cost4= some.getFd_food_cost4();
+		sd_food_cost1 = some.getSd_food_cost1();sd_food_cost2 = some.getSd_food_cost2();
+		sd_food_cost3 = some.getSd_food_cost3();sd_food_cost4 = some.getSd_food_cost4();
 	}
 	
 	public String getKind_code() {return kind_code;}
