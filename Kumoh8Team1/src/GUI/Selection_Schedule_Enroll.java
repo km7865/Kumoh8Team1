@@ -7,6 +7,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Network.Protocol;
+import tableClass.*;
+
 import javax.swing.JTextField;
 import java.awt.Color;
 import java.awt.Font;
@@ -17,141 +21,141 @@ import javax.swing.JScrollPane;
 import javax.swing.JScrollBar;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import Network.Protocol;
-import tableClass.*;
-
 public class Selection_Schedule_Enroll extends JFrame {
-	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_3;
-	private JTextField textField_5;
-	private JTextField textField_7;
-	private JTextField textField_2;
-	private JTextField textField_4;
-	private JTextField textField_6;
-	private JButton btnNewButton;
+	private static Protocol p;
+	private static ObjectOutputStream writer;
+	private static ObjectInputStream reader;
+	   private JPanel contentPane;
+	   private JButton btnNewButton;
+	   private JTextField textField;
+	   private JTextField textField_1;
+	   private JTextField textField_2;
+	   private JTextField textField_3;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Selection_Schedule_Enroll frame = new Selection_Schedule_Enroll();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	   public static void main(String[] args) {
+	      EventQueue.invokeLater(new Runnable() {
+	         public void run() {
+	            try {
+	               Selection_Schedule_Enroll frame = new Selection_Schedule_Enroll(p, writer, reader);
+	               frame.setVisible(true);
+	            } catch (Exception e) {
+	               e.printStackTrace();
+	            }
+	         }
+	      });
+	   }
 
-	public Selection_Schedule_Enroll() {
-		this.setResizable(false); // 최대화 단추 없애기
-		setVisible(true);
-		setTitle("선발일정 등록");
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 910, 745);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+	   public Selection_Schedule_Enroll(Protocol p_t, ObjectOutputStream writer_t, ObjectInputStream reader_t) {
+		   p = p_t;
+		   writer = writer_t;
+		   reader = reader_t;
+		   this.setResizable(false); // 최대화 단추 없애기
+	      setVisible(true);
+	      setTitle("선발일정 등록");
+	      setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	      setBounds(100, 100, 820, 680);
+	      contentPane = new JPanel();
+	      contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+	      setContentPane(contentPane);
+	      contentPane.setLayout(null);
 
-		textField = new JTextField();
-		textField.setText("년도");
-		textField.setHorizontalAlignment(SwingConstants.CENTER);
-		textField.setFont(new Font("굴림", Font.PLAIN, 16));
-		textField.setEditable(false);
-		textField.setColumns(10);
-		textField.setBackground(Color.LIGHT_GRAY);
-		textField.setBounds(11, 66, 85, 40);
-		contentPane.add(textField);
+	      JTextArea textArea = new JTextArea();
+	      textArea.setFont(new Font("Monospaced", Font.PLAIN, 20));
+	      textArea.setBackground(SystemColor.control);
+	      textArea.setEditable(false);
+	      textArea.setForeground(SystemColor.desktop);
+	      textArea.setText("★ 공지내용");
+	      textArea.setBounds(12, 130, 160, 30);
+	      contentPane.add(textArea);
 
-		textField_1 = new JTextField(""); // 년도
-		textField_1.setEditable(false);
-		textField_1.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_1.setFont(new Font("굴림", Font.PLAIN, 16));
-		textField_1.setColumns(10);
-		textField_1.setBounds(96, 66, 134, 40);
-		contentPane.add(textField_1);
+	      JTextArea txtrAsdasd = new JTextArea(); // 공지내용
+	      txtrAsdasd.setBounds(12, 170, 778, 458);
+	      contentPane.add(txtrAsdasd);
 
-		textField_3 = new JTextField(""); // 학기
-		textField_3.setEditable(false);
-		textField_3.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_3.setFont(new Font("굴림", Font.PLAIN, 16));
-		textField_3.setColumns(10);
-		textField_3.setBounds(312, 66, 134, 40);
-		contentPane.add(textField_3);
+	      btnNewButton = new JButton("선발일정 등록");
+	      btnNewButton.addActionListener(new ActionListener() {
+	         public void actionPerformed(ActionEvent e) {
+	        	 String start_date = textField_1.getText();
+	        	 String end_date = textField_3.getText();
+	        	 String content = txtrAsdasd.getText();
+	        	 if(start_date.compareTo(end_date) != 1 && start_date.length() == 8
+	        			 && end_date.length() == 8)	//true
+	        	 {
+	        		 SelectionSchedule selectionSchedule = new SelectionSchedule(0, 0, null,
+	        				 start_date, end_date, content);
+	        		 
+	        		try
+	 				{
+	        			 p.makePacket(21, 1, 0, selectionSchedule);
+	        			 writer.writeObject(p);
+	 					 writer.flush();
+	 					 p = (Protocol)reader.readObject();
+	 					 
+	 					if (p.getSubType() == 2) {
+	 						if (p.getCode() == 1) {
+	 							JOptionPane.showMessageDialog(null, "선발일정이 정상적으로 등록되었습니다.");
+	 							dispose();
+	 						} else if (p.getCode() == 2) {
+	 							String err = (String) p.getBody();
+	 							JOptionPane.showMessageDialog(null, err); // ?
+	 							dispose();
+	 						}
 
-		textField_5 = new JTextField(""); // 게시일
-		textField_5.setEditable(false);
-		textField_5.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_5.setFont(new Font("굴림", Font.PLAIN, 16));
-		textField_5.setColumns(10);
-		textField_5.setBounds(531, 66, 134, 40);
-		contentPane.add(textField_5);
+	 					}
 
-		textField_7 = new JTextField(""); // 종료일
-		textField_7.setEditable(false);
-		textField_7.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_7.setFont(new Font("굴림", Font.PLAIN, 16));
-		textField_7.setColumns(10);
-		textField_7.setBounds(750, 66, 134, 40);
-		contentPane.add(textField_7);
-
-		textField_2 = new JTextField();
-		textField_2.setText("학기");
-		textField_2.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_2.setFont(new Font("굴림", Font.PLAIN, 16));
-		textField_2.setEditable(false);
-		textField_2.setColumns(10);
-		textField_2.setBackground(Color.LIGHT_GRAY);
-		textField_2.setBounds(229, 66, 85, 40);
-		contentPane.add(textField_2);
-
-		textField_4 = new JTextField();
-		textField_4.setText("게시일");
-		textField_4.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_4.setFont(new Font("굴림", Font.PLAIN, 16));
-		textField_4.setEditable(false);
-		textField_4.setColumns(10);
-		textField_4.setBackground(Color.LIGHT_GRAY);
-		textField_4.setBounds(446, 66, 85, 40);
-		contentPane.add(textField_4);
-
-		textField_6 = new JTextField();
-		textField_6.setText("종료일");
-		textField_6.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_6.setFont(new Font("굴림", Font.PLAIN, 16));
-		textField_6.setEditable(false);
-		textField_6.setColumns(10);
-		textField_6.setBackground(Color.LIGHT_GRAY);
-		textField_6.setBounds(665, 66, 85, 40);
-		contentPane.add(textField_6);
-
-		JTextArea textArea = new JTextArea();
-		textArea.setFont(new Font("Monospaced", Font.PLAIN, 20));
-		textArea.setBackground(SystemColor.control);
-		textArea.setEditable(false);
-		textArea.setForeground(SystemColor.desktop);
-		textArea.setText("\u2605 공지내용");
-		textArea.setBounds(12, 130, 160, 30);
-		contentPane.add(textArea);
-
-		JTextArea txtrAsdasd = new JTextArea(); // 공지내용
-		txtrAsdasd.setBounds(12, 170, 872, 528);
-		contentPane.add(txtrAsdasd);
-
-		btnNewButton = new JButton("선발일정 등록");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "선발일정 등록 완료");
-			}
-		});
-		btnNewButton.setBounds(775, 10, 110, 30);
-		contentPane.add(btnNewButton);
-	}
+	 				} catch (IOException e1) {
+	 					e1.printStackTrace();
+	 				} catch (ClassNotFoundException e1) {
+	 					// TODO Auto-generated catch block
+	 					e1.printStackTrace();
+	 				}
+	        	 }
+	        	 else	//false
+	        		 JOptionPane.showMessageDialog(null, "게시일과 종료일이 올바르지 않습니다.");
+	         }
+	      });
+	      btnNewButton.setBounds(680, 10, 110, 30);
+	      contentPane.add(btnNewButton);
+	      
+	      textField = new JTextField();
+	      textField.setText("\uAC8C\uC2DC\uC77C");
+	      textField.setHorizontalAlignment(SwingConstants.CENTER);
+	      textField.setFont(new Font("굴림", Font.PLAIN, 16));
+	      textField.setEditable(false);
+	      textField.setColumns(10);
+	      textField.setBackground(Color.LIGHT_GRAY);
+	      textField.setBounds(12, 65, 85, 40);
+	      contentPane.add(textField);
+	      
+	      textField_1 = new JTextField("");		//게시일
+	      textField_1.setHorizontalAlignment(SwingConstants.CENTER);
+	      textField_1.setFont(new Font("굴림", Font.PLAIN, 16));
+	      textField_1.setColumns(10);
+	      textField_1.setBounds(96, 65, 295, 40);
+	      contentPane.add(textField_1);
+	      
+	      textField_2 = new JTextField();
+	      textField_2.setText("\uC885\uB8CC\uC77C");
+	      textField_2.setHorizontalAlignment(SwingConstants.CENTER);
+	      textField_2.setFont(new Font("굴림", Font.PLAIN, 16));
+	      textField_2.setEditable(false);
+	      textField_2.setColumns(10);
+	      textField_2.setBackground(Color.LIGHT_GRAY);
+	      textField_2.setBounds(390, 65, 85, 40);
+	      contentPane.add(textField_2);
+	      
+	      textField_3 = new JTextField("");		//종료일
+	      textField_3.setHorizontalAlignment(SwingConstants.CENTER);
+	      textField_3.setFont(new Font("굴림", Font.PLAIN, 16));
+	      textField_3.setColumns(10);
+	      textField_3.setBounds(474, 65, 313, 40);
+	      contentPane.add(textField_3);
+	   }
 }

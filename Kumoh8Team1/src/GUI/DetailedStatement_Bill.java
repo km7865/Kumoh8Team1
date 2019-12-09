@@ -23,25 +23,13 @@ public class DetailedStatement_Bill extends JFrame {
 	private JPanel contentPane;
 	
 	private static Protocol p;
-	private static OutputStream os;
 	private static ObjectOutputStream writer;
-	private static InputStream is;
 	private static ObjectInputStream reader;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					DetailedStatement_Bill frame = new DetailedStatement_Bill(p);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	public DetailedStatement_Bill(Protocol p) {
+	public DetailedStatement_Bill(Protocol p, ObjectOutputStream oos, ObjectInputStream ois) {
+		writer = oos;
+		reader = ois;
+		
 		this.setResizable(false); // 최대화 단추 없애기
 		setTitle("입사신청 내역조회 및 고지서 출력");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -54,7 +42,7 @@ public class DetailedStatement_Bill extends JFrame {
 		JButton button = new JButton("입사신청 내역조회");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new Join_Application_DetailedStatement(p); // 수정 필요!!
+				//new Join_Application_DetailedStatement(p); // 수정 필요!!
 			}
 		});
 		button.setBounds(30, 40, 140, 40);

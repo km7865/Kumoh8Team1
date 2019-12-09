@@ -146,11 +146,11 @@ public class Login extends JFrame {
 						//사용자 타입에 따라 학생 메뉴 / 관리자 메뉴
 						userType = p.getCode();
 						if(userType == 1) {
-							new Menu_Student(p);
+							new Menu_Student(p, writer, reader);
 							dispose();
 						}
 						else if(userType == 2 || userType == 3) {
-							new Menu_Admin(p);
+							new Menu_Admin(p, writer, reader);
 							dispose();
 						}
 						else {

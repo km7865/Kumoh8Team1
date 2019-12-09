@@ -4,6 +4,8 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -18,12 +20,15 @@ import tableClass.*;
 
 public class TuberculosisDiagnosis_submit_check extends JFrame {
 	private JPanel contentPane;
+	private static Protocol p;
+	private static ObjectOutputStream writer;
+	private static ObjectInputStream reader;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TuberculosisDiagnosis_submit_check frame = new TuberculosisDiagnosis_submit_check();
+					TuberculosisDiagnosis_submit_check frame = new TuberculosisDiagnosis_submit_check(p, writer, reader);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -32,7 +37,10 @@ public class TuberculosisDiagnosis_submit_check extends JFrame {
 		});
 	}
 
-	public TuberculosisDiagnosis_submit_check() {
+	public TuberculosisDiagnosis_submit_check(Protocol p_t, ObjectOutputStream writer_t, ObjectInputStream reader_t) {
+		p = p_t;
+		writer = writer_t;
+		reader = reader_t;
 		this.setResizable(false); // 최대화 단추 없애기
 		setVisible(true);
 		setTitle("결핵진단서 제출확인");
@@ -44,12 +52,11 @@ public class TuberculosisDiagnosis_submit_check extends JFrame {
 		contentPane.setLayout(null);
 		
 		// 테이블에 출력할 컬럼 이름 배열
-		String columnNames[] = {"이름", "학번"};
+		String columnNames[] = {"신청번호", "결핵진단서 제출상태"};
 
 		// 테이블에 출력할 데이터 배열
 		int i = 4; // 범위
-		String data[][] = new String[1000][i]; // 데이터 들어갈 범위
-		data[0][0] = "홍길동"; // 데이터 들어갈 부분
+		String data[][] = (String [][])p.getBody(); // 데이터 들어갈 부분
 
 		DefaultTableModel model = new DefaultTableModel(data, columnNames);
 		JTable tbl = new JTable(model);

@@ -4,6 +4,9 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -17,13 +20,16 @@ import Network.Protocol;
 import tableClass.*;
 
 public class Joiner_Check extends JFrame {
+	private static Protocol p;
+	private static ObjectOutputStream writer;
+	private static ObjectInputStream reader;
 	private JPanel contentPane;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Joiner_Check frame = new Joiner_Check();
+					Joiner_Check frame = new Joiner_Check(p, writer, reader);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -32,7 +38,10 @@ public class Joiner_Check extends JFrame {
 		});
 	}
 
-	public Joiner_Check() {
+	public Joiner_Check(Protocol p_t, ObjectOutputStream writer_t, ObjectInputStream reader_t) {
+		p = p_t;
+		writer = writer_t;
+		reader = reader_t;
 		this.setResizable(false); // 최대화 단추 없애기
 		setVisible(true);
 		setTitle("입사자 조회");
@@ -43,13 +52,24 @@ public class Joiner_Check extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		
+		try {
+			p.makePacket(24, 1, 0, null);
+			writer.writeObject(p);
+			writer.flush();
+			p = (Protocol) reader.readObject();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		
+		
 		// 테이블에 출력할 컬럼 이름 배열
-		String columnNames[] = {"이름", "학번"};
+		String columnNames[] = {"학번", "이름", "생활관", "호실", "침대번호"};
 
 		// 테이블에 출력할 데이터 배열
-		int i = 4; // 범위
-		String data[][] = new String[1000][i]; // 데이터 들어갈 범위
-		data[0][0] = "홍길동"; // 데이터 들어갈 부분
+		String[][] data = (String [][])p.getBody();		//받아온 데이터
 
 		DefaultTableModel model = new DefaultTableModel(data, columnNames);
 		JTable tbl = new JTable(model);

@@ -20,6 +20,9 @@ public class ServerProtocolManager
 	private OutputStream os;
 	private ObjectOutputStream writer;
 	private DBManager dbManager=null;
+	private int program_code_number = 0;
+	private int year = 2019;
+	private int semester = 2;
 	
 	public ServerProtocolManager(Socket socket) 
 	{
@@ -202,6 +205,13 @@ public class ServerProtocolManager
 	//--------------------------------------------------------------------------------------------------
 	public void enrollSelectionSchedule(Protocol protocol)//maintype 21, 선발일정 등록
 	{
+		program_code_number += 1;
+		SelectionSchedule schedule = (SelectionSchedule)protocol.getBody();
+		schedule.setYear(year);
+		schedule.setSemester(semester);
+		schedule.setProgram_code(Integer.toString(year) + Integer.toString(semester) + Integer.toString(program_code_number));
+		dbManager.insertSchedule(protocol, schedule);
+		
 		/*
 		클라이언트가 보낸 선발일정 정보=>protocol.getBody()를 디비에 저장한다
 		if(저장 성공)
@@ -232,11 +242,13 @@ public class ServerProtocolManager
 		*/
 	}
 	//--------------------------------------------------------------------------------------------------
-	public Protocol[] enrollFinalSelectedStudent(Protocol protocol)	//maintype 23, 입사자 등록(최종)
+	public void enrollFinalSelectedStudent(Protocol protocol)	//maintype 23, 입사자 등록(최종)
 	{
+		dbManager.enrollJoiner(protocol);
+		
 		//db에 접속해 입사선발자테이블에 받아와 생활관비를 납부했는지 결핵진단서를 제출했는지 검사하고 검사한 학생들에 대해서 등록 상태를 업데이트 시켜줌
 		//-> 입사자 목록을 list로 연결시켜 db 접속 함수에서 리턴시켜서 if문에서 사용
-		Protocol[] ptList = new Protocol[50];	//실제로 배열 크기는 list의 크기임
+		//Protocol[] ptList = new Protocol[50];	//실제로 배열 크기는 list의 크기임
 		/*
 		if(처리 성공)
 		{
@@ -251,13 +263,14 @@ public class ServerProtocolManager
 			throws new ServerException("처리 실패 했습니다);
 		}
 		 */
-		return ptList;
+		//return ptList;
 	}
 	//--------------------------------------------------------------------------------------------------
-	public Protocol[] inquireFinalSelectedStudent(Protocol protocol)	//maintype 24, 입사자 조회
+	public void inquireFinalSelectedStudent(Protocol protocol)	//maintype 24, 입사자 조회
 	{
+		dbManager.joinerCheck(protocol);
 		//db에 접속해 입사선발자테이블에 등록 여부가 o인 학생들의 목록을 뽑아와서 list에 연결시킨다
-		Protocol[] ptList = new Protocol[50];	//실제로 배열 크기는 list의 크기임
+		//Protocol[] ptList = new Protocol[50];	//실제로 배열 크기는 list의 크기임
 		/*
 		for(int i,list.next() !=true, i++)
 		{
@@ -265,7 +278,7 @@ public class ServerProtocolManager
 		}
 		
 		*/
-		return ptList;
+		//return ptList;
 	}
 	//--------------------------------------------------------------------------------------------------
 	public void enrollSelectedStudentResult(Protocol protocol)	//maintype 25, 입사선발자 결과등록
@@ -284,6 +297,11 @@ public class ServerProtocolManager
 		}
 		
 		 */
+	}
+	
+	public void checkTuberculosisDiagnosis(Protocol protocol)	//maintype 26, 결핵진단서 제출확인
+	{
+		dbManager.checkTuberculosisDiagnosis(protocol);
 	}
 	
 }
