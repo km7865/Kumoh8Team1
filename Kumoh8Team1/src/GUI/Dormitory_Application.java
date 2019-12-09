@@ -80,10 +80,12 @@ public class Dormitory_Application extends JFrame {
 	private JTextField textField_2;
 	private JTextField textField_5;
 	
+	private static Protocol p;
 	private static ObjectOutputStream writer;
 	private static ObjectInputStream reader;
 
-	public Dormitory_Application(ObjectOutputStream oos, ObjectInputStream ois) {
+	public Dormitory_Application(Protocol p_t, ObjectOutputStream oos, ObjectInputStream ois) {
+		p = p_t;
 		writer = oos;
 		reader = ois;
 		

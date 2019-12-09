@@ -26,7 +26,8 @@ public class DetailedStatement_Bill extends JFrame {
 	private static ObjectOutputStream writer;
 	private static ObjectInputStream reader;
 
-	public DetailedStatement_Bill(Protocol p, ObjectOutputStream oos, ObjectInputStream ois) {
+	public DetailedStatement_Bill(Protocol p_t, ObjectOutputStream oos, ObjectInputStream ois) {
+		p = p_t;
 		writer = oos;
 		reader = ois;
 		
@@ -51,7 +52,7 @@ public class DetailedStatement_Bill extends JFrame {
 		JButton button_1 = new JButton("고지서 출력");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new Bill();
+				new Bill(p, writer, reader);
 			}
 		});
 		button_1.setBounds(195, 40, 130, 40);

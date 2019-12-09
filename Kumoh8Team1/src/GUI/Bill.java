@@ -4,6 +4,8 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -18,21 +20,16 @@ import tableClass.*;
 
 public class Bill extends JFrame {
 	private JPanel contentPane;
-
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Bill frame = new Bill();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 	
-	public Bill() {
+	private static Protocol p;
+	private static ObjectOutputStream writer;
+	private static ObjectInputStream reader;
+	
+	public Bill(Protocol p_t, ObjectOutputStream oos, ObjectInputStream ois) {
+		p = p_t;
+		writer = oos;
+		reader = ois;
+		
 		this.setResizable(false); // 최대화 단추 없애기
 		setTitle("고지서 출력");
 		setVisible(true);

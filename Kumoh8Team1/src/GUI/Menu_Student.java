@@ -47,6 +47,7 @@ public class Menu_Student extends JFrame {
 	private static ObjectInputStream reader;
 
 	public Menu_Student(Protocol p_t, ObjectOutputStream oos, ObjectInputStream ois) {
+		p = p_t;
 		writer = oos;
 		reader = ois;
 		
@@ -75,7 +76,7 @@ public class Menu_Student extends JFrame {
 
 				if (p.getSubType() == 2) {
 					if (p.getCode() == 1)
-						new TuberculosisDiagnosis_storage();
+						new TuberculosisDiagnosis_storage(p, writer, reader);
 					else if (p.getCode() == 2) {
 						String err = (String) p.getBody();
 						JOptionPane.showMessageDialog(null, err); // 제출대상 아님 or 제출기간 아님
@@ -102,7 +103,7 @@ public class Menu_Student extends JFrame {
 
 				if (p.getSubType() == 2) {
 					if (p.getCode() == 1)
-						new Join_Promise(writer, reader);
+						new Join_Promise(p, writer, reader);
 					else if (p.getCode() == 2) {
 						String err = (String) p.getBody();
 						JOptionPane.showMessageDialog(null, err); // 제출대상 아님 or 제출기간 아님

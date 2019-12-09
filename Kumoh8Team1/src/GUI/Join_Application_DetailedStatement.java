@@ -48,7 +48,8 @@ public class Join_Application_DetailedStatement extends JFrame {
 	private static ObjectOutputStream writer;
 	private static ObjectInputStream reader;
 
-	public Join_Application_DetailedStatement(Protocol p, ObjectOutputStream oos, ObjectInputStream ois) {
+	public Join_Application_DetailedStatement(Protocol p_t, ObjectOutputStream oos, ObjectInputStream ois) {
+		p = p_t;
 		writer = oos;
 		reader = ois;
 		
