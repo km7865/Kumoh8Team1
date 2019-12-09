@@ -1,6 +1,7 @@
 package tableClass;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 //생활관호실 테이블
 public class DormitoryRoom implements Serializable
@@ -14,11 +15,17 @@ public class DormitoryRoom implements Serializable
 	public DormitoryRoom()
 	{
 		dormitoryCode = null; roomCode = null;
-		bedCode = null; assignmentState = null;
+		bedCode = null; assignmentState = "X";
 	}
 	public DormitoryRoom(String dormitoryCode, String roomCode)
 	{
 		this.dormitoryCode = dormitoryCode; this.roomCode = roomCode;
+		assignmentState = "X";
+	}
+	public DormitoryRoom(String dormitoryCode, String roomCode, String bedCode)
+	{
+		this.dormitoryCode = dormitoryCode; this.roomCode = roomCode;
+		this.bedCode= bedCode; assignmentState = "X";
 	}
 	public DormitoryRoom(DormitoryRoom some)
 	{
@@ -35,6 +42,6 @@ public class DormitoryRoom implements Serializable
 
 	public void setDormitoryCode(String dormitoryCode) {this.dormitoryCode = dormitoryCode;}
 	public void setRoomCode(String roomCode) {this.roomCode = roomCode;}
-       public void setBedCode(String bedCode) {this.bedCode = bedCode;}
+    public void setBedCode(String bedCode) {this.bedCode = bedCode;}
 	public void setAssignmentState(String assignmentState) {this.assignmentState = assignmentState;}
 }
