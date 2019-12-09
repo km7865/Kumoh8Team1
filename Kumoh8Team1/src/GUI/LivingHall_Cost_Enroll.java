@@ -7,6 +7,13 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+
+import Network.Protocol;
+import tableClass.*;
+
 import javax.swing.JTextField;
 import java.awt.Color;
 import java.awt.Font;
@@ -14,152 +21,180 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
 import java.awt.SystemColor;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JScrollBar;
+import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
-import Network.Protocol;
-import tableClass.*;
+import java.awt.Component;
+import javax.swing.ScrollPaneConstants;
 
 public class LivingHall_Cost_Enroll extends JFrame {
-	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_3;
-	private JTextField textField_5;
-	private JTextField textField_7;
-	private JTextField textField_2;
-	private JTextField textField_4;
-	private JTextField textField_6;
-	private JButton btnNewButton;
-	private static Protocol p;
-	private static ObjectOutputStream writer;
-	private static ObjectInputStream reader;
+   private JPanel contentPane;
+   private static Protocol p;
+   private static ObjectOutputStream writer;
+   private static ObjectInputStream reader;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					LivingHall_Cost_Enroll frame = new LivingHall_Cost_Enroll(p, writer, reader);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+   public static void main(String[] args) {
+      EventQueue.invokeLater(new Runnable() {
+         public void run() {
+            try {
+               LivingHall_Cost_Enroll frame = new LivingHall_Cost_Enroll(p, writer, reader);
+               frame.setVisible(true);
+            } catch (Exception e) {
+               e.printStackTrace();
+            }
+         }
+      });
+   }
 
-	public LivingHall_Cost_Enroll(Protocol p_t, ObjectOutputStream writer_t, ObjectInputStream reader_t) {
-		p = p_t;
-		writer = writer_t;
-		reader = reader_t;
-		this.setResizable(false); // 최대화 단추 없애기
-		setVisible(true);
-		setTitle("생활관비 등록");
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 910, 745);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+   public LivingHall_Cost_Enroll(Protocol p_t, ObjectOutputStream writer_t, ObjectInputStream reader_t) {
+	   p = p_t;
+	   writer = writer_t;
+	   reader = reader_t;
+	   this.setResizable(false); // 최대화 단추 없애기
+      setVisible(true);
+      setTitle("생활관비 등록");
+      setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+      setBounds(100, 100, 1320, 380);
+      contentPane = new JPanel();
+      contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+      setContentPane(contentPane);
 
-		textField = new JTextField();
-		textField.setText("년도");
-		textField.setHorizontalAlignment(SwingConstants.CENTER);
-		textField.setFont(new Font("굴림", Font.PLAIN, 16));
-		textField.setEditable(false);
-		textField.setColumns(10);
-		textField.setBackground(Color.LIGHT_GRAY);
-		textField.setBounds(11, 66, 85, 40);
-		contentPane.add(textField);
+      // 테이블에 출력할 컬럼 이름 배열
+      String columnNames[] = { "생활관 이름", "관리_1", "관리_S", "관리_2", "관리_W", "5식_1", "5식_S", "5식_2", "5식_W", "7식_1",
+            "7식_S", "7식_2", "7식_W" };
 
-		textField_1 = new JTextField(""); // 년도
-		textField_1.setEditable(false);
-		textField_1.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_1.setFont(new Font("굴림", Font.PLAIN, 16));
-		textField_1.setColumns(10);
-		textField_1.setBounds(96, 66, 134, 40);
-		contentPane.add(textField_1);
+      // 테이블에 출력할 데이터 배열
+      String data[][] = new String[9][13]; // 데이터 들어갈 범위
 
-		textField_3 = new JTextField(""); // 학기
-		textField_3.setEditable(false);
-		textField_3.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_3.setFont(new Font("굴림", Font.PLAIN, 16));
-		textField_3.setColumns(10);
-		textField_3.setBounds(312, 66, 134, 40);
-		contentPane.add(textField_3);
+      DefaultTableModel model = new DefaultTableModel(data, columnNames);
+      JTable tbl = new JTable(model);
+      tbl.setRowHeight(25);
 
-		textField_5 = new JTextField(""); // 게시일
-		textField_5.setEditable(false);
-		textField_5.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_5.setFont(new Font("굴림", Font.PLAIN, 16));
-		textField_5.setColumns(10);
-		textField_5.setBounds(531, 66, 134, 40);
-		contentPane.add(textField_5);
+      // JTable tbl = new JTable(data,columnNames);
+      // Table은 JScrollPane위에 출력해야 컬럼 이름이 출력된다! 명심할것
+      JScrollPane scroll = new JScrollPane(tbl);
+      scroll.setBounds(12, 10, 1292, 274);
+      scroll.getVerticalScrollBar().setUnitIncrement(100); // 스크롤 속도
+      contentPane.setLayout(null);
+      scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+      getContentPane().add(scroll);
+      
+      JButton btnNewButton = new JButton("제출");
+      btnNewButton.setFont(new Font("굴림", Font.PLAIN, 15));
+      btnNewButton.addActionListener(new ActionListener() {
+	         public void actionPerformed(ActionEvent e) {
+	        	 int cnt = -1;
+	        	 Dormitory_cost[] dc_t = new Dormitory_cost[9];
+	        	 for(int i = 0; i < 9; i++)
+	        	 {
+	        		 if(model.getValueAt(i, 0) != null)
+	        		 {
+	        			 for(int j = 1; j <= 12; j++)
+	        			 {
+	        				 if(model.getValueAt(i, j) == null)
+	        				 {
+	        					 break;
+	        				 }
+	        				 
+	        				 else if(j == 12 && model.getValueAt(i, j) != null)
+	        				 {
+	        					 cnt += 1;
+	        					 dc_t[cnt] = new Dormitory_cost();
+	        					 dc_t[cnt].setKind_code((String)model.getValueAt(i, 0));
+	        					 dc_t[cnt].setMng_cost1(Integer.parseInt(model.getValueAt(i, 1).toString()));
+	        					 dc_t[cnt].setMng_cost2(Integer.parseInt(model.getValueAt(i, 2).toString()));
+	        					 dc_t[cnt].setMng_cost3(Integer.parseInt(model.getValueAt(i, 3).toString()));
+	        					 dc_t[cnt].setMng_cost4(Integer.parseInt(model.getValueAt(i, 4).toString()));
+	        					 dc_t[cnt].setFd_food_cost1(Integer.parseInt(model.getValueAt(i, 5).toString()));
+	        					 dc_t[cnt].setFd_food_cost2(Integer.parseInt(model.getValueAt(i, 6).toString()));
+	        					 dc_t[cnt].setFd_food_cost3(Integer.parseInt(model.getValueAt(i, 7).toString()));
+	        					 dc_t[cnt].setFd_food_cost4(Integer.parseInt(model.getValueAt(i, 8).toString()));
+	        					 dc_t[cnt].setSd_food_cost1(Integer.parseInt(model.getValueAt(i, 9).toString()));
+	        					 dc_t[cnt].setSd_food_cost2(Integer.parseInt(model.getValueAt(i, 10).toString()));
+	        					 dc_t[cnt].setSd_food_cost3(Integer.parseInt(model.getValueAt(i, 11).toString()));
+	        					 dc_t[cnt].setSd_food_cost4(Integer.parseInt(model.getValueAt(i, 12).toString()));
+	        				 }
+	        			 }
+	        		 }
+	        	 }
+	        	 
+	        	 if(cnt != -1)
+	        	 {
+	        		 Dormitory_cost[] dc = new Dormitory_cost[cnt + 1];
+		        	 for(int i = 0; i <= cnt; i++)
+		        		 dc[i] = new Dormitory_cost(dc_t[i]);
+		        	 System.out.println(Integer.parseInt(model.getValueAt(0, 2).toString()));
+		        	 System.out.println(dc_t[0].getMng_cost2());
+		        	 try
+		 				{
+		        			 p.makePacket(22, 1, 0, dc);
+		        			 writer.writeObject(p);
+		 					 writer.flush();
+		 					 writer.reset();
+		 					 p = (Protocol)reader.readObject();
+		 					 
+		 					if (p.getSubType() == 2) {
+		 						if (p.getCode() == 1) {
+		 							JOptionPane.showMessageDialog(null, "생활관비가 정상적으로 등록되었습니다.");
+		 							dispose();
+		 						} else if (p.getCode() == 2) {
+		 							String err = (String) p.getBody();
+		 							JOptionPane.showMessageDialog(null, err); // ?
+		 							dispose();
+		 						}
+		 					}
 
-		textField_7 = new JTextField(""); // 종료일
-		textField_7.setEditable(false);
-		textField_7.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_7.setFont(new Font("굴림", Font.PLAIN, 16));
-		textField_7.setColumns(10);
-		textField_7.setBounds(750, 66, 134, 40);
-		contentPane.add(textField_7);
+		 				} catch (IOException e1) {
+		 					e1.printStackTrace();
+		 				} catch (ClassNotFoundException e1) {
+		 					// TODO Auto-generated catch block
+		 					e1.printStackTrace();
+		 				}
+	        	 }
+	        	 
+	        	 else
+	        		 JOptionPane.showMessageDialog(null, "올바른 양식을 입력해 주세요.");
+	        	 
+	        	 //model.getValueAt(1, 1);
+	        	 //while(data[i][0] != );
+	         }
+	      });
+      btnNewButton.setBounds(1185, 295, 105, 40);
+      contentPane.add(btnNewButton);
 
-		textField_2 = new JTextField();
-		textField_2.setText("학기");
-		textField_2.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_2.setFont(new Font("굴림", Font.PLAIN, 16));
-		textField_2.setEditable(false);
-		textField_2.setColumns(10);
-		textField_2.setBackground(Color.LIGHT_GRAY);
-		textField_2.setBounds(229, 66, 85, 40);
-		contentPane.add(textField_2);
+      // Jtable안에 Jcombobox 넣기
+      TableColumn dorm = tbl.getColumnModel().getColumn(0);
+      JComboBox comboBox = new JComboBox();
+      comboBox.addItem("푸름관1동");
+      comboBox.addItem("푸름관2동");
+      comboBox.addItem("푸름관3동");
+      comboBox.addItem("푸름관4동");
+      comboBox.addItem("오름관1동");
+      comboBox.addItem("오름관2동");
+      comboBox.addItem("오름관3동");
+      comboBox.addItem("신평관남자");
+      comboBox.addItem("신평관여자");
+      dorm.setCellEditor(new DefaultCellEditor(comboBox));
 
-		textField_4 = new JTextField();
-		textField_4.setText("게시일");
-		textField_4.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_4.setFont(new Font("굴림", Font.PLAIN, 16));
-		textField_4.setEditable(false);
-		textField_4.setColumns(10);
-		textField_4.setBackground(Color.LIGHT_GRAY);
-		textField_4.setBounds(446, 66, 85, 40);
-		contentPane.add(textField_4);
-
-		textField_6 = new JTextField();
-		textField_6.setText("종료일");
-		textField_6.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_6.setFont(new Font("굴림", Font.PLAIN, 16));
-		textField_6.setEditable(false);
-		textField_6.setColumns(10);
-		textField_6.setBackground(Color.LIGHT_GRAY);
-		textField_6.setBounds(665, 66, 85, 40);
-		contentPane.add(textField_6);
-
-		JTextArea textArea = new JTextArea();
-		textArea.setFont(new Font("Monospaced", Font.PLAIN, 20));
-		textArea.setBackground(SystemColor.control);
-		textArea.setEditable(false);
-		textArea.setForeground(SystemColor.desktop);
-		textArea.setText("\u2605 공지내용");
-		textArea.setBounds(12, 130, 160, 30);
-		contentPane.add(textArea);
-
-		JTextArea txtrAsdasd = new JTextArea(); // 공지내용
-		txtrAsdasd.setBounds(12, 170, 872, 528);
-		contentPane.add(txtrAsdasd);
-
-		btnNewButton = new JButton("생활관비 등록");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "생활관비 등록 완료");
-			}
-		});
-		btnNewButton.setBounds(775, 10, 110, 30);
-		contentPane.add(btnNewButton);
-	}
+      // combobox가 Jtable에 보이게 함
+      DefaultTableCellRenderer comboBoxTableCellRenderer = new DefaultTableCellRenderer() {
+         public Component getTableCellRendererComponent(JTable arg0, Object arg1, boolean isSelected,
+               boolean hasFocus, int arg4, int arg5) {
+            JComboBox comboBox = new JComboBox();
+            comboBox.addItem(arg1);
+            return comboBox;
+         }
+      };
+      tbl.getColumn("생활관 이름").setCellRenderer(comboBoxTableCellRenderer);
+   }
 }

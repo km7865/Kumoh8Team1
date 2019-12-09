@@ -130,6 +130,7 @@ public class Login extends JFrame {
 					p = new Protocol<User>(1, 1, new User(textLogin.getText(), textPassword.getText()));
 					writer.writeObject(p);
 					writer.flush();
+					writer.reset();
 					p = (Protocol)reader.readObject();
 
 				} catch (IOException e1) {
@@ -174,6 +175,5 @@ public class Login extends JFrame {
 		textArea.setBackground(SystemColor.control);
 		textArea.setBounds(32, 20, 497, 62);
 		getContentPane().add(textArea);
-
 	}
 }

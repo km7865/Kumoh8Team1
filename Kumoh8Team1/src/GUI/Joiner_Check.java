@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -52,36 +53,49 @@ public class Joiner_Check extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		
 		try {
 			p.makePacket(24, 1, 0, null);
 			writer.writeObject(p);
 			writer.flush();
+			writer.reset();
 			p = (Protocol) reader.readObject();
+			System.out.println(p.getMainType() + " " + p.getSubType());
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		} catch (ClassNotFoundException e1) {
 			e1.printStackTrace();
 		}
 		
+		if(p.getCode() == 1)
+		{
+			// 테이블에 출력할 컬럼 이름 배열
+			String columnNames[] = {"학번", "이름", "생활관", "호실", "침대번호"};
+
+			// 테이블에 출력할 데이터 배열
+			String[][] data = (String [][])p.getBody();		//받아온 데이터
+			for (int i = 0; i < data.length; i++) {
+	            System.out.println(data[i][0] + " " + data[i][1]);
+	        }
+
+			DefaultTableModel model = new DefaultTableModel(data, columnNames);
+			JTable tbl = new JTable(model);
+			tbl.setRowHeight(25);
+
+			// JTable tbl = new JTable(data,columnNames);
+			// Table은 JScrollPane위에 출력해야 컬럼 이름이 출력된다! 명심할것
+			JScrollPane scroll = new JScrollPane(tbl);
+			scroll.getVerticalScrollBar().setUnitIncrement(100); // 스크롤 속도
+			scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+			getContentPane().add(scroll);
+			scroll.setSize(772, 583);
+			scroll.setLocation(12, 10);
+		}
 		
-		// 테이블에 출력할 컬럼 이름 배열
-		String columnNames[] = {"학번", "이름", "생활관", "호실", "침대번호"};
-
-		// 테이블에 출력할 데이터 배열
-		String[][] data = (String [][])p.getBody();		//받아온 데이터
-
-		DefaultTableModel model = new DefaultTableModel(data, columnNames);
-		JTable tbl = new JTable(model);
-		tbl.setRowHeight(25);
-
-		// JTable tbl = new JTable(data,columnNames);
-		// Table은 JScrollPane위에 출력해야 컬럼 이름이 출력된다! 명심할것
-		JScrollPane scroll = new JScrollPane(tbl);
-		scroll.getVerticalScrollBar().setUnitIncrement(100); // 스크롤 속도
-		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		getContentPane().add(scroll);
-		scroll.setSize(772, 583);
-		scroll.setLocation(12, 10);
+		else
+		{
+			String err = (String) p.getBody();
+			JOptionPane.showMessageDialog(null, err);
+			dispose();
+		}
 	}
 }

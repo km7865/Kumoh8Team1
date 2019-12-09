@@ -18,6 +18,11 @@ public class Dormitory_cost  implements Serializable{
 	private int sd_food_cost3;
 	private int sd_food_cost4;
 	
+	public Dormitory_cost()
+	{
+		kind_code = null;
+	}
+	
 	public Dormitory_cost(String k, int mc1, int mc2, int mc3, int mc4,
 			int ffc1, int ffc2, int ffc3, int ffc4, int sfc1, int sfc2, int sfc3, int sfc4)
 	{
@@ -62,9 +67,9 @@ public class Dormitory_cost  implements Serializable{
 	
 	public void setKind_code(String k) {kind_code = k;}
 	public void setMng_cost1(int mc1) {mng_cost1 = mc1;}
-	public void setMng_cost2(int mc2) {mng_cost1 = mc2;}
-	public void setMng_cost3(int mc3) {mng_cost1 = mc3;}
-	public void setMng_cost4(int mc4) {mng_cost1 = mc4;}
+	public void setMng_cost2(int mc2) {mng_cost2 = mc2;}
+	public void setMng_cost3(int mc3) {mng_cost3 = mc3;}
+	public void setMng_cost4(int mc4) {mng_cost4 = mc4;}
 	public void setFd_food_cost1(int ffc1) {fd_food_cost1 = ffc1;}
 	public void setFd_food_cost2(int ffc2) {fd_food_cost2 = ffc2;}
 	public void setFd_food_cost3(int ffc3) {fd_food_cost3 = ffc3;}

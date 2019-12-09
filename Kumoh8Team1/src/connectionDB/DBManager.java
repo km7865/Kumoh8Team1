@@ -25,7 +25,7 @@ import java.util.Random;
 // 카페 192.168.209.250
 public class DBManager {
 	public static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-	public static final String URL = "jdbc:mysql://" + "192.168.208.38" + ":3306" + "/dorm" + "?characterEncoding=UTF-8&serverTimezone=UTC";
+	public static final String URL = "jdbc:mysql://" + "localhost" + ":3306" + "/dorm" + "?characterEncoding=UTF-8&serverTimezone=UTC";
 
 	private Connection conn;
 	private PreparedStatement pstmt;
@@ -311,7 +311,7 @@ public class DBManager {
 
 	          SimpleDateFormat sdfNow = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
 	          today = new SimpleDateFormat("yyyyMMdd HH:mm:ss").parse(sdfNow.format(new Date()));
-	       
+
 	          // 비교날짜 생성
 	          to_date = new SimpleDateFormat("yyyyMMdd HH:mm:ss").parse("20200121 10:00:00");
 
@@ -334,10 +334,10 @@ public class DBManager {
 	               array[3] = bank;
 	               array[4] = accountNum;
 	               array[5] = rs.getString("합계");// 입금액
-	               
+
 	               protocol.makePacket(main, sub + 1, 1, array);
 	            } else
-	               
+
 	               protocol.makePacket(main, sub + 1, 2, "해당 정보가 없습니다");
 	         }
 	      } catch (SQLException e) {
@@ -388,67 +388,91 @@ public class DBManager {
 	//여기서부터 관리자메뉴
 	public void insertSchedule(Protocol protocol, SelectionSchedule schedule)
 	{
-		String year = Integer.toString(schedule.getYear());
-		String semester = Integer.toString(schedule.getSemester());
-		String program_code = schedule.getProgram_code();
-		String start_date = schedule.getStart_date();
-		String end_date = schedule.getEnd_date();
-		String content = schedule.getContent();
+		String sql;
+		int cnt = 0;
 		
-		String sql="INSERT INTO 선발일정 VALUES(" + year + ", " + semester + ", "  + program_code + ", " 
-				+ start_date + ", "  + end_date + ", "  + content + ")";
         try {
+        	String year = Integer.toString(schedule.getYear());
+			String semester = Integer.toString(schedule.getSemester());
+        	sql = "select * from dorm.선발일정 where 년도='" + year + "' and 학기='" + semester + "'";
+			rs = stmt.executeQuery(sql);
+			while(rs.next())
+				cnt += 1;
+			rs.beforeFirst();
+			String program_code = year + semester + Integer.toString(cnt);
+			String start_date = schedule.getStart_date();
+			String end_date = schedule.getEnd_date();
+			String content = schedule.getContent();
+			
+			sql="INSERT INTO dorm.선발일정 VALUES(" + year + ", " + semester + ", '"  + program_code + "', '" 
+					+ start_date + "', '"  + end_date + "', '"  + content + "')";
 			stmt.executeUpdate(sql);
+			protocol.makePacket(21, 2, 1, null);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			protocol.makePacket(21, 2, 2, "선발일정 등록이 정상적으로 이루어지지 않았습니다.");
 		}
         
-        protocol.makePacket(21, 2, 1, null);
+        
 	}
 	
 	public void insertDormitoryCost(Protocol protocol)	//생할관 사용료 및 급식비 등록
 	{
 		try
 		{
-			Dormitory_cost cost = new Dormitory_cost((Dormitory_cost)protocol.getBody());
-			String sql = "insert into 생활관비 (생활관비분류코드, 관리비_1학기, 관리비_하계방학, 관리비_2학기, 관리비_동계방학, 7일식비_1학기, 7일식비_하계방학,"
-				+ "7일식비_2학기, 7일식비_동계방학, 5일식비_1학기, 5일식비_하계방학, 5일식비_2학기, 5일식비_동계방학)"
-				+ "values (" + cost.getKind_code() + ", " + cost.getMng_cost1() + "," + cost.getMng_cost2() + ", " 
-				+ cost.getMng_cost3() + "," + cost.getMng_cost4() + ", " + cost.getFd_food_cost1() + ", " + cost.getFd_food_cost2() + ","
-				+ cost.getFd_food_cost3() + ", " + cost.getFd_food_cost4() + "," + cost.getSd_food_cost1() + "," + cost.getSd_food_cost2() + ","
-				+ cost.getSd_food_cost3() + ", " + cost.getSd_food_cost4() + ")";
-			rs = stmt.executeQuery(sql);
+			String sql;
+			Dormitory_cost cost[] = (Dormitory_cost[])protocol.getBody();
+			System.out.println(protocol.getMainType() + " " + protocol.getSubType());
+			for(int i = 0; i < cost.length; i++)
+			{
+				sql = "select 분류코드 from dorm.생활관 where 생활관명 = '" + cost[i].getKind_code() + "'";
+				System.out.println(cost[i].getKind_code());
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				cost[i].setKind_code(rs.getString("분류코드"));
+				System.out.println(cost[i].getKind_code());
+				sql = "update dorm.생활관비 set 생활관분류코드 = " + cost[i].getKind_code()
+						+ ", 관리비_1학기=" + cost[i].getMng_cost1() + ", 관리비_하계방학 = " + cost[i].getMng_cost2()
+						+ ", 관리비_2학기 = " + cost[i].getMng_cost3() + ", 관리비_동계방학 = " + cost[i].getMng_cost4()
+						+ ", 7일식비_1학기 = " + cost[i].getSd_food_cost1() + ", 7일식비_하계방학 = " + cost[i].getSd_food_cost2()
+						+ ", 7일식비_2학기 = " + cost[i].getSd_food_cost3() + ", 7일식비_동계방학 = " + cost[i].getSd_food_cost4()
+						+ ", 5일식비_1학기 = " + cost[i].getFd_food_cost1() + ", 5일식비_하계방학 = " + cost[i].getFd_food_cost2()
+						+ ", 5일식비_2학기 = " + cost[i].getFd_food_cost3() + ", 5일식비_동계방학 = " + cost[i].getFd_food_cost1()
+						+ " where 생활관분류코드 = " + cost[i].getKind_code();
+					stmt.executeUpdate(sql);
+			}
+			
 			protocol.makePacket(22, 2, 1, "저장 성공");
+			System.out.println("저장성공");
 			
 		}
 		catch(SQLException e)
 		{
-			e.getStackTrace();
-			protocol.makePacket(22, 2, 2, "결핵진단서 저장중 오류 발생");
+			e.printStackTrace();
+			protocol.makePacket(22, 2, 2, "생활관비 저장중 오류 발생");
 		}
 		
 	}
 	public void enrollJoiner(Protocol protocol)
 	{
-		String sql1 = "SET SQL_SAFE_UPDATES = 0";
-		String sql2 = "update 입사선발자 set 등록여부=" + "O" + "where 납부상태="+ "O" + " and 결핵진단서제출여부=" + 
-				"O" + " and 년도=" + year + "and 학기=" + semester;
-		String sql = sql1 + "\n" + sql2;
+		String sql = "update 입사선발자 set 등록여부='O' where 납부상태='O' and 결핵진단서제출여부='O'";
 		try {
-			rs = stmt.executeQuery(sql);
+			stmt.executeUpdate(sql);
+			protocol.makePacket(23, 2, 1, null);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			protocol.makePacket(23, 2, 2, "등록이 정상적으로 이루어지지 않았습니다.");
 		}
 		
-		protocol.makePacket(23, 2, 1, null);
+		
 	}
 	
 	public void joinerCheck(Protocol protocol)
 	{	
 		int cnt = 0;
-		String sql1 = "select 학번, 생활관분류코드, 호실코드, 침대번호 from 입사선발자 where 등록여부=\"O\"";
+		String sql1 = "select 학번, 생활관분류코드, 호실코드, 침대번호 from dorm.입사선발자 where 등록여부='O'";
 		try {
 			rs = stmt.executeQuery(sql1);
 			while(rs.next())
@@ -464,8 +488,8 @@ public class DBManager {
 				i++;
 			}
 			i = 0;
-			String sql2 = "select 생활관명 from 생활관 where 생활관분류코드 in (select 생활관분류코드 from 입사선발자"
-					+ " where 등록여부=\"O\")";
+			String sql2 = "select 생활관명 from dorm.생활관 where 분류코드 in (select 생활관분류코드 from 입사선발자"
+					+ " where 등록여부='O')";
 			rs = stmt.executeQuery(sql2);
 			while(rs.next())
 			{
@@ -473,8 +497,8 @@ public class DBManager {
 				i++;
 			}
 			i = 0;
-			sql2 = "select 성명 from 학생 where 학번 in (select 생활관분류코드 from 입사선발자 " + 
-					" where 등록여부=\"O\")";
+			sql2 = "select 성명 from dorm.학생 where 학번 in (select 학번 from dorm.입사선발자 " + 
+					" where 등록여부='O')";
 			rs = stmt.executeQuery(sql2);
 			while(rs.next())
 			{
@@ -486,13 +510,14 @@ public class DBManager {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			protocol.makePacket(24, 2, 2, "체크가 정상적으로 이루어지지 않았습니다.");
 		}
 	}
 	
 	public void checkTuberculosisDiagnosis(Protocol protocol)
 	{
 		int cnt = 0;
-		String sql="select 신청번호, 이름, 결핵진단서제출여부 from 입사선발자";
+		String sql="select 신청번호, 학번, 결핵진단서제출여부 from dorm.입사선발자";
         try {
         	rs = stmt.executeQuery(sql);
         	while(rs.next())
@@ -503,8 +528,8 @@ public class DBManager {
 			while(rs.next())
 			{
 				arr[i][0] = rs.getString("신청번호");
-				arr[i][1] = rs.getString("이름");
-				arr[i][2] = rs.getString("결핵진단서 여부");
+				arr[i][1] = rs.getString("학번");
+				arr[i][2] = rs.getString("결핵진단서제출여부");
 				i++;
 			}
 			
@@ -521,6 +546,30 @@ public class DBManager {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			protocol.makePacket(26, 2, 2, "제출여부를 정상적으로 가져오지 못했습니다.");
+		}
+	}
+	
+	public void dicisionTuberculosisDiagnosisSubmit(Protocol protocol)
+	{
+		String sql="select 학번 from dorm.입사선발자 where 결핵진단서제출여부 = 'X'";
+		String studentNumber = (String)protocol.getBody();
+		try {
+			rs = stmt.executeQuery(sql);
+			if(!rs.next())
+				protocol.makePacket(27, 2, 2, "대상학생이 아닙니다.");
+			else
+			{
+				rs.first();
+				if(studentNumber.equals(rs.getString("학번")))
+					protocol.makePacket(27, 2, 1, null);
+				else
+					protocol.makePacket(27, 2, 2, "대상학생이 아닙니다.");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			protocol.makePacket(26, 2, 2, "제출여부를 정상적으로 가져오지 못했습니다.");
 		}
 	}
 	

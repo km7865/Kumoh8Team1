@@ -1,9 +1,10 @@
 package tableClass;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 //신청 테이블
-public class dormitoryApplication implements Serializable
+public class dormitoryApplication implements Serializable, Comparable<dormitoryApplication>
 {
 	private static final long serialVersionUID = 7L;
 	private String applicatonNumber;	//신청번호, 2019010000, not null
@@ -56,6 +57,16 @@ public class dormitoryApplication implements Serializable
 		acceptanceOfAgreement = some.getAcceptanceOfAgreement();	
 	}
 
+	@Override
+	public int compareTo(dormitoryApplication s)
+	{
+		if(this.finallyValue > s.getFinallyValue())
+			return 1;
+		else if(this.finallyValue < s.getFinallyValue())
+			return -1;
+		return 0;
+	}
+	
 	public String getApplicatonNumber() {return applicatonNumber;}
 	public String getStudentId() {return studentId;}
 	public String getYear() {return year;}

@@ -33,7 +33,7 @@ public class ServerProtocolManager
 			reader = new ObjectInputStream(is);
 			os = socket.getOutputStream();
 			writer = new ObjectOutputStream(os);
-			dbManager = new DBManager("test5", "1234");
+			dbManager = new DBManager("root", "3306");
 		}
 		catch(IOException e)
 		{
@@ -79,19 +79,22 @@ public class ServerProtocolManager
 					enrollSelectionSchedule(protocol);
 					break;
 				case 22:		//생활관 사용료 및 급식비 등록
-					//do 생활관 사용료 및 급식비 등록
+					enrollDormitoryCost(protocol);
 					break;
 				case 23:		//입사자 등록
-					//do 입삭자 등록
+					enrollFinalSelectedStudent(protocol);
 					break;
 				case 24:		//입사자 조회
-					//do 입사자 조회
+					inquireFinalSelectedStudent(protocol);
 					break;
 				case 25:		//입사선발자 결과등록
 					//do 입사선발자 결과등록
 					break;
 				case 26:		//결핵진단서 제출확인
-					//do 결핵진단서 제출확인
+					TuberculosisDiagnosisSubmitter(protocol);
+					break;
+				case 27:
+					uploadTuberculosisDiagnosis(protocol);
 					break;
 			
 			}//end of switch
@@ -118,6 +121,7 @@ public class ServerProtocolManager
 			{
 				writer.writeObject(protocol);	//처리 결과를 클라이언트에게 보냄
 				writer.flush();
+				writer.reset();
 			}
 			catch(Exception e)
 			{
@@ -221,7 +225,6 @@ public class ServerProtocolManager
 		SelectionSchedule schedule = (SelectionSchedule)protocol.getBody();
 		schedule.setYear(year);
 		schedule.setSemester(semester);
-		schedule.setProgram_code(Integer.toString(program_code_number));
 		dbManager.insertSchedule(protocol, schedule);
 		
 		/*
@@ -240,6 +243,7 @@ public class ServerProtocolManager
 	//--------------------------------------------------------------------------------------------------
 	public void enrollDormitoryCost(Protocol protocol)	//maintype 22, 생활관 사용료 및 급식비 등록
 	{
+		dbManager.insertDormitoryCost(protocol);
 		//클라이언트가 보낸 정보를 db에 저장한다
 		/*
 		if(저장 성공)
@@ -311,9 +315,17 @@ public class ServerProtocolManager
 		 */
 	}
 	
-	public void checkTuberculosisDiagnosis(Protocol protocol)	//maintype 26, 결핵진단서 제출확인
+	public void TuberculosisDiagnosisSubmitter(Protocol protocol)	//maintype 26, 결핵진단서 제출확인
 	{
 		dbManager.checkTuberculosisDiagnosis(protocol);
+	}
+	
+	public void uploadTuberculosisDiagnosis(Protocol protocol)		//maintype 27, 결핵진단서 업로드
+	{
+		if(protocol.getSubType() == 1)
+			dbManager.dicisionTuberculosisDiagnosisSubmit(protocol);
+		else if(protocol.getSubType() == 3)
+			;
 	}
 	
 }

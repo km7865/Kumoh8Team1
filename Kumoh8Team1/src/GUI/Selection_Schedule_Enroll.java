@@ -88,6 +88,16 @@ public class Selection_Schedule_Enroll extends JFrame {
 	        	 if(start_date.compareTo(end_date) != 1 && start_date.length() == 8
 	        			 && end_date.length() == 8)	//true
 	        	 {
+	        		 String start_date_year = start_date.substring(0, 4);
+	        		 String start_date_month = start_date.substring(4, 6);
+	        		 String start_date_day = start_date.substring(6, 8);
+	        		 String end_date_year = start_date.substring(0, 4);
+	        		 String end_date_month = start_date.substring(4, 6);
+	        		 String end_date_day = start_date.substring(6, 8);
+
+	        		 start_date = start_date_year + "-" + start_date_month + "-" + start_date_day;
+	        		 end_date = end_date_year + "-" + end_date_month + "-" + end_date_day;
+	        		 
 	        		 SelectionSchedule selectionSchedule = new SelectionSchedule(0, 0, null,
 	        				 start_date, end_date, content);
 	        		 
@@ -96,6 +106,7 @@ public class Selection_Schedule_Enroll extends JFrame {
 	        			 p.makePacket(21, 1, 0, selectionSchedule);
 	        			 writer.writeObject(p);
 	 					 writer.flush();
+	 					 writer.reset();
 	 					 p = (Protocol)reader.readObject();
 	 					 
 	 					if (p.getSubType() == 2) {
@@ -118,7 +129,7 @@ public class Selection_Schedule_Enroll extends JFrame {
 	 				}
 	        	 }
 	        	 else	//false
-	        		 JOptionPane.showMessageDialog(null, "게시일과 종료일이 올바르지 않습니다.");
+	        		 JOptionPane.showMessageDialog(null, "8글자로 입력해주세요.");
 	         }
 	      });
 	      btnNewButton.setBounds(680, 10, 110, 30);

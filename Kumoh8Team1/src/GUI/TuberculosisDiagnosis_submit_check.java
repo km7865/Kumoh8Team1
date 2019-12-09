@@ -4,10 +4,12 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -51,24 +53,46 @@ public class TuberculosisDiagnosis_submit_check extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		// 테이블에 출력할 컬럼 이름 배열
-		String columnNames[] = {"신청번호", "결핵진단서 제출상태"};
+		try {
+			p.makePacket(26, 1, 0, null);
+			writer.writeObject(p);
+			writer.flush();
+			writer.reset();
+			p = (Protocol) reader.readObject();
+			System.out.println(p.getMainType() + " " + p.getSubType());
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		
+		if(p.getCode() == 1)
+		{
+			// 테이블에 출력할 컬럼 이름 배열
+			String columnNames[] = {"신청번호", "학번", "결핵진단서 제출상태"};
 
-		// 테이블에 출력할 데이터 배열
-		int i = 4; // 범위
-		String data[][] = (String [][])p.getBody(); // 데이터 들어갈 부분
+			// 테이블에 출력할 데이터 배열
+			int i = 4; // 범위
+			String data[][] = (String [][])p.getBody(); // 데이터 들어갈 부분
 
-		DefaultTableModel model = new DefaultTableModel(data, columnNames);
-		JTable tbl = new JTable(model);
-		tbl.setRowHeight(25);
+			DefaultTableModel model = new DefaultTableModel(data, columnNames);
+			JTable tbl = new JTable(model);
+			tbl.setRowHeight(25);
 
-		// JTable tbl = new JTable(data,columnNames);
-		// Table은 JScrollPane위에 출력해야 컬럼 이름이 출력된다! 명심할것
-		JScrollPane scroll = new JScrollPane(tbl);
-		scroll.getVerticalScrollBar().setUnitIncrement(100); // 스크롤 속도
-		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		getContentPane().add(scroll);
-		scroll.setSize(772, 583);
-		scroll.setLocation(12, 10);
+			// JTable tbl = new JTable(data,columnNames);
+			// Table은 JScrollPane위에 출력해야 컬럼 이름이 출력된다! 명심할것
+			JScrollPane scroll = new JScrollPane(tbl);
+			scroll.getVerticalScrollBar().setUnitIncrement(100); // 스크롤 속도
+			scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+			getContentPane().add(scroll);
+			scroll.setSize(772, 583);
+			scroll.setLocation(12, 10);
+		}
+		else
+		{
+			String err = (String) p.getBody();
+			JOptionPane.showMessageDialog(null, err);
+			dispose();
+		}
 	}
 }

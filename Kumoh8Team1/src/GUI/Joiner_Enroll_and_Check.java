@@ -63,7 +63,9 @@ public class Joiner_Enroll_and_Check extends JFrame {
 					p = new Protocol(23, 1);
 					writer.writeObject(p);
 					writer.flush();
+					writer.reset();
 					p = (Protocol) reader.readObject();
+					System.out.println(p.getMainType() + " " + p.getSubType());
 
 				} catch (IOException e1) {
 					e1.printStackTrace();
