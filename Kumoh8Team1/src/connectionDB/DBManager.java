@@ -276,7 +276,62 @@ public class DBManager {
 			protocol.makePacket(13, 2, 1, "조회 실패");
 		}
 	}
-	
+	//maintype 14, 고지서 출력
+   public void selectDetailedStatement_Bill(Protocol protocol)
+   {
+      int main = protocol.getMainType();
+      int sub = protocol.getSubType();
+
+      final String bank = "국민은행";
+      Random rnd = new Random();
+      String accountNum = "302-" + Integer.toString(rnd.nextInt(1000000000)); // 계좌번호
+      try {
+
+         Date today = null; // 시스템 날짜
+         Date to_date = null; // 시작 날짜
+
+
+          SimpleDateFormat sdfNow = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+          today = new SimpleDateFormat("yyyyMMdd HH:mm:ss").parse(sdfNow.format(new Date()));
+       
+          // 비교날짜 생성
+          to_date = new SimpleDateFormat("yyyyMMdd HH:mm:ss").parse("20200121 10:00:00");
+
+         if (today.before(to_date)) {//시스템 날짜가 1월21일 10시 이전일 경우
+            protocol.makePacket(main, sub + 1, 2, "입사선발이 되지 않은 상태입니다.");
+         }
+         else{
+            String sql = "select * from 입사선발자, 신청 where 신청.신청번호 =입사선발자.신청번호 and 신청.학번 = " + currentUser.getUserID();
+            rs = stmt.executeQuery(sql);
+            if (rs.getRow() == 1) // 입사선발자가 아니고 해당 신청번호로 선발된 값이 하나일경우 만
+            { // 고지서 출력 필요한 속성
+               sql = "select 성명, 사용자ID, 합계 from 사용자, 입사선발자 where 사용자ID=학번 and 학번= " + currentUser.getUserID()
+                     + " and (납부상태='o' or 납부상태='O')";
+               rs = stmt.executeQuery(sql); // sql실행 값 rs 로 옮긴다.
+
+               String[] array = new String[3];
+               // ResultSet에 담긴 결과를 Array에 담기
+               array[0] = rs.getString(" 성명"); // 이름
+               array[1] = rs.getString("사용자ID");// 학번
+               array[3] = bank;
+               array[4] = accountNum;
+               array[5] = rs.getString("합계");// 입금액
+               
+               protocol.makePacket(main, sub + 1, 1, array);
+            } else
+               
+               protocol.makePacket(main, sub + 1, 2, "해당 정보가 없습니다");
+         }
+      } catch (SQLException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      } catch (ParseException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }
+      
+      
+   }
 	//결핵진단서 출력 이전에 학생이 입사선발이 됐는지 조회해본다 , 코드 재활용 가능???????ㅇ0ㅇ????
 	public void checkSelectedStudent(Protocol protocol)
 	{
