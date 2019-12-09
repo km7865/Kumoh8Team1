@@ -45,7 +45,8 @@ public class Menu_Student extends JFrame {
 	private static Protocol p;
 	private static ObjectOutputStream writer;
 	private static ObjectInputStream reader;
-
+	private Protocol p2;
+	
 	public Menu_Student(Protocol p_t, ObjectOutputStream oos, ObjectInputStream ois) {
 		p = p_t;
 		writer = oos;
@@ -64,21 +65,21 @@ public class Menu_Student extends JFrame {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					p = new Protocol(15, 1);
+					p2 = new Protocol(15, 1);
 					writer.writeObject(p);
 					writer.flush();
-					p = (Protocol) reader.readObject();
+					p2 = (Protocol) reader.readObject();
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				} catch (ClassNotFoundException e1) {
 					e1.printStackTrace();
 				}
 
-				if (p.getSubType() == 2) {
-					if (p.getCode() == 1)
+				if (p2.getSubType() == 2) {
+					if (p2.getCode() == 1)
 						new TuberculosisDiagnosis_storage(p, writer, reader);
-					else if (p.getCode() == 2) {
-						String err = (String) p.getBody();
+					else if (p2.getCode() == 2) {
+						String err = (String) p2.getBody();
 						JOptionPane.showMessageDialog(null, err); // 제출대상 아님 or 제출기간 아님
 					}
 				}
@@ -91,21 +92,21 @@ public class Menu_Student extends JFrame {
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					p = new Protocol(11, 1);
-					writer.writeObject(p);
+					p2 = new Protocol(11, 1);
+					writer.writeObject(p2);
 					writer.flush();
-					p = (Protocol) reader.readObject();
+					writer.reset();
+					p2 = (Protocol) reader.readObject();
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				} catch (ClassNotFoundException e1) {
 					e1.printStackTrace();
 				}
-
-				if (p.getSubType() == 2) {
-					if (p.getCode() == 1)
+				if (p2.getSubType() == 2) {
+					if (p2.getCode() == 1)
 						new Join_Promise(p, writer, reader);
-					else if (p.getCode() == 2) {
-						String err = (String) p.getBody();
+					else if (p2.getCode() == 2) {
+						String err = (String) p2.getBody();
 						JOptionPane.showMessageDialog(null, err); // 제출대상 아님 or 제출기간 아님
 					}
 				}
@@ -118,20 +119,20 @@ public class Menu_Student extends JFrame {
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					p = new Protocol(13, 1);
+					p2 = new Protocol(13, 1);
 					writer.writeObject(p);
 					writer.flush();
-					p = (Protocol) reader.readObject();
+					p2 = (Protocol) reader.readObject();
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				} catch (ClassNotFoundException e1) {
 					e1.printStackTrace();
 				}
 
-				if (p.getSubType() == 2) {
-					if (p.getCode() == 1)
+				if (p2.getSubType() == 2) {
+					if (p2.getCode() == 1)
 						new DetailedStatement_Bill(p, writer, reader);
-					else if (p.getCode() == 2) {
+					else if (p2.getCode() == 2) {
 						String err = (String) p.getBody();
 						JOptionPane.showMessageDialog(null, err); // 제출대상 아님 or 제출기간 아님
 					}
@@ -145,20 +146,20 @@ public class Menu_Student extends JFrame {
 		button_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					p = new Protocol(12, 1);
-					writer.writeObject(p);
+					p2 = new Protocol(12, 1);
+					writer.writeObject(p2);
 					writer.flush();
-					p = (Protocol) reader.readObject();
+					p2 = (Protocol) reader.readObject();
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				} catch (ClassNotFoundException e1) {
 					e1.printStackTrace();
 				}
-				if (p.getSubType() == 2) {
-					if (p.getCode() == 1)
+				if (p2.getSubType() == 2) {
+					if (p2.getCode() == 1)
 						new DormitoryNumber_check(p, writer, reader);
-					else if (p.getCode() == 2) {
-						String err = (String) p.getBody();
+					else if (p2.getCode() == 2) {
+						String err = (String) p2.getBody();
 						JOptionPane.showMessageDialog(null, err); // 제출대상 아님 or 제출기간 아님
 					}
 				}
