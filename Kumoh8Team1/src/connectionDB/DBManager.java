@@ -112,9 +112,8 @@ public class DBManager {
 						rs = stmt.executeQuery(SQL);
 						
 						rs.next();
-						Student student = new Student(rs.getString("대학구분"), rs.getString("학번"), 
-								rs.getString("성명"), rs.getString("주민등록번호"));
-						
+						Student student = new Student(rs.getString("학번"), rs.getString("성명"));
+			
 						student.setGender(rs.getString("성별"));
 						student.setDepartmentName(rs.getString("학과명"));
 						student.setGrade(rs.getInt("학년"));
@@ -242,7 +241,7 @@ public class DBManager {
 				dRoom.setAssignmentState(rs.getString("배정상태"));
 				protocol.makePacket(12, 2, 0, dRoom);
 			} else {
-				protocol.makePacket(1,2,2, "해당정보 없음");
+				protocol.makePacket(12,2,2, "해당정보 없음");
 			}
 		}
 		catch(SQLException e)
