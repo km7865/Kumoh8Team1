@@ -156,13 +156,25 @@ public class ServerProtocolManager
 			protocol = new Protocol((12,2,2,null);
 			throws new ServerException("해당 정보 없습니다");
 		}
-		*/	
+		*/
 	}
 	//--------------------------------------------------------------------------------------------------
 	public void inquireDormitoryApplication(Protocol protocol)	//maintype 13, 입사신청내역 조회
 	{
-		/**/
-		dbManager.roomCheck(protocol, (User)protocol.getBody());
+		/*
+		db에서 학생의 학번으로 입사신청내역을 조회해본다
+		if(정보가 있다)
+		{
+			//해당 정보를 입사신청내역 객체에 담는다
+			 protocol = new Protocol(13,2,1,입사신청내역객체);
+		}
+		else	//정보가 없다
+		{
+			protocol = new Protocol(13,2,2,null)
+			throws new ServerException("해당 정보가 없습니다")
+		}
+		
+		*/
 	}
 	//--------------------------------------------------------------------------------------------------
 	public void printDetailedStatement_Bill(Protocol protocol)	//maintype 14, 고지서 출력
@@ -209,7 +221,7 @@ public class ServerProtocolManager
 		SelectionSchedule schedule = (SelectionSchedule)protocol.getBody();
 		schedule.setYear(year);
 		schedule.setSemester(semester);
-		schedule.setProgram_code(Integer.toString(year) + Integer.toString(semester) + Integer.toString(program_code_number));
+		schedule.setProgram_code(Integer.toString(program_code_number));
 		dbManager.insertSchedule(protocol, schedule);
 		
 		/*
