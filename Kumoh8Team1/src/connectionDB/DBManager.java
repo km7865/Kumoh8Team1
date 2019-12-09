@@ -89,7 +89,10 @@ public class DBManager {
 				if (loginPw.equals(rs.getString("password"))) 
 				{
 					System.out.println("로그인성공");
-					
+					currentUser = user;
+					currentUser.setSeparaterUser(rs.getString("사용자구분"));
+					currentUser.setName(rs.getString("성명"));
+
 					if(rs.getString("사용자구분").equals("1") == true)
 					{
 						String st_number = rs.getString("사용자ID");
@@ -156,7 +159,27 @@ public class DBManager {
 					+ "group by 학번;" + "from 성적;";
 			rs = stmt.executeQuery(sql);
 			Double grade = rs.getDouble("평점평균");
+
+			//거리 가산점 계산 부분 추가(currentUser 학번으로 학생주소 조회후 app 객체 거리가산점 설정)
+			String address;
+			sql = "SELECT 학생주소 FROM 학생 WHERE 학번='" + currentUser.getUserID() + "'";
+			rs = stmt.executeQuery(sql);
+			address = rs.getString("학생주소");
 			
+			double distancePoint = 0.0;
+			if (address.contains("제주도") || address.contains("울릉군")) {
+				distancePoint = 0.4;
+			} else if (address.contains("서울") || address.contains("경기") || address.contains("인천") || address.contains("강원")
+					|| address.contains("충청") || address.contains("전라") || address.contains("광주") || address.contains("세종")) {
+				distancePoint = 0.3;
+			} else if (address.contains("대전")|| address.contains("부산") || address.contains("울산") || address.contains("경상남도")) {
+				distancePoint = 0.2;
+			} else if ((address.contains("경상북도") && !address.contains("구미")) || address.contains("대구")) {
+				distancePoint = 0.1;
+			} 
+			app.setDistancePoint(distancePoint);
+			//
+
 			Date date = new Date();
 			String today = date.toString();
 	       
@@ -165,7 +188,7 @@ public class DBManager {
 			
 			sql = "insert into 신청 (신청번호, 학번, 년도, 학기, 생활관분류코드, 식비구분, 학점, 거리가산점, 지망, 신청일, 신청상태, 1년여부, 입사서약동의여부)"
 				     + "values(" + applicationCount + ", " + app.getStandbyNumber() + ", 2019, 2, " + app.getDormitoryCode() +", "
-				     + app.getMealDivision() + ", " + grade.toString() + "," + "거리가산점" +", " + app.getdormitoryWish() + ", " 
+				     + app.getMealDivision() + ", " + grade.toString() + "," + app.getDistancePoint() +", " + app.getdormitoryWish() + ", " 
 				     + today + ", 신청" + app.getOneYearWhether() + ", yes);";
 			rs = stmt.executeQuery(sql);
 			protocol.makePacket(11, 2, 1, null);
