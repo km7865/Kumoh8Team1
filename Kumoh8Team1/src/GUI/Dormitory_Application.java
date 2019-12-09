@@ -27,6 +27,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemListener;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.awt.event.ItemEvent;
@@ -83,11 +84,13 @@ public class Dormitory_Application extends JFrame {
 	private static Protocol p;
 	private static ObjectOutputStream writer;
 	private static ObjectInputStream reader;
-
+	private Student student; 
+	
 	public Dormitory_Application(Protocol p_t, ObjectOutputStream oos, ObjectInputStream ois) {
 		p = p_t;
 		writer = oos;
 		reader = ois;
+		student = (Student)p_t.getBody();
 		
 		this.setResizable(false); // 최대화 단추 없애기
 		setTitle("입사신청");
@@ -101,6 +104,8 @@ public class Dormitory_Application extends JFrame {
 
 		textField = new JTextField(); // 학번
 		textField.setFont(new Font("굴림", Font.PLAIN, 16));
+		textField.setText(student.getStudentId());
+		textField.setText(student.getStudentId());
 		textField.setEditable(false);
 		textField.setBounds(159, 53, 190, 40);
 		contentPane.add(textField);
@@ -108,6 +113,7 @@ public class Dormitory_Application extends JFrame {
 
 		textField_1 = new JTextField(); // 학과
 		textField_1.setFont(new Font("굴림", Font.PLAIN, 16));
+		textField_1.setText(student.getDepartmentName());
 		textField_1.setEditable(false);
 		textField_1.setColumns(10);
 		textField_1.setBounds(472, 53, 190, 40);
@@ -115,6 +121,7 @@ public class Dormitory_Application extends JFrame {
 
 		textField_3 = new JTextField(); // 성명
 		textField_3.setFont(new Font("굴림", Font.PLAIN, 16));
+		textField_3.setText(student.getName());
 		textField_3.setEditable(false);
 		textField_3.setColumns(10);
 		textField_3.setBounds(787, 53, 190, 40);
@@ -122,6 +129,7 @@ public class Dormitory_Application extends JFrame {
 
 		textField_4 = new JTextField(); // 학년
 		textField_4.setFont(new Font("굴림", Font.PLAIN, 16));
+		textField_4.setText(Integer.toString(student.getGrade()));
 		textField_4.setEditable(false);
 		textField_4.setColumns(10);
 		textField_4.setBounds(159, 99, 190, 40);
@@ -145,11 +153,11 @@ public class Dormitory_Application extends JFrame {
 		textField_7.setBounds(35, 176, 169, 40);
 		contentPane.add(textField_7);
 
-		JComboBox comboBox01 = new JComboBox();
-		comboBox01.addItemListener(new ItemListener() {
+		JComboBox comboBox_01 = new JComboBox();
+		comboBox_01.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				String str = "선택안함";
-				String strv = comboBox01.getSelectedItem().toString();
+				String strv = comboBox_01.getSelectedItem().toString();
 
 				if (str == strv) {
 					comboBox_02.setEnabled(false);
@@ -161,10 +169,10 @@ public class Dormitory_Application extends JFrame {
 				}
 			}
 		});
-		comboBox01.setModel(new DefaultComboBoxModel(
+		comboBox_01.setModel(new DefaultComboBoxModel(
 				new String[] { "\uC120\uD0DD\uC548\uD568", "\uD478\uB984 2\uB3D9", "\uD478\uB984 3\uB3D9" }));
-		comboBox01.setBounds(159, 219, 125, 40);
-		contentPane.add(comboBox01);
+		comboBox_01.setBounds(159, 219, 125, 40);
+		contentPane.add(comboBox_01);
 
 		comboBox_02 = new JComboBox();
 		comboBox_02.setEnabled(false);
@@ -190,12 +198,6 @@ public class Dormitory_Application extends JFrame {
 				"7\uC77C\uC2DD", "\uC2DD\uC0AC\uC548\uD568" }));
 		comboBox_03.setBounds(622, 219, 88, 40);
 		contentPane.add(comboBox_03);
-
-		textField_8 = new JTextField(); // 생활관비
-		textField_8.setEditable(false);
-		textField_8.setBounds(833, 219, 142, 40);
-		contentPane.add(textField_8);
-		textField_8.setColumns(10);
 
 		textField_9 = new JTextField();
 		textField_9.setText("한학기 기숙 모집");
@@ -264,11 +266,6 @@ public class Dormitory_Application extends JFrame {
 		comboBox_12.setBounds(547, 339, 163, 40);
 		contentPane.add(comboBox_12);
 
-		textField_10 = new JTextField(); // 생활관비
-		textField_10.setEditable(false);
-		textField_10.setColumns(10);
-		textField_10.setBounds(833, 339, 142, 40);
-		contentPane.add(textField_10);
 
 		comboBox_21.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
@@ -318,11 +315,6 @@ public class Dormitory_Application extends JFrame {
 		comboBox_22.setBounds(547, 386, 163, 40);
 		contentPane.add(comboBox_22);
 
-		textField_11 = new JTextField(); // 생활관비
-		textField_11.setEditable(false);
-		textField_11.setColumns(10);
-		textField_11.setBounds(833, 386, 142, 40);
-		contentPane.add(textField_11);
 
 		comboBox_31.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
@@ -356,14 +348,11 @@ public class Dormitory_Application extends JFrame {
 		comboBox_32.setBounds(547, 432, 163, 40);
 		contentPane.add(comboBox_32);
 
-		textField_12 = new JTextField(); // 생활관비
-		textField_12.setEditable(false);
-		textField_12.setColumns(10);
-		textField_12.setBounds(833, 432, 142, 40);
-		contentPane.add(textField_12);
+
 
 		textField_13 = new JTextField(); // 휴대전화번호
 		textField_13.setEditable(false);
+		textField_13.setText(student.getStudentPhoneNumber());
 		textField_13.setBounds(169, 482, 294, 40);
 		contentPane.add(textField_13);
 		textField_13.setColumns(10);
@@ -371,6 +360,37 @@ public class Dormitory_Application extends JFrame {
 		JButton btnNewButton = new JButton("신청");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				dormitoryApplication app = new dormitoryApplication();
+
+				app.setStudentId(student.getStudentId());
+				
+				if (!comboBox_01.getSelectedItem().equals("선택안함")) {
+					app.setDormitoryWishYear(comboBox_01.getSelectedItem().toString());
+					app.setMealDivisionYear(comboBox_02.getSelectedItem().toString());
+				}
+				
+				if (!comboBox_11.getSelectedItem().equals("선택안함")) {
+				app.setDormitoryWish1(comboBox_11.getSelectedItem().toString());
+				app.setMealDivision1(comboBox_12.getSelectedItem().toString());
+				}
+				
+				if (!comboBox_21.getSelectedItem().equals("선택안함")) {
+					app.setDormitoryWish2(comboBox_21.getSelectedItem().toString());
+					app.setMealDivision2(comboBox_12.getSelectedItem().toString());
+				}
+				if (!comboBox_31.getSelectedItem().equals("선택안함")) {
+					app.setDormitoryWish3(comboBox_31.getSelectedItem().toString());
+					app.setMealDivision3(comboBox_12.getSelectedItem().toString());
+				}
+				
+				try { 
+					writer.writeObject(new Protocol(11,3,0,app));
+					writer.flush();
+					writer.reset();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+
 				JOptionPane.showMessageDialog(null, "신청이 성공적으로 완료되었습니다!!");
 			}
 		});
@@ -447,46 +467,6 @@ public class Dormitory_Application extends JFrame {
 		textField_22.setBackground(Color.LIGHT_GRAY);
 		textField_22.setBounds(497, 219, 125, 40);
 		contentPane.add(textField_22);
-
-		textField_23 = new JTextField();
-		textField_23.setText("생활관비");
-		textField_23.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_23.setFont(new Font("굴림", Font.PLAIN, 16));
-		textField_23.setEditable(false);
-		textField_23.setColumns(10);
-		textField_23.setBackground(Color.LIGHT_GRAY);
-		textField_23.setBounds(709, 219, 125, 40);
-		contentPane.add(textField_23);
-
-		textField_24 = new JTextField();
-		textField_24.setText("생활관비");
-		textField_24.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_24.setFont(new Font("굴림", Font.PLAIN, 16));
-		textField_24.setEditable(false);
-		textField_24.setColumns(10);
-		textField_24.setBackground(Color.LIGHT_GRAY);
-		textField_24.setBounds(709, 339, 125, 40);
-		contentPane.add(textField_24);
-
-		textField_25 = new JTextField();
-		textField_25.setText("생활관비");
-		textField_25.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_25.setFont(new Font("굴림", Font.PLAIN, 16));
-		textField_25.setEditable(false);
-		textField_25.setColumns(10);
-		textField_25.setBackground(Color.LIGHT_GRAY);
-		textField_25.setBounds(709, 386, 125, 40);
-		contentPane.add(textField_25);
-
-		textField_26 = new JTextField();
-		textField_26.setText("생활관비");
-		textField_26.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_26.setFont(new Font("굴림", Font.PLAIN, 16));
-		textField_26.setEditable(false);
-		textField_26.setColumns(10);
-		textField_26.setBackground(Color.LIGHT_GRAY);
-		textField_26.setBounds(709, 432, 125, 40);
-		contentPane.add(textField_26);
 
 		textField_27 = new JTextField();
 		textField_27.setText("식사구분");
@@ -570,6 +550,7 @@ public class Dormitory_Application extends JFrame {
 
 		textField_5 = new JTextField(); // 주소
 		textField_5.setFont(new Font("굴림", Font.PLAIN, 16));
+		textField_5.setText(student.getStudentAddress());
 		textField_5.setEditable(false);
 		textField_5.setColumns(10);
 		textField_5.setBounds(472, 99, 505, 40);

@@ -159,28 +159,40 @@ public class DBManager {
 	{
 		try
 		{
+			System.out.println(app.getDormitoryWish1() + " " + app.getMealDivision1());
+			Integer count;
 			String sql = "select * from 신청";
 			rs =stmt.executeQuery(sql);
-			Integer count=rs.getRow()+1;
+			if (rs.next()) {
+				rs.last();
+				count = rs.getRow()+1;
+			}
+			else
+				count = 0;
 			String applicationCount="201902".concat(count.toString());	//신청번호 생성
 			
-			sql ="select 학번, convert(sum(case 성적등급 " 
-					 + "when \"A+\" then convert(4.5*학점,float) when \"A\" then convert(4.0*학점,float)"
-					  +  "when \"B+\" then convert(3.5*학점,float) when \"B\" then convert(3.0*학점,float)"
-					   + "when \"C+\" then convert(2.5*학점,float) when \"C\" then convert(2.0*학점,float)"
-					  + "when \"D+\" then convert(1.5*학점,float) when \"D\" then convert(1.0*학점,float)" 
-					 +" when \"F\" then convert(0.0*학점,float) end) /sum(학점),decimal(3,2)) as 평점평균"
-					+ "group by 학번;" + "from 성적;";
+			
+			sql = "select 학번, convert(sum(case 성적등급 when 'A+' then convert(4.5*학점,float) when 'A' then convert(4.0*학점,float) " 
+				+ "  when 'B+' then convert(3.5*학점,float) when 'B' then convert(3.0*학점,float) " 
+				 +"   when 'C+' then convert(2.5*학점,float) when 'C' then convert(2.0*학점,float) "
+				+"	when 'D+' then convert(1.5*학점,float) when 'D' then convert(1.0*학점,float) "
+				  +"  when 'F' then convert(0.0*학점,float) end) /sum(학점),decimal(3,2)) as 평점평균 "
+				+"from 성적  where 학번 = '" + currentUser.getUserID() + "'" +  " group by 학번";
+
 			rs = stmt.executeQuery(sql);
+
+			rs.next();
+
 			Double grade = rs.getDouble("평점평균");
+
 
 			//거리 가산점 계산 부분 추가(currentUser 학번으로 학생주소 조회후 app 객체 거리가산점 설정)
 			String address;
-			sql = "SELECT 학생주소 FROM 학생 WHERE 학번='" + currentUser.getUserID() + "'";
+			sql = "SELECT 학생주소 FROM 학생  WHERE 학번='" + currentUser.getUserID() + "'";
 			rs = stmt.executeQuery(sql);
+			rs.next();
 			address = rs.getString("학생주소");
 			
-			//sql = "insert into 신청 (신청번호, 학번, 년도, 학기, 생활관분류코드, 1지망식비구분,2지망식비구분,3지망식비구분, 학점, 거리가산점, 총점, 지망, 신청일, 신청상태, 1년여부, 입사서약동의여부)";
 			double distancePoint = 0.0;
 			if (address.contains("제주도") || address.contains("울릉군")) {
 				distancePoint = 0.4;
@@ -193,21 +205,26 @@ public class DBManager {
 				distancePoint = 0.1;
 			} 
 			app.setDistancePoint(distancePoint);
-			//
+			app.setFinallyValue(grade + distancePoint);
 
 			Date date = new Date();
-			String today = date.toString();
-	       
-	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			today = sdf.toString();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			String today = sdf.format(date);
 			
-			sql = "insert into 신청 (신청번호, 학번, 년도, 학기, 1지망식비구분,2지망식비구분,3지망식비구분,1년식비구분, 학점, 거리가산점, 1지망, 2지망, 3지망, 1년지망, 신청일, 신청상태, 입사서약동의여부)"
-				     + "values(" + applicationCount + ", " + ", 2019, 2, "
-				     + app.getMealDivision1() + ", " + app.getMealDivision2() + ", "+ app.getMealDivision2() + ", " + app.getMealDivisionYear() + ", "
-				     + grade.toString() + "," + "거리가산점" +", " 
-				     + app.getDormitoryWish1() + ", " + app.getDormitoryWish2() + ", "+ app.getDormitoryWish3() + ", " + app.getDormitoryWishYear() + ", "
-				     + today + ", " + ", yes);";
-			rs = stmt.executeQuery(sql);
+			sql = "insert into 신청 values ('" + applicationCount + "', '" + currentUser.getUserID() +  "', 2019, 2, "; 
+			if (app.getMealDivision1() != null)	sql += "'" + app.getMealDivision1() + "',"; else sql += "null,";
+			if (app.getMealDivision2() != null)	sql += "'" + app.getMealDivision2() + "',"; else sql += "null,";
+			if (app.getMealDivision3() != null)	sql += "'" + app.getMealDivision3() + "',"; else sql += "null,";
+			if (app.getMealDivisionYear() != null)	sql += "'" + app.getMealDivisionYear() + "',"; else sql += "null,";
+			sql += grade + ", " + distancePoint + ", " + app.getFinallyValue() + ", ";
+			if (app.getDormitoryWish1() != null ) sql += "'" + app.getDormitoryWish1() + "',"; else sql += "null,";
+			if (app.getDormitoryWish2() != null ) sql += "'" + app.getDormitoryWish1() + "',"; else sql += "null,";
+			if (app.getDormitoryWish3() != null ) sql += "'" + app.getDormitoryWish1() + "',"; else sql += "null,";
+			if (app.getDormitoryWishYear() != null ) sql += "'" + app.getDormitoryWish1() + "',"; else sql += "null,";
+			sql += "'" + today + "', '신청', " + 0 +  ", 'O');";
+			
+			stmt.executeUpdate(sql);
+			
 			protocol.makePacket(11, 2, 1, null);
 		}
 		catch(SQLException e)
