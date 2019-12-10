@@ -1,4 +1,4 @@
-// ÀÔ»çÀÚ Á¶È¸
+// ì…ì‚¬ì ì¡°íšŒ
 
 package AdminGUI;
 
@@ -44,9 +44,9 @@ public class Joiner_Check extends JFrame {
 		p = p_t;
 		writer = writer_t;
 		reader = reader_t;
-		this.setResizable(false); // ÃÖ´ëÈ­ ´ÜÃß ¾ø¾Ö±â
+		this.setResizable(false); // ìµœëŒ€í™” ë‹¨ì¶” ì—†ì• ê¸°
 		setVisible(true);
-		setTitle("ÀÔ»çÀÚ Á¶È¸");
+		setTitle("ì…ì‚¬ì ì¡°íšŒ");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 810, 640);
 		contentPane = new JPanel();
@@ -69,23 +69,28 @@ public class Joiner_Check extends JFrame {
 		
 		if(p.getCode() == 1)
 		{
-			// Å×ÀÌºí¿¡ Ãâ·ÂÇÒ ÄÃ·³ ÀÌ¸§ ¹è¿­
-			String columnNames[] = {"ÇĞ¹ø", "ÀÌ¸§", "»ıÈ°°ü", "È£½Ç", "Ä§´ë¹øÈ£"};
+			// í…Œì´ë¸”ì— ì¶œë ¥í•  ì»¬ëŸ¼ ì´ë¦„ ë°°ì—´
+			String columnNames[] = {"í•™ë²ˆ", "ì´ë¦„", "ìƒí™œê´€", "í˜¸ì‹¤", "ì¹¨ëŒ€ë²ˆí˜¸"};
 
-			// Å×ÀÌºí¿¡ Ãâ·ÂÇÒ µ¥ÀÌÅÍ ¹è¿­
-			String[][] data = (String [][])p.getBody();		//¹Ş¾Æ¿Â µ¥ÀÌÅÍ
+			// í…Œì´ë¸”ì— ì¶œë ¥í•  ë°ì´í„° ë°°ì—´
+			String[][] data = (String [][])p.getBody();		//ë°›ì•„ì˜¨ ë°ì´í„°
 			for (int i = 0; i < data.length; i++) {
 	            System.out.println(data[i][0] + " " + data[i][1]);
 	        }
 
-			DefaultTableModel model = new DefaultTableModel(data, columnNames);
+			// ë‚´ìš© ìˆ˜ì • ëª»í•˜ê²Œ í•¨
+			DefaultTableModel model = new DefaultTableModel(data, columnNames) {
+				public boolean isCellEditable(int rowIndex, int mCollindex) {
+					return false;
+				}
+			};
 			JTable tbl = new JTable(model);
 			tbl.setRowHeight(25);
 
 			// JTable tbl = new JTable(data,columnNames);
-			// TableÀº JScrollPaneÀ§¿¡ Ãâ·ÂÇØ¾ß ÄÃ·³ ÀÌ¸§ÀÌ Ãâ·ÂµÈ´Ù! ¸í½ÉÇÒ°Í
+			// Tableì€ JScrollPaneìœ„ì— ì¶œë ¥í•´ì•¼ ì»¬ëŸ¼ ì´ë¦„ì´ ì¶œë ¥ëœë‹¤! ëª…ì‹¬í• ê²ƒ
 			JScrollPane scroll = new JScrollPane(tbl);
-			scroll.getVerticalScrollBar().setUnitIncrement(100); // ½ºÅ©·Ñ ¼Óµµ
+			scroll.getVerticalScrollBar().setUnitIncrement(100); // ìŠ¤í¬ë¡¤ ì†ë„
 			scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 			getContentPane().add(scroll);
 			scroll.setSize(772, 583);
