@@ -16,6 +16,8 @@ public class SelectedStudent  implements Serializable{
 	private String submissionTuberculosis;		//결핵진단서 제출여부
 	private String dormitoryCode;	// 생활관분류코드
 	
+	public SelectedStudent() {}	
+
 	public SelectedStudent(String s, String r, String b, int m, int f, int t, String p, String rs, String tuber, String dormitoryCode)
 	{
 		sign_up_number = s;
