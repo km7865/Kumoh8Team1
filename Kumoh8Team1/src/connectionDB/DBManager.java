@@ -42,10 +42,8 @@ public class DBManager {
 	public DBManager(String id, String pw)	//생성자
 	{
 		Date date = new Date();
-		today = date.toString();
-       
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		today = sdf.toString();
+        		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");        
+        		today = sdf.format(date);
 		
 		try{
 			// 1. 드라이버 로딩
