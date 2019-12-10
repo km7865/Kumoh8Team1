@@ -90,7 +90,7 @@ public class Menu_Student extends JFrame {
       button.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
             try {
-               p = new Protocol(27, 1, 0, student.getStudentId());
+               p.makePacket(27, 1, 0, student.getStudentId());
                writer.writeObject(p);
                writer.flush();
                p = (Protocol) reader.readObject();

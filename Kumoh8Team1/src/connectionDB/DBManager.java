@@ -27,7 +27,7 @@ import java.util.Random;
 // 카페 192.168.209.250
 public class DBManager {
    public static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-   public static final String URL = "jdbc:mysql://" + "localhost" + ":3306" + "/dorm" + "?characterEncoding=UTF-8&serverTimezone=UTC";
+   public static final String URL = "jdbc:mysql://" + "192.168.211.6" + ":3306" + "/dorm" + "?characterEncoding=UTF-8&serverTimezone=UTC";
 
    private Connection conn;
    private PreparedStatement pstmt;
@@ -689,7 +689,7 @@ public class DBManager {
                {
                   sql = "insert into dorm.입사선발자 values('" + oneYearHuman[j][0] + "', '" + oneYearHuman[j][1]
                         + "', '" + oneYearRoom[k][1] + "', '" + oneYearRoom[k][2] + "', null, null, null, 'X'"
-                              + ", 'X', 'X', '" + oneYearHuman[j][3] + "')";
+                              + ", 'X', 'X', '" + oneYearHuman[j][3] + "', 'O')";
                   stmt.executeUpdate(sql);
                   
                   sql = "select * from dorm.생활관비 where 생활관분류코드=" + oneYearHuman[j][3];
@@ -781,10 +781,11 @@ public class DBManager {
             oneSemesterHuman[l][8] = rs.getString("2지망식비구분");
             oneSemesterHuman[l][9] = rs.getString("3지망식비구분");
             l++;
+            System.out.println("1학기 디버깅");
          }
          l = 0;
          
-         Arrays.sort(oneYearHuman, new Comparator<String[]>() {
+         Arrays.sort(oneSemesterHuman, new Comparator<String[]>() {
                @Override      //2, 1은 오름차순, 1, 2는 내림차순
                public int compare(final String[] entry1, final String[] entry2) {
                   if( ((Comparable)entry1[2]).compareTo(entry2[2]) < 0 )
@@ -801,6 +802,7 @@ public class DBManager {
          rs.beforeFirst();
          String oneSemesterRoom[][] = new String[cnt][4];
          cnt = 0;
+         System.out.println("i값: " + i);
          while(rs.next())
          {
             oneSemesterRoom[i][0] = rs.getString("생활관분류코드");
@@ -820,6 +822,7 @@ public class DBManager {
                }
            });
          
+         
          int c = 0;
          for(int j = 0; j < oneSemesterHuman.length; j++)
          {
@@ -827,12 +830,12 @@ public class DBManager {
             {
                for(int k = 0; k < oneSemesterRoom.length; k++)
                {
-                  if(oneSemesterHuman[j][m].equals(oneSemesterRoom[k][0]) && oneSemesterRoom[k][3].equals("X"))
+                  if(oneSemesterHuman[j][m]!= null && oneSemesterHuman[j][m].equals(oneSemesterRoom[k][0]) && oneSemesterRoom[k][3].equals("X"))
                   {
                      System.out.println(j + " " + m + " " + k);
                      sql = "insert into dorm.입사선발자 values('" + oneSemesterHuman[j][0] + "', '" + oneSemesterHuman[j][1]
                            + "', '" + oneSemesterRoom[k][1] + "', '" + oneSemesterRoom[k][2] + "', null, null, null, 'X'"
-                                 + ", 'X', 'X', '" + oneSemesterHuman[j][m] + "')";
+                                 + ", 'X', 'X', '" + oneSemesterHuman[j][m] + "', 'X')";
                      stmt.executeUpdate(sql);
                      
                      if(oneSemesterHuman[j][2].equals("1"))
@@ -895,7 +898,7 @@ public class DBManager {
                   }
                   
                   else if (m == 6 && k == oneSemesterRoom.length - 1 &&
-                        !(oneSemesterHuman[j][m].equals(oneSemesterRoom[k][0]) && oneSemesterRoom[k][3].equals("X")))
+                        !(oneSemesterHuman[j][m] != null && oneSemesterHuman[j][m].equals(oneSemesterRoom[k][0]) && oneSemesterRoom[k][3].equals("X")))
                   {
                      waitNumber += 1;
                      sql = "update dorm.신청 set 대기번호=" + waitNumber + " where 신청번호='" + oneSemesterHuman[j][0] + "'";
