@@ -66,7 +66,7 @@ public class DBManager {
 			//			dbPW = scan.nextLine();		//db manager 생성시 id와 pw를 입력받아서 원격으로 db에 로그인한다
 
 			Class.forName(JDBC_DRIVER);
-			conn = DriverManager.getConnection(URL, id, pw);
+			conn = DriverManager.getConnection(URL, "test3", "1234");
 			stmt = conn.createStatement();
 
 		}catch (Exception e){
@@ -139,7 +139,7 @@ public class DBManager {
 		protocol.makePacket(1,2,3, "해당정보 없음");
 		}
 
-		//입사신청 요청에 대한 응답
+	//입사신청 요청에 대한 응답
 	public void checkDormitoryApplication(Protocol protocol)
 	{
 		try	//해당 학기에 학생이 신청 정보가 있는지 확인한다
@@ -526,6 +526,24 @@ public class DBManager {
 		//2지망도 배정이 끝났으면 3지망으로 넘어간다
 		//3지망도 배정이 끝났으면 대기번호를 배정한다
 
+	/*
+	public void testEnrollSelectedStudent(Protocol protocol)
+	{
+		try
+		{
+			String sql = "select * from dorm.신청 where 년도=2019 and 학기=2";
+			rs = stmt.executeQuery(sql);	//신청한 모든 학생들을 결과값에 저장
+			while(rs.next())
+			{
+				System.out.println(rs.getString("'신청번호"));
+			}
+		}
+		catch(SQLException e)
+		{
+			e.getStackTrace();
+		}
+	}
+	*/
 	public void enrollSelectedStudent(Protocol protocol)
 	{
 		String sql;
@@ -534,19 +552,19 @@ public class DBManager {
 			ArrayList<dormitoryApplication> applicationList = new ArrayList<dormitoryApplication>();
 			Iterator iterator = applicationList.iterator();	//applicationList를 탐색할 iterator
 				
-			sql = "select * from dorm.신청 where 년도='2019' and 학기='2'";
+			sql = "select * from dorm.신청 where 년도=2019 and 학기=2";
 			rs = stmt.executeQuery(sql);	//신청한 모든 학생들을 결과값에 저장
 			int i=0;
 			while(rs.next())	//다음row가 있을 때까지 arraylist에 학생 객체를 만들어 넣는다
 			{
-				applicationList.add(new dormitoryApplication(rs.getString("신청번호"), rs.getString("학번")));
-				applicationList.get(i).setMealDivision1(rs.getString("1지망식비구분"));applicationList.get(i).setMealDivision1(rs.getString("2지망식비구분"));
-				applicationList.get(i).setMealDivision1(rs.getString("3지망식비구분"));applicationList.get(i).setMealDivision1(rs.getString("1년식비구분"));
-				applicationList.get(i).setGrade(rs.getFloat("학점")); applicationList.get(i).setGrade(rs.getFloat("거리가산점"));applicationList.get(i).setFinallyValue();; 
-				applicationList.get(i).setDormitoryWish1(rs.getString("1지망"));applicationList.get(i).setDormitoryWish2(rs.getString("2지망"));
-				applicationList.get(i).setDormitoryWish3(rs.getString("3지망"));applicationList.get(i).setDormitoryWishYear(rs.getString("1년지망"));
-				applicationList.get(i).setApplicationDay(rs.getString("신청일"));applicationList.get(i).setApplicationState(rs.getString("신청상태"));
-				applicationList.get(i).setStandbyNumber(rs.getString("대기번호"));applicationList.get(i).setAcceptanceOfAgreement("yes"); 
+				applicationList.add(new dormitoryApplication(rs.getString("'신청번호'"), rs.getString("'학번'")));
+				applicationList.get(i).setMealDivision1(rs.getString("'1지망식비구분'"));applicationList.get(i).setMealDivision2(rs.getString("'2지망식비구분'"));
+				applicationList.get(i).setMealDivision3(rs.getString("'3지망식비구분'"));applicationList.get(i).setMealDivisionYear(rs.getString("'1년식비구분'"));
+				applicationList.get(i).setGrade(rs.getFloat("'학점'")); applicationList.get(i).setDistancePoint(rs.getFloat("'거리가산점'"));applicationList.get(i).setFinallyValue();; 
+				applicationList.get(i).setDormitoryWish1(rs.getString("'1지망'"));applicationList.get(i).setDormitoryWish2(rs.getString("'2지망'"));
+				applicationList.get(i).setDormitoryWish3(rs.getString("'3지망'"));applicationList.get(i).setDormitoryWishYear(rs.getString("'1년지망'"));
+				applicationList.get(i).setApplicationDay(rs.getString("'신청일'"));applicationList.get(i).setApplicationState(rs.getString("'신청상태'"));
+				applicationList.get(i).setStandbyNumber(rs.getString("'대기번호'"));applicationList.get(i).setAcceptanceOfAgreement("'yes'"); 
 				i++;
 			}
 			Collections.sort(applicationList);	//arrayList의 학생들을 총점순으로 정렬한다
@@ -562,73 +580,75 @@ public class DBManager {
 			ArrayList<DormitoryRoom> sinpyeongM = new ArrayList<DormitoryRoom>();	//신평관 남자
 			ArrayList<DormitoryRoom> sinpyeongF = new ArrayList<DormitoryRoom>();	//신평관 여자
 				
-			sql = "select * from dorm.생활관호실 where 배정상태=\"X\" and 생활관분류코드=\"1\"";	//푸름1동
+			sql = "select * from dorm.생활관호실 where 배정상태='X' and 생활관분류코드='1'";	//푸름1동
 			rs = stmt.executeQuery(sql);		//생활관 호실중 배정상태가 안된것들 싹다 넣음
 			while(rs.next())
 			{
-				puleum1.add(new DormitoryRoom(rs.getString("생활관분류코드"), rs.getString("호실코드"), rs.getString("침대번호")));
+				puleum1.add(new DormitoryRoom(rs.getString("'생활관분류코드'"), rs.getString("'호실코드'"), rs.getString("'침대번호'")));
 			}
 				
-			sql = "select * from dorm.생활관호실 where 배정상태=\"X\" and 생활관분류코드=\"2\"";	//푸름2동
+			sql = "select * from dorm.생활관호실 where 배정상태='X' and 생활관분류코드='2'";	//푸름2동
 			rs = stmt.executeQuery(sql);
 			while(rs.next())
 			{
-				puleum2.add(new DormitoryRoom(rs.getString("생활관분류코드"), rs.getString("호실코드"), rs.getString("침대번호")));
+				puleum2.add(new DormitoryRoom(rs.getString("'생활관분류코드'"), rs.getString("'호실코드'"), rs.getString("'침대번호'")));
 			}
 				
-			sql = "select * from dorm.생활관호실 where 배정상태=\"X\" and 생활관분류코드=\"3\"";	//푸름3동
+			sql = "select * from dorm.생활관호실 where 배정상태='X' and 생활관분류코드='3'";	//푸름3동
 			rs = stmt.executeQuery(sql);
 			while(rs.next())
 			{
-				puleum3.add(new DormitoryRoom(rs.getString("생활관분류코드"), rs.getString("호실코드"), rs.getString("침대번호")));
+				puleum3.add(new DormitoryRoom(rs.getString("'생활관분류코드'"), rs.getString("'호실코드'"), rs.getString("'침대번호'")));
 			}
 				
-			sql = "select * from dorm.생활관호실 where 배정상태=\"X\" and 생활관분류코드=\"4\"";	//푸름4동
+			sql = "select * from dorm.생활관호실 where 배정상태='X' and 생활관분류코드='4'";	//푸름4동
 			rs = stmt.executeQuery(sql);
 			while(rs.next())
 			{
-				puleum4.add(new DormitoryRoom(rs.getString("생활관분류코드"), rs.getString("호실코드"), rs.getString("침대번호")));
+				puleum4.add(new DormitoryRoom(rs.getString("'생활관분류코드'"), rs.getString("'호실코드'"), rs.getString("'침대번호'")));
 			}
 				
-			sql = "select * from dorm.생활관호실 where 배정상태=\"X\" and 생활관분류코드=\"5\"";	//오름1동
+			sql = "select * from dorm.생활관호실 where 배정상태='X' and 생활관분류코드='5'";	//오름1동
 			rs = stmt.executeQuery(sql);
 			while(rs.next())
 			{
-				oleum1.add(new DormitoryRoom(rs.getString("생활관분류코드"), rs.getString("호실코드"), rs.getString("침대번호")));
+				oleum1.add(new DormitoryRoom(rs.getString("'생활관분류코드'"), rs.getString("'호실코드'"), rs.getString("'침대번호'")));
 			}
 				
-			sql = "select * from dorm.생활관호실 where 배정상태=\"X\" and 생활관분류코드=\"6\"";	//오름2동
+			sql = "select * from dorm.생활관호실 where 배정상태='X' and 생활관분류코드='6'";	//오름2동
 			rs = stmt.executeQuery(sql);
 			while(rs.next())
 			{
-				oleum2.add(new DormitoryRoom(rs.getString("생활관분류코드"), rs.getString("호실코드"), rs.getString("침대번호")));
+				oleum2.add(new DormitoryRoom(rs.getString("'생활관분류코드'"), rs.getString("'호실코드'"), rs.getString("'침대번호'")));
 			}
 				
-			sql = "select * from dorm.생활관호실 where 배정상태=\"X\" and 생활관분류코드=\"7\"";	//오름3동
+			sql = "select * from dorm.생활관호실 where 배정상태='X' and 생활관분류코드='7'";	//오름3동
 			rs = stmt.executeQuery(sql);
 			while(rs.next())
 			{
-				oleum3.add(new DormitoryRoom(rs.getString("생활관분류코드"), rs.getString("호실코드"), rs.getString("침대번호")));
+				oleum3.add(new DormitoryRoom(rs.getString("'생활관분류코드'"), rs.getString("'호실코드'"), rs.getString("'침대번호'")));
 			}
 			
-			sql = "select * from dorm.생활관호실 where 배정상태=\"X\" and 생활관분류코드=\"8\"";	//신평남자
+			sql = "select * from dorm.생활관호실 where 배정상태='X' and 생활관분류코드='8'";	//신평남자
 			rs = stmt.executeQuery(sql);
 			while(rs.next())
 			{
-				sinpyeongM.add(new DormitoryRoom(rs.getString("생활관분류코드"), rs.getString("호실코드"), rs.getString("침대번호")));
+				sinpyeongM.add(new DormitoryRoom(rs.getString("'생활관분류코드'"), rs.getString("'호실코드'"), rs.getString("'침대번호'")));
 			}
 				
-			sql = "select * from dorm.생활관호실 where 배정상태=\"X\" and 생활관분류코드=\"9\"";	//신평여자
+			sql = "select * from dorm.생활관호실 where 배정상태='X' and 생활관분류코드='9'";	//신평여자
 			rs = stmt.executeQuery(sql);
 		
 			while(rs.next())
 			{
-				sinpyeongF.add(new DormitoryRoom(rs.getString("생활관분류코드"), rs.getString("호실코드"), rs.getString("침대번호")));
+				sinpyeongF.add(new DormitoryRoom(rs.getString("'생활관분류코드'"), rs.getString("'호실코드'"), rs.getString("'침대번호'")));
 			}
 				
 			ArrayList<ArrayList<DormitoryRoom>> roomList = new ArrayList<ArrayList<DormitoryRoom>>();
+			
 			roomList.add(puleum1);roomList.add(puleum2);roomList.add(puleum3);roomList.add(puleum4); 
 			roomList.add(oleum1);roomList.add(oleum2);roomList.add(oleum3);roomList.add(sinpyeongM);roomList.add(sinpyeongF);
+			
 			i=0;	//신청 index를 나타낼 변수
 			int stanbyNumber=1;
 			int FoodCost=0;
@@ -653,7 +673,7 @@ public class DBManager {
 								+ " values(" +applicationList.get(i).getApplicatonNumber() + "," + applicationList.get(i).getStandbyNumber() + "," + Integer.parseInt(Dormitory) + ","
 								+ roomList.get(Integer.parseInt(Dormitory)).get(a).getRoomCode() + "," +Integer.toString(YearManageCost(Dormitory)) 
 								+ ", " +Integer.toString(FoodCost)+ ", " + Integer.toString(YearManageCost(Dormitory)+ FoodCost) +","  
-								+ "X, X, X, O;";
+								+ "'X', 'X', 'X', 'O');";
 						stmt.executeUpdate(sql);
 						j=1;
 						i++;
@@ -679,11 +699,11 @@ public class DBManager {
 							FoodCost = SevendayFoodCost(applicationList.get(i).getDormitoryWish1(),"2");	
 						
 						sql = "insert into 입사선발자 (신청번호, 학번, 생활관분류코드,호실코드,침대번호,관리비,식비,합계,납부상태,등록여부,결핵진단서제출여부)"
-								+ " values('" +applicationList.get(i).getApplicatonNumber() + "','" + applicationList.get(i).getStandbyNumber() + "','" + Integer.parseInt(Dormitory) + "','"
-								+ roomList.get(Integer.parseInt(Dormitory)).get(a).getRoomCode() + "','" + Integer.toString(ManageCost(Dormitory,"2")) + "','"
-								+ Integer.toString(FoodCost) + "','" +Integer.toString(ManageCost(Dormitory,"2") + FoodCost) + "','"
-								+ "X','X','X','O';";
-						stmt.executeQuery(sql);
+								+ " values(" +applicationList.get(i).getApplicatonNumber() + "," + applicationList.get(i).getStandbyNumber() + "," + Integer.parseInt(Dormitory) + ","
+								+ roomList.get(Integer.parseInt(Dormitory)).get(a).getRoomCode() + "," + Integer.toString(ManageCost(Dormitory,"2")) + ","
+								+ Integer.toString(FoodCost) + "," +Integer.toString(ManageCost(Dormitory,"2") + FoodCost) + ","
+								+"'X','X','X','O');";
+						stmt.executeUpdate(sql);
 						j=2;
 						i++;
 						stmt.executeUpdate("update 신청 set 신청상태=합격 where 신청번호 = '" + applicationList.get(i).getApplicatonNumber()+"'");//신청 테이블에 신청상태 update
@@ -707,11 +727,11 @@ public class DBManager {
 						stmt.executeUpdate(sql);	//생활관호실 배정상태 업데이트
 					//입사선발자에 해당학생정보 insert		
 						sql = "insert into 입사선발자 (신청번호, 학번, 생활관분류코드,호실코드,침대번호,관리비,식비,합계,납부상태,등록여부,결핵진단서제출여부)"
-								+ " values('" +applicationList.get(i).getApplicatonNumber() + "','" + applicationList.get(i).getStandbyNumber() + "','" + Integer.parseInt(Dormitory) + "','"
-								+ roomList.get(Integer.parseInt(Dormitory)).get(a).getRoomCode() + "','" + Integer.toString(ManageCost(Dormitory,"2")) + "','"
-								+ Integer.toString(FoodCost) + "', '" +Integer.toString(ManageCost(Dormitory,"2") + FoodCost) + "','"
-								+ "X', 'X', 'X','O';";
-						stmt.executeQuery(sql);
+								+ " values(" +applicationList.get(i).getApplicatonNumber() + "," + applicationList.get(i).getStandbyNumber() + "," + Integer.parseInt(Dormitory) + ","
+								+ roomList.get(Integer.parseInt(Dormitory)).get(a).getRoomCode() + "," + Integer.toString(ManageCost(Dormitory,"2")) + ","
+								+ Integer.toString(FoodCost) + ", " +Integer.toString(ManageCost(Dormitory,"2") + FoodCost) + ","
+								+ "'X', 'X', 'X','O');";
+						stmt.executeUpdate(sql);
 						j=3;
 						i++;	
 						stmt.executeUpdate("update 신청 set 신청상태=합격 where 신청번호 = '" + applicationList.get(i).getApplicatonNumber() +"'");//신청 테이블에 신청상태 update
@@ -735,11 +755,11 @@ public class DBManager {
 						//ResultSet subRs=stmt.executeQuery("select 신청번호 from 신청 wehere 학번=" + StudentRs.getString("학번") + "and 년도=2019 and 학기=2");	
 						//입사선발자에 해당학생정보 insert		
 						sql = "insert into 입사선발자 (신청번호, 학번, 생활관분류코드,호실코드,침대번호,관리비,식비,합계,납부상태,등록여부,결핵진단서제출여부)"
-								+ " values('" +applicationList.get(i).getApplicatonNumber() + "','" + applicationList.get(i).getStandbyNumber() + "','" + Integer.parseInt(Dormitory) + "','"
-								+ roomList.get(Integer.parseInt(Dormitory)).get(a).getRoomCode() + "', '" + Integer.toString(ManageCost(Dormitory,"2")) + "','"
-								+ Integer.toString(FoodCost) + "', '" +Integer.toString(ManageCost(Dormitory,"2") + FoodCost) + "', '" 
-								+ "X', 'X', 'X','O';";
-						stmt.executeQuery(sql);
+								+ " values('" +applicationList.get(i).getApplicatonNumber() + "," + applicationList.get(i).getStandbyNumber() + "," + Integer.parseInt(Dormitory) + ","
+								+ roomList.get(Integer.parseInt(Dormitory)).get(a).getRoomCode() + ", " + Integer.toString(ManageCost(Dormitory,"2")) + ","
+								+ Integer.toString(FoodCost) + "," +Integer.toString(ManageCost(Dormitory,"2") + FoodCost) + "," 
+								+ "'X', 'X', 'X','O');";
+						stmt.executeUpdate(sql);
 						j=4;
 						i++;
 						stmt.executeUpdate("update 신청 set 신청상태=합격 where 신청번호 = '" + applicationList.get(i).getApplicatonNumber()+"'");//신청 테이블에 신청상태 update
@@ -762,7 +782,7 @@ public class DBManager {
 			protocol.makePacket(25,2,2, "입사선발자 결과등록 실패");
 		}
 	}
-		/**/
+	
 	//기숙사비 계산하는 함수
 	//5일식
 	public int FivedayFoodCost(String dormitoryCode, String semester)	//semester - 1학기, 2학기..

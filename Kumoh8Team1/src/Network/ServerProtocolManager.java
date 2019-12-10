@@ -88,7 +88,8 @@ public class ServerProtocolManager
 					inquireFinalSelectedStudent(protocol);
 					break;
 				case 25:		//입사선발자 결과등록
-					//do 입사선발자 결과등록
+					//dbManager.testEnrollSelectedStudent(protocol);
+					enrollSelectedStudentResult(protocol);
 					break;
 				case 26:		//결핵진단서 제출확인
 					TuberculosisDiagnosisSubmitter(protocol);
@@ -192,7 +193,7 @@ public class ServerProtocolManager
 	//--------------------------------------------------------------------------------------------------
 	public void enrollSelectedStudentResult(Protocol protocol)	//maintype 25, 입사선발자 결과등록
 	{
-		dbManager.enrollJoiner(protocol);
+		dbManager.enrollSelectedStudent(protocol);
 	}
 	
 	public void TuberculosisDiagnosisSubmitter(Protocol protocol)	//maintype 26, 결핵진단서 제출확인
@@ -205,7 +206,7 @@ public class ServerProtocolManager
 		if(protocol.getSubType() == 1)
 			dbManager.dicisionTuberculosisDiagnosisSubmit(protocol);
 		else if(protocol.getSubType() == 3)
-			;
+			dbManager.dicisionTuberculosisDiagnosisSubmit(protocol);
 	}
 	
 }
