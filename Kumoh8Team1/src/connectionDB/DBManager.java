@@ -753,7 +753,7 @@ public class DBManager {
 				stmt.executeUpdate("update 신청 set 신청상태=예비 and 대기번호 = " +Integer.toString(stanbyNumber));		//대기번호 처리
 				stanbyNumber ++;
 			}//end of while
-			protocol.makePacket(25, 1, 1, null);	//배정이 끝났다는걸 클라이언트에게 패킷으로 보냄
+			protocol.makePacket(25, 2, 1, null);	//배정이 끝났다는걸 클라이언트에게 패킷으로 보냄
 			
 		}//end of try
 		catch(SQLException e)
