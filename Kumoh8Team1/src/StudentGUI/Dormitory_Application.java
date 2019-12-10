@@ -374,7 +374,7 @@ public class Dormitory_Application extends JFrame {
 						if (p.getSubType() == 4) {
 							if (p.getCode() == 1) { 
 								JOptionPane.showMessageDialog(null, "신청이 성공적으로 완료되었습니다!!");
-								btnNewButton.setEnabled(false);
+								dispose();
 							}
 							else if (p.getCode() == 2)
 								JOptionPane.showMessageDialog(null, (String)p.getBody());
