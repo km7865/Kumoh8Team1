@@ -214,7 +214,7 @@ textField_4.setText(Integer.toString(student.getGrade()));
             } else if (dormitoryWish1 == comboBox_21.getSelectedItem().toString() || dormitoryWish1 == comboBox_31.getSelectedItem().toString()) {
                JOptionPane.showMessageDialog(null, "중복입니다");
                comboBox_11.setSelectedItem(str);
-            } else if (dormitoryWish1 == "오름 1동" || dormitoryWish1 == "오름 2동" || dormitoryWish1 == "오름 3동") {
+            } else if (dormitoryWish1 == "오름관1동" || dormitoryWish1 == "오름관2동" || dormitoryWish1 == "오름관3동") {
                comboBox_12.removeItem("식사안함");
                comboBox_12.setEnabled(true);
             } else {
@@ -261,7 +261,7 @@ textField_4.setText(Integer.toString(student.getGrade()));
             } else if (dormitoryWish2.equals(comboBox_11.getSelectedItem().toString()) || dormitoryWish2.equals(comboBox_31.getSelectedItem().toString())) {
                JOptionPane.showMessageDialog(null, "중복입니다");            
                comboBox_21.setSelectedItem(str);
-            } else if (dormitoryWish2 == "오름 1동" || dormitoryWish2 == "오름 2동" || dormitoryWish2 == "오름 3동") {
+            } else if (dormitoryWish2 == "오름관1동" || dormitoryWish2 == "오름관2동" || dormitoryWish2 == "오름관3동") {
                comboBox_22.removeItem("식사안함");
                comboBox_22.setEnabled(true);
             } else {
@@ -306,7 +306,7 @@ textField_4.setText(Integer.toString(student.getGrade()));
             } else if (dormitoryWish3 == comboBox_11.getSelectedItem().toString() || dormitoryWish3 == comboBox_21.getSelectedItem().toString()) {
                JOptionPane.showMessageDialog(null, "중복입니다");
                comboBox_31.setSelectedItem(str);
-            } else if (dormitoryWish3 == "오름 1동" || dormitoryWish3 == "오름 2동" || dormitoryWish3 == "오름 3동") {
+            } else if (dormitoryWish3 == "오름관1동" || dormitoryWish3 == "오름관2동" || dormitoryWish3 == "오름관3동") {
                comboBox_32.removeItem("식사안함");
                comboBox_32.setEnabled(true);
             } else {
