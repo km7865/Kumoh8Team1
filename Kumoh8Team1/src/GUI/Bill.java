@@ -79,7 +79,6 @@ public class Bill extends JFrame {
 		label_2.setForeground(Color.BLACK);
 		label_2.setBounds(50, 220, 95, 40);
 		contentPane.add(label_2);
-
 		JLabel label_3 = new JLabel("입금액");
 		label_3.setHorizontalAlignment(SwingConstants.CENTER);
 		label_3.setForeground(Color.BLACK);
