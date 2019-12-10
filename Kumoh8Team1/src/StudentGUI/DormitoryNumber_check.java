@@ -57,12 +57,11 @@ public class DormitoryNumber_check extends JFrame {
 	private static ObjectOutputStream writer;
 	private static ObjectInputStream reader;
 	private Student student;
-	private DormitoryRoom dRoom;
+	private SelectedStudent selectedStudent;
 	
-	public DormitoryNumber_check(Protocol p_t, Student s, ObjectOutputStream oos, ObjectInputStream ois) {
-		p = p_t;
-		dRoom = (DormitoryRoom)p_t.getBody();
+	public DormitoryNumber_check(Student s, SelectedStudent ss, ObjectOutputStream oos, ObjectInputStream ois) {
 		student = s;
+		selectedStudent = ss;
 		writer = oos;
 		reader = ois;
 		
@@ -86,6 +85,7 @@ public class DormitoryNumber_check extends JFrame {
 		contentPane.add(textField);
 
 		textField_1 = new JTextField(""); // 학번
+		
 		textField_1.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_1.setEditable(false);
 		textField_1.setFont(new Font("굴림", Font.PLAIN, 16));
@@ -94,6 +94,7 @@ public class DormitoryNumber_check extends JFrame {
 		contentPane.add(textField_1);
 
 		textField_2 = new JTextField(); // 학과
+		
 		textField_2.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_2.setEditable(false);
 		textField_2.setFont(new Font("굴림", Font.PLAIN, 16));
@@ -102,6 +103,7 @@ public class DormitoryNumber_check extends JFrame {
 		contentPane.add(textField_2);
 
 		textField_4 = new JTextField(); // 성명
+		
 		textField_4.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_4.setEditable(false);
 		textField_4.setFont(new Font("굴림", Font.PLAIN, 16));
@@ -110,6 +112,7 @@ public class DormitoryNumber_check extends JFrame {
 		contentPane.add(textField_4);
 
 		textField_5 = new JTextField(); // 학년
+		
 		textField_5.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_5.setEditable(false);
 		textField_5.setFont(new Font("굴림", Font.PLAIN, 16));
@@ -127,6 +130,7 @@ public class DormitoryNumber_check extends JFrame {
 		contentPane.add(textField_7);
 
 		textField_8 = new JTextField(""); // 선발결과
+
 		textField_8.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_8.setEditable(false);
 		textField_8.setFont(new Font("굴림", Font.PLAIN, 16));
@@ -135,6 +139,7 @@ public class DormitoryNumber_check extends JFrame {
 		contentPane.add(textField_8);
 
 		textField_9 = new JTextField(""); // 납부여부
+
 		textField_9.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_9.setEditable(false);
 		textField_9.setFont(new Font("굴림", Font.PLAIN, 16));
@@ -142,7 +147,8 @@ public class DormitoryNumber_check extends JFrame {
 		textField_9.setBounds(785, 228, 190, 40);
 		contentPane.add(textField_9);
 
-		textField_10 = new JTextField(""); // 식비구분
+		textField_10 = new JTextField(""); // 식비구분x 호실유형o
+		
 		textField_10.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_10.setEditable(false);
 		textField_10.setFont(new Font("굴림", Font.PLAIN, 16));
@@ -151,6 +157,7 @@ public class DormitoryNumber_check extends JFrame {
 		contentPane.add(textField_10);
 
 		textField_11 = new JTextField(""); // 생활관
+		
 		textField_11.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_11.setEditable(false);
 		textField_11.setFont(new Font("굴림", Font.PLAIN, 16));
@@ -158,15 +165,17 @@ public class DormitoryNumber_check extends JFrame {
 		textField_11.setBounds(785, 267, 190, 40);
 		contentPane.add(textField_11);
 
-		textField_12 = new JTextField(""); // 호실유형
-		textField_12.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_12.setEditable(false);
-		textField_12.setFont(new Font("굴림", Font.PLAIN, 16));
-		textField_12.setColumns(10);
-		textField_12.setBounds(315, 307, 190, 40);
-		contentPane.add(textField_12);
+//		textField_12 = new JTextField(""); // 호실유형
+//		
+//		textField_12.setHorizontalAlignment(SwingConstants.CENTER);
+//		textField_12.setEditable(false);
+//		textField_12.setFont(new Font("굴림", Font.PLAIN, 16));
+//		textField_12.setColumns(10);
+//		textField_12.setBounds(315, 307, 190, 40);
+//		contentPane.add(textField_12);
 
 		textField_13 = new JTextField(""); // 호실 / 침대번호
+		
 		textField_13.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_13.setEditable(false);
 		textField_13.setFont(new Font("굴림", Font.PLAIN, 16));
@@ -236,7 +245,7 @@ public class DormitoryNumber_check extends JFrame {
 
 		textField_22 = new JTextField();
 		textField_22.setEditable(false);
-		textField_22.setText("식비구분");
+		textField_22.setText("호실유형");
 		textField_22.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_22.setFont(new Font("굴림", Font.PLAIN, 16));
 		textField_22.setColumns(10);
@@ -254,15 +263,15 @@ public class DormitoryNumber_check extends JFrame {
 		textField_23.setBounds(504, 267, 280, 40);
 		contentPane.add(textField_23);
 
-		textField_24 = new JTextField();
-		textField_24.setEditable(false);
-		textField_24.setText("호실유형");
-		textField_24.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_24.setFont(new Font("굴림", Font.PLAIN, 16));
-		textField_24.setColumns(10);
-		textField_24.setBackground(Color.LIGHT_GRAY);
-		textField_24.setBounds(35, 307, 280, 40);
-		contentPane.add(textField_24);
+//		textField_24 = new JTextField();
+//		textField_24.setEditable(false);
+//		textField_24.setText("호실유형");
+//		textField_24.setHorizontalAlignment(SwingConstants.CENTER);
+//		textField_24.setFont(new Font("굴림", Font.PLAIN, 16));
+//		textField_24.setColumns(10);
+//		textField_24.setBackground(Color.LIGHT_GRAY);
+//		textField_24.setBounds(35, 307, 280, 40);
+//		contentPane.add(textField_24);
 
 		textField_25 = new JTextField();
 		textField_25.setEditable(false);
@@ -277,7 +286,16 @@ public class DormitoryNumber_check extends JFrame {
 		btnNewButton = new JButton("조회");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "호실 조회 중입니다 ...");
+				textField_1.setText(student.getStudentId());
+				textField_2.setText(student.getDepartmentName());
+				textField_4.setText(student.getName());
+				textField_5.setText(Integer.toString(student.getGrade()));
+				textField_6.setText(student.getStudentAddress());
+				textField_8.setText(selectedStudent.getRegister_status());		
+				textField_9.setText(selectedStudent.getPay_status());
+				textField_11.setText(convertDormitoryCodeToName(selectedStudent.getDormitoryCode()));
+				textField_10.setText("일반실");
+				textField_13.setText(selectedStudent.getRoom_code()+ " / " + selectedStudent.getBed_code());
 			}
 		});
 		btnNewButton.setBounds(865, 32, 110, 30);
@@ -294,11 +312,29 @@ public class DormitoryNumber_check extends JFrame {
 		contentPane.add(textField_3);
 
 		textField_6 = new JTextField(); // 주소
+		
 		textField_6.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_6.setFont(new Font("굴림", Font.PLAIN, 16));
 		textField_6.setEditable(false);
 		textField_6.setColumns(10);
 		textField_6.setBounds(472, 128, 503, 40);
 		contentPane.add(textField_6);
+	}
+	
+	public String convertDormitoryCodeToName(String s) {
+		String name = null;		
+		if (s.equals("1")) name = new String("푸름관1동");
+		else if (s.equals("2")) name = new String("푸름관2동");
+		else if (s.equals("3")) name = new String("푸름관3동");
+		else if (s.equals("4")) name = new String("푸름관4동");
+
+		else if (s.equals("5")) name = new String("오름관1동");
+		else if (s.equals("6")) name = new String("오름관2동");
+		else if (s.equals("7")) name = new String("오름관3동");
+
+		else if (s.equals("8")) name = new String("신평관1동");
+		else if (s.equals("9")) name = new String("신평관2동");
+
+		return name;
 	}
 }
