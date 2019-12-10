@@ -1,4 +1,4 @@
-// °ü¸®ÀÚ ¸Ş´º
+// ê´€ë¦¬ì ë©”ë‰´
 
 package GUI;
 
@@ -40,16 +40,16 @@ public class Menu_Admin extends JFrame {
 		p = p_t;
 		writer = writer_t;
 		reader = reader_t;
-		this.setResizable(false); // ÃÖ´ëÈ­ ´ÜÃß ¾ø¾Ö±â
-		setTitle("°ü¸®ÀÚ ¸Ş´º");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(false); // ìµœëŒ€í™” ë‹¨ì¶” ì—†ì• ê¸°
+		setTitle("ê´€ë¦¬ì ë©”ë‰´");
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 745, 470);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JButton btnNewButton_1 = new JButton("·Î±×¾Æ¿ô");
+		JButton btnNewButton_1 = new JButton("ë¡œê·¸ì•„ì›ƒ");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Login frame = new Login();
@@ -61,7 +61,7 @@ public class Menu_Admin extends JFrame {
 		btnNewButton_1.setBounds(634, 10, 85, 30);
 		contentPane.add(btnNewButton_1);
 
-		JButton button = new JButton("¼±¹ßÀÏÁ¤ µî·Ï");
+		JButton button = new JButton("ì„ ë°œì¼ì • ë“±ë¡");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new Selection_Schedule_Enroll(p, writer, reader);
@@ -70,7 +70,7 @@ public class Menu_Admin extends JFrame {
 		button.setBounds(45, 87, 285, 50);
 		contentPane.add(button);
 
-		JButton button_1 = new JButton("»ıÈ°°üºñ µî·Ï");	//Â÷ÈÄ ÄÚµå¾÷µ¥ÀÌÆ®
+		JButton button_1 = new JButton("ìƒí™œê´€ë¹„ ë“±ë¡");	//ì°¨í›„ ì½”ë“œì—…ë°ì´íŠ¸
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new LivingHall_Cost_Enroll(p, writer, reader);
@@ -79,7 +79,7 @@ public class Menu_Admin extends JFrame {
 		button_1.setBounds(353, 87, 285, 50);
 		contentPane.add(button_1);
 
-		JButton button_2 = new JButton("ÀÔ»çÀÚ µî·Ï ¹× Á¶È¸");
+		JButton button_2 = new JButton("ì…ì‚¬ì ë“±ë¡ ë° ì¡°íšŒ");
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new Joiner_Enroll_and_Check(p, writer, reader);
@@ -88,7 +88,7 @@ public class Menu_Admin extends JFrame {
 		button_2.setBounds(45, 162, 285, 50);
 		contentPane.add(button_2);
 
-		JButton button_3 = new JButton("ÀÔ»ç¼±¹ßÀÚ °á°úµî·Ï");
+		JButton button_3 = new JButton("ì…ì‚¬ì„ ë°œì ê²°ê³¼ë“±ë¡");
 		button_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new Joiner_Result_Enroll();
@@ -97,7 +97,7 @@ public class Menu_Admin extends JFrame {
 		button_3.setBounds(353, 162, 285, 50);
 		contentPane.add(button_3);
 
-		JButton button_4 = new JButton("°áÇÙÁø´Ü¼­ ¾÷·Îµå ¹× Á¦ÃâÈ®ÀÎ");
+		JButton button_4 = new JButton("ê²°í•µì§„ë‹¨ì„œ ì—…ë¡œë“œ ë° ì œì¶œí™•ì¸");
 		button_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new TuberculosisDiagnosis_upload_submit_check(p, writer, reader);
@@ -107,8 +107,8 @@ public class Menu_Admin extends JFrame {
 		contentPane.add(button_4);
 		
 		String name = (String)(p.getBody());
-		JLabel lblNewLabel = new JLabel(name + "´Ô È¯¿µÇÕ´Ï´Ù!");
-		lblNewLabel.setFont(new Font("±¼¸²", Font.PLAIN, 15));
+		JLabel lblNewLabel = new JLabel(name + "ë‹˜ í™˜ì˜í•©ë‹ˆë‹¤!");
+		lblNewLabel.setFont(new Font("êµ´ë¦¼", Font.PLAIN, 15));
 		lblNewLabel.setForeground(Color.BLUE);
 		lblNewLabel.setBackground(Color.BLACK);
 		lblNewLabel.setBounds(49, 18, 160, 40);
