@@ -103,7 +103,7 @@ public class dormitoryApplication implements Serializable, Comparable<dormitoryA
 	public void setFinallyValue() {finallyValue = grade + distancePoint;}
 	public void setDormitoryWish1(String dormitoryWish1) {this.dormitoryWish1 = dormitoryWish1;}
 	public void setDormitoryWish2(String dormitoryWish2) {this.dormitoryWish2 = dormitoryWish2;}
-	public void setDormitoryWish3(String dormitoryWish3) {this.dormitoryWish1 = dormitoryWish3;}
+	public void setDormitoryWish3(String dormitoryWish3) {this.dormitoryWish3 = dormitoryWish3;}
 	public void setDormitoryWishYear(String dormitoryWishYear) {this.dormitoryWishYear = dormitoryWishYear;}
 	
 	public void setApplicationDay(String applicationDay) {this.applicationDay = applicationDay;}
