@@ -52,7 +52,6 @@ public class DBManager {
 		year=dateArray[0];
 		if(Integer.parseInt(dateArray[1]))
 		*/
-		
 		try{
 			// 1. 드라이버 로딩
 			// 드라이버 인터페이스를 구현한 클래스를 로딩
