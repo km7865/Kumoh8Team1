@@ -529,16 +529,15 @@ public class DBManager {
 	public void enrollSelectedStudent(Protocol protocol)
 	{
 		String sql;
-		ResultSet StudentRs = null;
 		try
 		{
 			ArrayList<dormitoryApplication> applicationList = new ArrayList<dormitoryApplication>();
 			Iterator iterator = applicationList.iterator();	//applicationList를 탐색할 iterator
 				
-			sql = "select * frome 신청 where 년도=2019 and 학기=2";
-			StudentRs = stmt.executeQuery(sql);	//신청한 모든 학생들을 결과값에 저장
+			sql = "select * from dorm.신청 where 년도='2019' and 학기='2'";
+			rs = stmt.executeQuery(sql);	//신청한 모든 학생들을 결과값에 저장
 			int i=0;
-			while(StudentRs.next())	//다음row가 있을 때까지 arraylist에 학생 객체를 만들어 넣는다
+			while(rs.next())	//다음row가 있을 때까지 arraylist에 학생 객체를 만들어 넣는다
 			{
 				applicationList.add(new dormitoryApplication(rs.getString("신청번호"), rs.getString("학번")));
 				applicationList.get(i).setMealDivision1(rs.getString("1지망식비구분"));applicationList.get(i).setMealDivision1(rs.getString("2지망식비구분"));
@@ -633,7 +632,7 @@ public class DBManager {
 			i=0;	//신청 index를 나타낼 변수
 			int stanbyNumber=1;
 			int FoodCost=0;
-			while(StudentRs.next())		//list의 다음 학생이 있을 때까지
+			while(iterator.hasNext())		//list의 다음 학생이 있을 때까지
 			{
 				int j=0;
 				String Dormitory = applicationList.get(i).getDormitoryWishYear();	//1년지망을 원순위로 배정한다
@@ -651,7 +650,7 @@ public class DBManager {
 							
 						//입사선발자에 해당학생정보 insert		
 						sql = "insert into 입사선발자 (신청번호, 학번, 생활관분류코드,호실코드,침대번호,관리비,식비,합계,납부상태,등록여부,결핵진단서제출여부, 1년여부)"
-								+ " values(" +StudentRs.getString("학번") + "," + StudentRs.getString("학번") + "," + Integer.parseInt(Dormitory) + ","
+								+ " values(" +applicationList.get(i).getApplicatonNumber() + "," + applicationList.get(i).getStandbyNumber() + "," + Integer.parseInt(Dormitory) + ","
 								+ roomList.get(Integer.parseInt(Dormitory)).get(a).getRoomCode() + "," +Integer.toString(YearManageCost(Dormitory)) 
 								+ ", " +Integer.toString(FoodCost)+ ", " + Integer.toString(YearManageCost(Dormitory)+ FoodCost) +","  
 								+ "X, X, X, O;";
@@ -680,7 +679,7 @@ public class DBManager {
 							FoodCost = SevendayFoodCost(applicationList.get(i).getDormitoryWish1(),"2");	
 						
 						sql = "insert into 입사선발자 (신청번호, 학번, 생활관분류코드,호실코드,침대번호,관리비,식비,합계,납부상태,등록여부,결핵진단서제출여부)"
-								+ " values(" +StudentRs.getString("학번") + "," + StudentRs.getString("학번") + "," + Integer.parseInt(Dormitory) + ","
+								+ " values(" +applicationList.get(i).getApplicatonNumber() + "," + applicationList.get(i).getStandbyNumber() + "," + Integer.parseInt(Dormitory) + ","
 								+ roomList.get(Integer.parseInt(Dormitory)).get(a).getRoomCode() + ", " + Integer.toString(ManageCost(Dormitory,"2")) + ","
 								+ Integer.toString(FoodCost) + ", " +Integer.toString(ManageCost(Dormitory,"2") + FoodCost) + ", "
 								+ "X, X, X,O;";
@@ -708,7 +707,7 @@ public class DBManager {
 						stmt.executeUpdate(sql);	//생활관호실 배정상태 업데이트
 					//입사선발자에 해당학생정보 insert		
 						sql = "insert into 입사선발자 (신청번호, 학번, 생활관분류코드,호실코드,침대번호,관리비,식비,합계,납부상태,등록여부,결핵진단서제출여부)"
-								+ " values(" +StudentRs.getString("학번") + "," + StudentRs.getString("학번") + "," + Integer.parseInt(Dormitory) + ","
+								+ " values(" +applicationList.get(i).getApplicatonNumber() + "," + applicationList.get(i).getStandbyNumber() + "," + Integer.parseInt(Dormitory) + ","
 								+ roomList.get(Integer.parseInt(Dormitory)).get(a).getRoomCode() + "," + Integer.toString(ManageCost(Dormitory,"2")) + ","
 								+ Integer.toString(FoodCost) + ", " +Integer.toString(ManageCost(Dormitory,"2") + FoodCost) + ", "
 								+ "X, X, X,O;";
@@ -736,7 +735,7 @@ public class DBManager {
 						//ResultSet subRs=stmt.executeQuery("select 신청번호 from 신청 wehere 학번=" + StudentRs.getString("학번") + "and 년도=2019 and 학기=2");	
 						//입사선발자에 해당학생정보 insert		
 						sql = "insert into 입사선발자 (신청번호, 학번, 생활관분류코드,호실코드,침대번호,관리비,식비,합계,납부상태,등록여부,결핵진단서제출여부)"
-								+ " values(" +applicationList.get(i).getApplicatonNumber()+ "," + StudentRs.getString("학번") + "," + Integer.parseInt(Dormitory) + ","
+								+ " values(" +applicationList.get(i).getApplicatonNumber() + "," + applicationList.get(i).getStandbyNumber() + "," + Integer.parseInt(Dormitory) + ","
 								+ roomList.get(Integer.parseInt(Dormitory)).get(a).getRoomCode() + ", " + Integer.toString(ManageCost(Dormitory,"2")) + ","
 								+ Integer.toString(FoodCost) + ", " +Integer.toString(ManageCost(Dormitory,"2") + FoodCost) + ", " 
 								+ "X, X, X,O;";
@@ -761,17 +760,6 @@ public class DBManager {
 		{
 			e.getStackTrace();
 			protocol.makePacket(25,2,2, "입사선발자 결과등록 실패");
-		}
-		finally
-		{
-			try
-			{
-				StudentRs.close();
-			}
-			catch(SQLException e)
-			{
-				e.getStackTrace();
-			}
 		}
 	}
 		/**/
