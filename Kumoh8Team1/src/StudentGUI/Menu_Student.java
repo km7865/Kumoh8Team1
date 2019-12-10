@@ -297,6 +297,7 @@ public class Menu_Student extends JFrame {
       endDayLabel.setBounds(185, 10, 100, 40);
       contentPane.add(endDayLabel);
 
+      //setEditable Ãß°¡
       textField_8 = new JTextField();
       if (schedule != null) textField_8.setText(schedule.getContent());
       textField_8.setEditable(false);
