@@ -90,7 +90,7 @@ public class Menu_Admin extends JFrame {
 		JButton button_3 = new JButton("입사선발자 결과등록");
 		button_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new Joiner_Result_Enroll();
+				new Joiner_Result_Enroll(p,writer,reader);
 			}
 		});
 		button_3.setBounds(353, 162, 285, 50);

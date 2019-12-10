@@ -53,7 +53,7 @@ public class Joiner_Result_Enroll extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Joiner_Result_Enroll frame = new Joiner_Result_Enroll();
+					Joiner_Result_Enroll frame = new Joiner_Result_Enroll(p, writer, reader);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -62,7 +62,10 @@ public class Joiner_Result_Enroll extends JFrame {
 		});
 	}
 
-	public Joiner_Result_Enroll() {
+	public Joiner_Result_Enroll(Protocol p_t, ObjectOutputStream writer_t, ObjectInputStream reader_t) {
+		p = p_t;
+		writer = writer_t;
+		reader = reader_t;
 		this.setResizable(false); // 최대화 단추 없애기
 		setTitle("입사선발자 결과등록");
 		setVisible(true);
@@ -86,9 +89,11 @@ public class Joiner_Result_Enroll extends JFrame {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					p = new Protocol(25, 1);
+					
+					p.makePacket(25, 1, 0, null);
 					writer.writeObject(p);
 					writer.flush();
+					writer.reset();
 					p = (Protocol) reader.readObject();
 
 				} catch (IOException e1) {
