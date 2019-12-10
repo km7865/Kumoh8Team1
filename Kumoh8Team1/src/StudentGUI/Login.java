@@ -42,9 +42,9 @@ public class Login extends JFrame {
 	private static ObjectOutputStream writer;
 	private static InputStream is;
 	private static ObjectInputStream reader;
+	private static String host;
 
 	public static void main(String[] args) {
-		String host = null;
 		Scanner sc = new Scanner(System.in);
 
 		System.out.print("서버의 IP 입력 : ");
@@ -146,11 +146,11 @@ public class Login extends JFrame {
 						//사용자 타입에 따라 학생 메뉴 / 관리자 메뉴
 						userType = p.getCode();
 						if(userType == 1) {
-							new Menu_Student(p, writer, reader);
+							new Menu_Student(p, writer, reader, host);
 							dispose();
 						}
 						else if(userType == 2 || userType == 3) {
-							new Menu_Admin(p, writer, reader);
+							new Menu_Admin(p, writer, reader, host);
 							dispose();
 						}
 						else {

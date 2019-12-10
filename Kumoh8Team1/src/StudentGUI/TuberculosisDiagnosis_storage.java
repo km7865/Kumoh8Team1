@@ -1,4 +1,4 @@
-// Í≤∞ÌïµÏßÑÎã®ÏÑú Ï†úÏ∂ú (ÌïôÏÉù)
+// ∞·«Ÿ¡¯¥‹º≠ ¡¶√‚ («–ª˝)
 package StudentGUI;
 
 import Network.*;
@@ -30,114 +30,162 @@ import java.awt.Font;
 import java.awt.GridLayout;
 
 public class TuberculosisDiagnosis_storage extends JFrame {
-   private static Protocol p;
-   private static ObjectOutputStream writer;
-   private static ObjectInputStream reader;
-   private JPanel contentPane;
-   JLabel label = new JLabel("");
-   private JTextField textField;
-   private static String filePath;
-   
+	   private static Protocol p;
+	   private static ObjectOutputStream writer;
+	   private static ObjectInputStream reader;
+	   private JPanel contentPane;
+	   JLabel label = new JLabel("");
+	   private JTextField textField;
+	   private static String filePath;
+	   private static String ip;
 
 
-   public static void main(String[] args) {
-      EventQueue.invokeLater(new Runnable() {
-         public void run() {
-            try {
-               TuberculosisDiagnosis_storage frame = new TuberculosisDiagnosis_storage(p, writer, reader);
-               frame.setVisible(true);
-            } catch (Exception e) {
-               e.printStackTrace();
-            }
-         }
-      });
-   }
+	   public static void main(String[] args) {
+	      EventQueue.invokeLater(new Runnable() {
+	         public void run() {
+	            try {
+	               TuberculosisDiagnosis_storage frame = new TuberculosisDiagnosis_storage(p, writer, reader, ip);
+	               frame.setVisible(true);
+	            } catch (Exception e) {
+	               e.printStackTrace();
+	            }
+	         }
+	      });
+	   }
 
-   public TuberculosisDiagnosis_storage(Protocol p_t, ObjectOutputStream oos, ObjectInputStream ois) {
-	  p = p_t;
-	  writer = oos;
-	  reader = ois;
-	  
-      this.setResizable(false); // ÔøΩ÷¥ÔøΩ»≠ ÔøΩÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩ÷±ÔøΩ
-      setTitle("ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ‹ºÔøΩ ÔøΩÔøΩÔøΩÔøΩ");
-      setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-      setBounds(100, 100, 815, 675);
-      setVisible(true);
-      contentPane = new JPanel();
-      contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-      setContentPane(contentPane);
-      contentPane.setLayout(null);
-      label.setBounds(5, 59, 791, 536);
-      label.setHorizontalAlignment(SwingConstants.CENTER);
-      label.setFont(new Font("ÔøΩÔøΩÔøΩÔøΩ", Font.PLAIN, 35));
-      contentPane.add(label);
+	   public TuberculosisDiagnosis_storage(Protocol p_t, ObjectOutputStream oos, ObjectInputStream ois, String ip_t) {
+		  p = p_t;
+		  writer = oos;
+		  reader = ois;
+		  ip = ip_t;
+		  
+	      this.setResizable(false); // √÷¥Î»≠ ¥‹√ﬂ æ¯æ÷±‚
+	      setTitle("∞·«Ÿ¡¯¥‹º≠ ¡¶√‚");
+	      setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	      setBounds(100, 100, 815, 675);
+	      setVisible(true);
+	      contentPane = new JPanel();
+	      contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+	      setContentPane(contentPane);
+	      contentPane.setLayout(null);
+	      label.setBounds(5, 59, 791, 536);
+	      label.setHorizontalAlignment(SwingConstants.CENTER);
+	      label.setFont(new Font("±º∏≤", Font.PLAIN, 35));
+	      contentPane.add(label);
 
-      JButton btnNewButton = new JButton("ÔøΩÔøΩÔøΩÔøΩ √£ÔøΩÔøΩ");
-      btnNewButton.setBounds(56, 605, 140, 25);
-      btnNewButton.addActionListener(new OpenActionListener());
-      contentPane.add(btnNewButton);
-      textField = new JTextField(); // ÔøΩÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩ
-      textField.setEditable(false);
-      textField.setBounds(194, 605, 520, 25);
-      contentPane.add(textField);
-      textField.setColumns(10);
+	      JButton btnNewButton = new JButton("∆ƒ¿œ √£±‚");
+	      btnNewButton.setBounds(56, 605, 140, 25);
+	      btnNewButton.addActionListener(new OpenActionListener());
+	      contentPane.add(btnNewButton);
+	      textField = new JTextField(); // ∆ƒ¿œ ∞Ê∑Œ
+	      textField.setEditable(false);
+	      textField.setBounds(194, 605, 520, 25);
+	      contentPane.add(textField);
+	      textField.setColumns(10);
 
-      JButton btnNewButton_1 = new JButton("ÔøΩÔøΩÔøΩÔøΩ");
-      btnNewButton_1.addActionListener(new ActionListener() {
-         public void actionPerformed(ActionEvent e) {
-            // Socket theSocket = null;
-            // String host;
-            if (filePath != null) {
-               File file = new File(filePath); // filepath : ≈¨ÔøΩÔøΩÔøΩÃæÔøΩ∆ÆÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩ
-               long length = file.length();
-               System.out.println(file.toString() + " length : " + length + "byte");
-               try {
-                  p = new Protocol<File>(15, 3, file);
-                  writer.writeObject(p);
-                  writer.flush();
-                  p = (Protocol) reader.readObject();
-               } catch (IOException e1) {
-                  e1.printStackTrace();
-               } catch (ClassNotFoundException e1) {
-                  // TODO Auto-generated catch block
-                  e1.printStackTrace();
-               }
+	      JButton btnNewButton_1 = new JButton("¡¶√‚");
+	      btnNewButton_1.addActionListener(new ActionListener() {
+	         public void actionPerformed(ActionEvent e) {
+	            // Socket theSocket = null;
+	            // String host;
+	        	 if (filePath != null)
+	        	 {
+	        		 try {
+	        			 System.out.println(p.getMainType() + " " + p.getSubType());
+	                	 p.makePacket(15, 3, 0, p.getBody());
+	                	 writer.writeObject(p);
+	                	 writer.flush();
+	                	 writer.reset();
 
-               if (p.getSubType() == 4) {
-                  if (p.getCode() == 1)
-                     JOptionPane.showMessageDialog(null, "ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ ÔøΩÃ∑ÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩÔøΩœ¥ÔøΩ.");
-                  else if (p.getCode() == 2) {
-                     String err = (String) p.getBody();
-                     JOptionPane.showMessageDialog(null, err); // ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ ÔøΩ∆¥ÔøΩ or ÔøΩÔøΩÔøΩÔøΩ‚∞£ ÔøΩ∆¥ÔøΩ
-                  }
-               }
-            } else
-               JOptionPane.showMessageDialog(null, "ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ ÔøΩ÷ºÔøΩÔøΩÔøΩ!");
-         }
-      });
-      btnNewButton_1.setBounds(680, 23, 91, 23);
-      contentPane.add(btnNewButton_1);
-   }
+	                	 File file = new File(filePath);
+	                     if (!file.exists()) {
+	                         System.out.println("File not Exist.");
+	                         System.exit(0);
+	                     }
+	                      
+	                     long fileSize = file.length();
+	                     System.out.println(fileSize);
+	                     long totalReadBytes = 0;
+	                     byte[] buffer = new byte[10000];
+	                     int readBytes;
+	                     double startTime = 0;
+	                     
+	                     FileInputStream fis = new FileInputStream(file);
+	                     Socket socket_t = new Socket(ip, 5001);
+	                     if(!socket_t.isConnected()){
+	                         System.out.println("Socket Connect Error.");
+	                         System.exit(0);
+	                     }
+	                      
+	                     startTime = System.currentTimeMillis();
+	                     OutputStream os = socket_t.getOutputStream();
+	                     while ((readBytes = fis.read(buffer)) > 0) {
+	                     	System.out.println(readBytes);
+	                         os.write(buffer, 0, readBytes);
+	                         totalReadBytes += readBytes;
+	                         System.out.println("In progress: " + totalReadBytes + "/"
+	                                 + fileSize + " Byte(s) ("
+	                                 + (totalReadBytes * 100 / fileSize) + " %)");
+	                     }
+	                     
+	                     System.out.println("File transfer completed.");
+	                     fis.close();
+	                     os.close();
+	                     socket_t.close();
+	                     System.out.println(p.getMainType() + " " + p.getSubType());
+	                     p = (Protocol) reader.readObject();
+	                     System.out.println(p.getMainType() + " " + p.getSubType());
+	                 } catch (UnknownHostException e1) {
+	                     // TODO Auto-generated catch block
+	                     e1.printStackTrace();
+	                 } catch (IOException e1) {
+	                     // TODO Auto-generated catch block
+	                     e1.printStackTrace();
+	                 } catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 
-   class OpenActionListener implements ActionListener {
-      JFileChooser chooser;
+	                   if (p.getSubType() == 4) {
+	                      if (p.getCode() == 1)
+	                    	  JOptionPane.showMessageDialog(null, "∞·«Ÿ¡¯¥‹º≠ ¿¸º€¿Ã ¡§ªÛ¿˚¿∏∑Œ ¿Ã∑ÁæÓ ¡≥Ω¿¥œ¥Ÿ.");
+	                         
+	                      else if (p.getCode() == 2) {
+	                         String err = (String) p.getBody();
+	                         JOptionPane.showMessageDialog(null, err); // ¡¶√‚¥ÎªÛ æ∆¥‘ or ¡¶√‚±‚∞£ æ∆¥‘
+	                      }
+	                   }
+	                   else
+	                	   JOptionPane.showMessageDialog(null, "∆ƒ¿œ¿ª º±≈√«ÿ ¡÷ººø‰!");
+	        	 }
+	             
+	        	 else
+	                 JOptionPane.showMessageDialog(null, "∆ƒ¿œ¿ª ø√∑¡¡÷ººø‰.");
+	         }
+	      });
+	      btnNewButton_1.setBounds(680, 23, 91, 23);
+	      contentPane.add(btnNewButton_1);
+	   }
 
-      OpenActionListener() {
-         chooser = new JFileChooser();
-      }
+	   class OpenActionListener implements ActionListener {
+	      JFileChooser chooser;
 
-      public void actionPerformed(ActionEvent e) {
-         FileNameExtensionFilter filter = new FileNameExtensionFilter("jpg", "gif", "jpeg", "bmp", "png", "psd",
-               "ai", "sketch", "tif", "tiff", "tga", "webp", "jpg");
-         chooser.setFileFilter(filter);
-         int ret = chooser.showOpenDialog(null);
-         if (ret != JFileChooser.APPROVE_OPTION) {
-            JOptionPane.showMessageDialog(null, "ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ ÔøΩ æ“ΩÔøΩÔøΩœ¥ÔøΩ!", "ÔøΩÔøΩÔøΩ", JOptionPane.WARNING_MESSAGE);
-            return;
-         }
-         filePath = chooser.getSelectedFile().getPath();
-         label.setIcon(new ImageIcon(filePath));
-         textField.setText(filePath);
-      }
-   }
-}
+	      OpenActionListener() {
+	         chooser = new JFileChooser();
+	      }
+
+	      public void actionPerformed(ActionEvent e) {
+	         FileNameExtensionFilter filter = new FileNameExtensionFilter("jpg", "gif", "jpeg", "bmp", "png", "psd",
+	               "ai", "sketch", "tif", "tiff", "tga", "webp", "jpg");
+	         chooser.setFileFilter(filter);
+	         int ret = chooser.showOpenDialog(null);
+	         if (ret != JFileChooser.APPROVE_OPTION) {
+	            JOptionPane.showMessageDialog(null, "∆ƒ¿œ¿ª º±≈√«œ¡ˆ æ æ“Ω¿¥œ¥Ÿ!", "∞Ê∞Ì", JOptionPane.WARNING_MESSAGE);
+	            return;
+	         }
+	         filePath = chooser.getSelectedFile().getPath();
+	         label.setIcon(new ImageIcon(filePath));
+	         textField.setText(filePath);
+	      }
+	   }
+	}

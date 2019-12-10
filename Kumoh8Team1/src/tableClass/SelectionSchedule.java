@@ -12,6 +12,8 @@ public class SelectionSchedule  implements Serializable{
 	private String end_date;
 	private String content;
 	
+	public SelectionSchedule() {};
+	
 	public SelectionSchedule(int y, int s, String p, String sd, String e, String c)
 	{
 		year = y;

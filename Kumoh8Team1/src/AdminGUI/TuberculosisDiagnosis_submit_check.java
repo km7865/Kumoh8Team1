@@ -1,4 +1,4 @@
-// ê²°í•µì§„ë‹¨ì„œ ì œì¶œí™•ì¸
+// °áÇÙÁø´Ü¼­ Á¦ÃâÈ®ÀÎ
 
 package AdminGUI;
 
@@ -43,9 +43,9 @@ public class TuberculosisDiagnosis_submit_check extends JFrame {
 		p = p_t;
 		writer = writer_t;
 		reader = reader_t;
-		this.setResizable(false); // ìµœëŒ€í™” ë‹¨ì¶” ì—†ì• ê¸°
+		this.setResizable(false); // ÃÖ´ëÈ­ ´ÜÃß ¾ø¾Ö±â
 		setVisible(true);
-		setTitle("ê²°í•µì§„ë‹¨ì„œ ì œì¶œí™•ì¸");
+		setTitle("°áÇÙÁø´Ü¼­ Á¦ÃâÈ®ÀÎ");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 810, 640);
 		contentPane = new JPanel();
@@ -68,26 +68,21 @@ public class TuberculosisDiagnosis_submit_check extends JFrame {
 		
 		if(p.getCode() == 1)
 		{
-			// í…Œì´ë¸”ì— ì¶œë ¥í•  ì»¬ëŸ¼ ì´ë¦„ ë°°ì—´
-			String columnNames[] = {"ì‹ ì²­ë²ˆí˜¸", "í•™ë²ˆ", "ê²°í•µì§„ë‹¨ì„œ ì œì¶œìƒíƒœ"};
+			// Å×ÀÌºí¿¡ Ãâ·ÂÇÒ ÄÃ·³ ÀÌ¸§ ¹è¿­
+			String columnNames[] = {"½ÅÃ»¹øÈ£", "ÇĞ¹ø", "°áÇÙÁø´Ü¼­ Á¦Ãâ»óÅÂ"};
 
-			// í…Œì´ë¸”ì— ì¶œë ¥í•  ë°ì´í„° ë°°ì—´
-			int i = 4; // ë²”ìœ„
-			String data[][] = (String [][])p.getBody(); // ë°ì´í„° ë“¤ì–´ê°ˆ ë¶€ë¶„
+			// Å×ÀÌºí¿¡ Ãâ·ÂÇÒ µ¥ÀÌÅÍ ¹è¿­
+			int i = 4; // ¹üÀ§
+			String data[][] = (String [][])p.getBody(); // µ¥ÀÌÅÍ µé¾î°¥ ºÎºĞ
 
-			// ë‚´ìš© ìˆ˜ì • ëª»í•˜ê²Œ í•¨
-			DefaultTableModel model = new DefaultTableModel(data, columnNames) {
-				public boolean isCellEditable(int rowIndex, int mCollindex) {
-					return false;
-				}
-			};
+			DefaultTableModel model = new DefaultTableModel(data, columnNames);
 			JTable tbl = new JTable(model);
 			tbl.setRowHeight(25);
 
 			// JTable tbl = new JTable(data,columnNames);
-			// Tableì€ JScrollPaneìœ„ì— ì¶œë ¥í•´ì•¼ ì»¬ëŸ¼ ì´ë¦„ì´ ì¶œë ¥ëœë‹¤! ëª…ì‹¬í• ê²ƒ
+			// TableÀº JScrollPaneÀ§¿¡ Ãâ·ÂÇØ¾ß ÄÃ·³ ÀÌ¸§ÀÌ Ãâ·ÂµÈ´Ù! ¸í½ÉÇÒ°Í
 			JScrollPane scroll = new JScrollPane(tbl);
-			scroll.getVerticalScrollBar().setUnitIncrement(100); // ìŠ¤í¬ë¡¤ ì†ë„
+			scroll.getVerticalScrollBar().setUnitIncrement(100); // ½ºÅ©·Ñ ¼Óµµ
 			scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 			getContentPane().add(scroll);
 			scroll.setSize(772, 583);

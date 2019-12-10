@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import Network.Protocol;
+import StudentGUI.TuberculosisDiagnosis_storage;
 import tableClass.*;
 
 import javax.swing.JFrame;
@@ -31,6 +32,7 @@ public class TuberculosisDiagnosis_upload_student_id extends JFrame {
 	private static Protocol p;
 	private static ObjectOutputStream writer;
 	private static ObjectInputStream reader;
+	private static String ip;
    private JPanel contentPane;
    private JTextField textField;
    private JButton btnNewButton;
@@ -39,7 +41,7 @@ public class TuberculosisDiagnosis_upload_student_id extends JFrame {
       EventQueue.invokeLater(new Runnable() {
          public void run() {
             try {
-               TuberculosisDiagnosis_upload_student_id frame = new TuberculosisDiagnosis_upload_student_id(p, writer, reader);
+               TuberculosisDiagnosis_upload_student_id frame = new TuberculosisDiagnosis_upload_student_id(p, writer, reader, ip);
                frame.setVisible(true);
             } catch (Exception e) {
                e.printStackTrace();
@@ -48,10 +50,11 @@ public class TuberculosisDiagnosis_upload_student_id extends JFrame {
       });
    }
    
-   public TuberculosisDiagnosis_upload_student_id(Protocol p_t, ObjectOutputStream writer_t, ObjectInputStream reader_t) {      
+   public TuberculosisDiagnosis_upload_student_id(Protocol p_t, ObjectOutputStream writer_t, ObjectInputStream reader_t, String ip_t) {      
 	   p = p_t;
 	   writer = writer_t;
 	   reader = reader_t;
+	   ip = ip_t;
 	   setVisible(true);
       setTitle("결핵진단서 업로드 시 학번 입력");
       this.setResizable(false); // 최대화 단추 없앰
@@ -111,18 +114,8 @@ public class TuberculosisDiagnosis_upload_student_id extends JFrame {
         		 if (p.getSubType() == 2) {
         			 if(p.getCode() == 1)
         			 {
-        				 JFileChooser chooser = new JFileChooser();
-
-                         FileNameExtensionFilter filter = new FileNameExtensionFilter("jpg", "gif", "jpeg", "bmp", "png",
-                               "psd", "ai", "sketch", "tif", "tiff", "tga", "webp", "jpg");
-                         chooser.setFileFilter(filter);
-
-                         int ret = chooser.showSaveDialog(null);
-                         if (ret != JFileChooser.APPROVE_OPTION) {
-                            JOptionPane.showMessageDialog(null, "파일을 선택하지 않았습니다!", "경고", JOptionPane.WARNING_MESSAGE);
-                            return;
-                         }
-                      } 
+        				 new TuberculosisDiagnosis_storage(p, writer, reader, ip);
+        			 }
         			 
         			 else
         			 {
