@@ -1,4 +1,4 @@
-// ê³ ì§€ì„œ ì¶œë ¥
+// °íÁö¼­ Ãâ·Â
 
 package GUI;
 
@@ -40,8 +40,8 @@ public class Bill extends JFrame {
 	}
 
 	public Bill() {
-		this.setResizable(false); // ìµœëŒ€í™” ë‹¨ì¶” ì—†ì• ê¸°
-		setTitle("ê³ ì§€ì„œ ì¶œë ¥");
+		this.setResizable(false); // ÃÖ´ëÈ­ ´ÜÃß ¾ø¾Ö±â
+		setTitle("°íÁö¼­ Ãâ·Â");
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 510, 375);
@@ -50,42 +50,42 @@ public class Bill extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		String name = "ê¹€ë™ìœ¤";
+		String name = "±èµ¿À±";
 		String sId = "20150129";
-		String bank = "ë†í˜‘";
+		String bank = "³óÇù";
 		String bankNumber = "713047-51-021320";
 		String money = "1,300,000";
 
-		JLabel lblNewLabel = new JLabel("ì„±ëª…");
+		JLabel lblNewLabel = new JLabel("¼º¸í");
 		lblNewLabel.setForeground(Color.BLACK);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(50, 85, 95, 40);
 		contentPane.add(lblNewLabel);
 
-		JLabel label = new JLabel("í•™ë²ˆ");
+		JLabel label = new JLabel("ÇĞ¹ø");
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setForeground(Color.BLACK);
 		label.setBounds(50, 130, 95, 40);
 		contentPane.add(label);
 
-		JLabel label_1 = new JLabel("ì€í–‰");
+		JLabel label_1 = new JLabel("ÀºÇà");
 		label_1.setHorizontalAlignment(SwingConstants.CENTER);
 		label_1.setForeground(Color.BLACK);
 		label_1.setBounds(50, 175, 95, 40);
 		contentPane.add(label_1);
 
-		JLabel label_2 = new JLabel("ê³„ì¢Œë²ˆí˜¸");
+		JLabel label_2 = new JLabel("°èÁÂ¹øÈ£");
 		label_2.setHorizontalAlignment(SwingConstants.CENTER);
 		label_2.setForeground(Color.BLACK);
 		label_2.setBounds(50, 220, 95, 40);
 		contentPane.add(label_2);
-		JLabel label_3 = new JLabel("ì…ê¸ˆì•¡");
+		JLabel label_3 = new JLabel("ÀÔ±İ¾×");
 		label_3.setHorizontalAlignment(SwingConstants.CENTER);
 		label_3.setForeground(Color.BLACK);
 		label_3.setBounds(50, 265, 95, 40);
 		contentPane.add(label_3);
 
-		textField_1 = new JTextField(name); // ì„±ëª…
+		textField_1 = new JTextField(name); // ¼º¸í
 		textField_1.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_1.setBackground(new Color(255, 228, 225));
 		textField_1.setForeground(Color.BLACK);
@@ -94,7 +94,7 @@ public class Bill extends JFrame {
 		textField_1.setBounds(147, 85, 220, 40);
 		contentPane.add(textField_1);
 
-		textField_2 = new JTextField(sId); // í•™ë²ˆ
+		textField_2 = new JTextField(sId); // ÇĞ¹ø
 		textField_2.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_2.setBackground(new Color(255, 228, 225));
 		textField_2.setForeground(Color.BLACK);
@@ -103,7 +103,7 @@ public class Bill extends JFrame {
 		textField_2.setBounds(147, 130, 220, 40);
 		contentPane.add(textField_2);
 
-		textField_3 = new JTextField(bank); // ì€í–‰
+		textField_3 = new JTextField(bank); // ÀºÇà
 		textField_3.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_3.setBackground(new Color(255, 228, 225));
 		textField_3.setForeground(Color.BLACK);
@@ -112,7 +112,7 @@ public class Bill extends JFrame {
 		textField_3.setBounds(147, 175, 220, 40);
 		contentPane.add(textField_3);
 
-		textField_4 = new JTextField(bankNumber); // ê³„ì¢Œë²ˆí˜¸
+		textField_4 = new JTextField(bankNumber); // °èÁÂ¹øÈ£
 		textField_4.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_4.setBackground(new Color(255, 228, 225));
 		textField_4.setForeground(Color.BLACK);
@@ -121,7 +121,7 @@ public class Bill extends JFrame {
 		textField_4.setBounds(147, 220, 220, 40);
 		contentPane.add(textField_4);
 
-		textField_5 = new JTextField(money); // ì…ê¸ˆì•¡
+		textField_5 = new JTextField(money); // ÀÔ±İ¾×
 		textField_5.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_5.setBackground(new Color(255, 228, 225));
 		textField_5.setForeground(Color.BLACK);
@@ -132,7 +132,7 @@ public class Bill extends JFrame {
 
 		textField_title = new JTextField();
 		textField_title.setForeground(Color.RED);
-		textField_title.setText("ê³ ì§€ì„œ ì¶œë ¥");
+		textField_title.setText("°íÁö¼­ Ãâ·Â");
 		textField_title.setEditable(false);
 		textField_title.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_title.setBounds(50, 20, 317, 50);
