@@ -1,6 +1,6 @@
 // 입사자 등록 및 조회
 
-package GUI;
+package AdminGUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;

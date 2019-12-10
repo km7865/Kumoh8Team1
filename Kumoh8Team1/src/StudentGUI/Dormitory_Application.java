@@ -1,6 +1,5 @@
 // 입사 신청
-
-package GUI;
+package StudentGUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;

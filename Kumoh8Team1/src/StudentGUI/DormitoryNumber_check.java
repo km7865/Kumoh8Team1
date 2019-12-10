@@ -1,6 +1,6 @@
 // 호실 조회
 
-package GUI;
+package StudentGUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;

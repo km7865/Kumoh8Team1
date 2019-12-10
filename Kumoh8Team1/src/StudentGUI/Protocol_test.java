@@ -1,4 +1,4 @@
-package GUI;
+package StudentGUI;
 
 import java.io.Serializable;
 

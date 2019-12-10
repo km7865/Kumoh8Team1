@@ -1,6 +1,6 @@
 // 입사 서약서
 
-package GUI;
+package StudentGUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

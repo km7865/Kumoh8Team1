@@ -1,5 +1,5 @@
 // 입사신청 내역조회 및 고지서 출력
-package GUI;
+package StudentGUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;

@@ -1,6 +1,6 @@
 // 입사선발자 결과등록
 
-package GUI;
+package AdminGUI;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

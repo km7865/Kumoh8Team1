@@ -1,6 +1,6 @@
 // 입사신청 내역조회
 
-package GUI;
+package StudentGUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;

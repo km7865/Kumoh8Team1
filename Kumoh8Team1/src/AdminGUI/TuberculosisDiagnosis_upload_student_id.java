@@ -1,6 +1,6 @@
 // (관리자) 결핵진단서 업로드 클릭시, '제출자의 학번을 입력해주세요'라는 창
 
-package GUI;
+package AdminGUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;

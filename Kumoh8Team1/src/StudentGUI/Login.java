@@ -1,9 +1,8 @@
-
-
-package GUI;
+package StudentGUI;
 
 import tableClass.*;
 import Network.*;
+import AdminGUI.*;
 
 import java.io.*;
 import java.util.*;

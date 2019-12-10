@@ -1,6 +1,6 @@
 // 결핵진단서 제출 (학생)
 
-package GUI;
+package StudentGUI;
 
 import Network.*;
 import tableClass.*;

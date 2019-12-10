@@ -930,14 +930,14 @@ public class DBManager {
 		try {
 			rs = stmt.executeQuery(sql);
 			if(!rs.next())
-				protocol.makePacket(27, 2, 2, "대상학생이 아닙니다.");
+				protocol.makePacket(27, 2, 2, "대상 학생이 아닙니다.");
 			else
 			{
 				rs.first();
 				if(studentNumber.equals(rs.getString("학번")))
 					protocol.makePacket(27, 2, 1, null);
 				else
-					protocol.makePacket(27, 2, 2, "대상학생이 아닙니다.");
+					protocol.makePacket(27, 2, 2, "대상 학생이 아닙니다.");
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

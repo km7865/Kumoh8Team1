@@ -1,6 +1,6 @@
-// 입사자 조회
+// 결핵진단서 제출확인
 
-package GUI;
+package AdminGUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -20,17 +20,17 @@ import javax.swing.table.DefaultTableModel;
 import Network.Protocol;
 import tableClass.*;
 
-public class Joiner_Check extends JFrame {
+public class TuberculosisDiagnosis_submit_check extends JFrame {
+	private JPanel contentPane;
 	private static Protocol p;
 	private static ObjectOutputStream writer;
 	private static ObjectInputStream reader;
-	private JPanel contentPane;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Joiner_Check frame = new Joiner_Check(p, writer, reader);
+					TuberculosisDiagnosis_submit_check frame = new TuberculosisDiagnosis_submit_check(p, writer, reader);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -39,13 +39,13 @@ public class Joiner_Check extends JFrame {
 		});
 	}
 
-	public Joiner_Check(Protocol p_t, ObjectOutputStream writer_t, ObjectInputStream reader_t) {
+	public TuberculosisDiagnosis_submit_check(Protocol p_t, ObjectOutputStream writer_t, ObjectInputStream reader_t) {
 		p = p_t;
 		writer = writer_t;
 		reader = reader_t;
 		this.setResizable(false); // 최대화 단추 없애기
 		setVisible(true);
-		setTitle("입사자 조회");
+		setTitle("결핵진단서 제출확인");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 810, 640);
 		contentPane = new JPanel();
@@ -54,7 +54,7 @@ public class Joiner_Check extends JFrame {
 		contentPane.setLayout(null);
 		
 		try {
-			p.makePacket(24, 1, 0, null);
+			p.makePacket(26, 1, 0, null);
 			writer.writeObject(p);
 			writer.flush();
 			writer.reset();
@@ -69,13 +69,11 @@ public class Joiner_Check extends JFrame {
 		if(p.getCode() == 1)
 		{
 			// 테이블에 출력할 컬럼 이름 배열
-			String columnNames[] = {"학번", "이름", "생활관", "호실", "침대번호"};
+			String columnNames[] = {"신청번호", "학번", "결핵진단서 제출상태"};
 
 			// 테이블에 출력할 데이터 배열
-			String[][] data = (String [][])p.getBody();		//받아온 데이터
-			for (int i = 0; i < data.length; i++) {
-	            System.out.println(data[i][0] + " " + data[i][1]);
-	        }
+			int i = 4; // 범위
+			String data[][] = (String [][])p.getBody(); // 데이터 들어갈 부분
 
 			DefaultTableModel model = new DefaultTableModel(data, columnNames);
 			JTable tbl = new JTable(model);
@@ -90,7 +88,6 @@ public class Joiner_Check extends JFrame {
 			scroll.setSize(772, 583);
 			scroll.setLocation(12, 10);
 		}
-		
 		else
 		{
 			String err = (String) p.getBody();

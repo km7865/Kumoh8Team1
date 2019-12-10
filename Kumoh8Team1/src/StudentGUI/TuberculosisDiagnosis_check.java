@@ -1,6 +1,6 @@
 // 결핵진단서 제출 확인 (관리자)
 
-package GUI;
+package StudentGUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;

@@ -1,6 +1,6 @@
 // 결핵진단서 업로드 및 제출확인
 
-package GUI;
+package StudentGUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -18,6 +18,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import AdminGUI.TuberculosisDiagnosis_submit_check;
+import AdminGUI.TuberculosisDiagnosis_upload_student_id;
 import Network.Protocol;
 import tableClass.*;
 

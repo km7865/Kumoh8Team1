@@ -1,6 +1,6 @@
 // 생활관비 등록
 
-package GUI;
+package AdminGUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
