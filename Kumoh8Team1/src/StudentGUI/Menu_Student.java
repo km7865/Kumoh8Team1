@@ -1,4 +1,4 @@
-// ?ïô?Éù Î©îÎâ¥
+// «–ª˝ ∏ﬁ¥∫
 
 package StudentGUI;
 
@@ -45,42 +45,43 @@ public class Menu_Student extends JFrame {
 	private static Protocol p;
 	private static ObjectOutputStream writer;
 	private static ObjectInputStream reader;
-	private Protocol p2;
+	private Student student;
 	
 	public Menu_Student(Protocol p_t, ObjectOutputStream oos, ObjectInputStream ois) {
 		p = p_t;
+		student = (Student)p.getBody();
 		writer = oos;
 		reader = ois;
 		
-		this.setResizable(false); // ÏµúÎ??ôî ?ã®Ï∂? ?óÜ?ï†Í∏?
-		setTitle("?ïô?ÉùÎ©îÎâ¥");
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setResizable(false); // √÷¥Î»≠ ¥‹√ﬂ æ¯æ÷±‚
+		setTitle("«–ª˝∏ﬁ¥∫");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 520);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JButton button = new JButton("Í≤∞ÌïµÏßÑÎã®?Ñú ?†úÏ∂?");
+		JButton button = new JButton("∞·«Ÿ¡¯¥‹º≠ ¡¶√‚");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					p2 = new Protocol(15,1,0,null);
-					writer.writeObject(p2);
+					p = new Protocol(15,1,0,null);
+					writer.writeObject(p);
 					writer.flush();
-					p2 = (Protocol) reader.readObject();
+					p = (Protocol) reader.readObject();
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				} catch (ClassNotFoundException e1) {
 					e1.printStackTrace();
 				}
 
-				if (p2.getSubType() == 2) {
-					if (p2.getCode() == 1)
+				if (p.getSubType() == 2) {
+					if (p.getCode() == 1)
 						new TuberculosisDiagnosis_storage(p, writer, reader);
-					else if (p2.getCode() == 2) {
-						String err = (String) p2.getBody();
-						JOptionPane.showMessageDialog(null, err); // ?†úÏ∂úÎ??ÉÅ ?ïÑ?ãò or ?†úÏ∂úÍ∏∞Í∞? ?ïÑ?ãò
+					else if (p.getCode() == 2) {
+						String err = (String) p.getBody();
+						JOptionPane.showMessageDialog(null, err); // ¡¶√‚¥ÎªÛ æ∆¥‘ or ¡¶√‚±‚∞£ æ∆¥‘
 					}
 				}
 			}
@@ -88,26 +89,26 @@ public class Menu_Student extends JFrame {
 
 		button.setBounds(50, 325, 285, 50);
 		contentPane.add(button);
-		JButton button_1 = new JButton("?ûÖ?Ç¨ ?ã†Ï≤?");
+		JButton button_1 = new JButton("¿‘ªÁ Ω≈√ª");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					p2 = new Protocol(11,1,0,null);
-					writer.writeObject(p2);
+					p = new Protocol(11,1,0,null);
+					writer.writeObject(p);
 					writer.flush();
 					writer.reset();
-					p2 = (Protocol) reader.readObject();
+					p = (Protocol) reader.readObject();
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				} catch (ClassNotFoundException e1) {
 					e1.printStackTrace();
 				}
-				if (p2.getSubType() == 2) {
-					if (p2.getCode() == 1)
-						new Join_Promise(p, writer, reader);
-					else if (p2.getCode() == 2) {
-						String err = (String) p2.getBody();
-						JOptionPane.showMessageDialog(null, err); // ?†úÏ∂úÎ??ÉÅ ?ïÑ?ãò or ?†úÏ∂úÍ∏∞Í∞? ?ïÑ?ãò
+				if (p.getSubType() == 2) {
+					if (p.getCode() == 1)
+						new Join_Promise(student, writer, reader);
+					else if (p.getCode() == 2) {
+						String err = (String) p.getBody();
+						JOptionPane.showMessageDialog(null, err); // ¡¶√‚¥ÎªÛ æ∆¥‘ or ¡¶√‚±‚∞£ æ∆¥‘
 					}
 				}
 			}
@@ -115,29 +116,28 @@ public class Menu_Student extends JFrame {
 		button_1.setBounds(50, 246, 285, 50);
 		contentPane.add(button_1);
 
-		JButton button_2 = new JButton("?ûÖ?Ç¨?ã†Ï≤? ?Ç¥?ó≠Ï°∞Ìöå Î∞? Í≥†Ï??Ñú Ï∂úÎ†•"); // 13, 14?ùò ?ÑúÎ∏åÌ??ûÖ 1, 2Î•? ?ïúÎ≤àÏóê Ï≤òÎ¶¨, Ï¶? 14?ùò 1, 2?äî ?Ç¨?ö©?ïòÏß? ?ïä?ùå
+		JButton button_2 = new JButton("¿‘ªÁΩ≈√ª ≥ªø™¡∂»∏ π◊ ∞Ì¡ˆº≠ √‚∑¬"); // 13, 14¿« º≠∫Í≈∏¿‘ 1, 2∏¶ «—π¯ø° √≥∏Æ, ¡Ô 14¿« 1, 2¥¬ ªÁøÎ«œ¡ˆ æ ¿Ω
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					p2 = new Protocol(13,1,0,null);
-					writer.writeObject(p2);
+					p = new Protocol(13,1,0,null);
+					writer.writeObject(p);
 					writer.flush();
 					writer.reset();
-					p2 = (Protocol) reader.readObject();
+					p = (Protocol) reader.readObject();
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				} catch (ClassNotFoundException e1) {
 					e1.printStackTrace();
 				}
 				
-				if (p2.getSubType() == 2) {	
-					if (p2.getCode() == 1) {
-						System.out.println(p2.getMainType() + " " + p2.getSubType() + " " + p2.getCode());
-						new DetailedStatement_Bill(p, p2, writer, reader);
+				if (p.getSubType() == 2) {	
+					if (p.getCode() == 1) {
+						new DetailedStatement_Bill(p, student, writer, reader);
 					}
-					else if (p2.getCode() == 2) {
-						String err = (String) p2.getBody();
-						JOptionPane.showMessageDialog(null, err); // ?†úÏ∂úÎ??ÉÅ ?ïÑ?ãò or ?†úÏ∂úÍ∏∞Í∞? ?ïÑ?ãò
+					else if (p.getCode() == 2) {
+						String err = (String) p.getBody();
+						JOptionPane.showMessageDialog(null, err); // ¡¶√‚¥ÎªÛ æ∆¥‘ or ¡¶√‚±‚∞£ æ∆¥‘
 					}
 				}
 			}
@@ -145,25 +145,25 @@ public class Menu_Student extends JFrame {
 		button_2.setBounds(360, 325, 285, 50);
 		contentPane.add(button_2);
 
-		JButton button_4 = new JButton("?ò∏?ã§ Ï°∞Ìöå");
+		JButton button_4 = new JButton("»£Ω« ¡∂»∏");
 		button_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					p2 = new Protocol(12, 1,0,null);
-					writer.writeObject(p2);
+					p = new Protocol(12, 1,0,null);
+					writer.writeObject(p);
 					writer.flush();
-					p2 = (Protocol) reader.readObject();
+					p = (Protocol) reader.readObject();
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				} catch (ClassNotFoundException e1) {
 					e1.printStackTrace();
 				}
-				if (p2.getSubType() == 2) {
-					if (p2.getCode() == 1)
-						new DormitoryNumber_check(p, writer, reader);
-					else if (p2.getCode() == 2) {
-						String err = (String) p2.getBody();
-						JOptionPane.showMessageDialog(null, err); // ?†úÏ∂úÎ??ÉÅ ?ïÑ?ãò or ?†úÏ∂úÍ∏∞Í∞? ?ïÑ?ãò
+				if (p.getSubType() == 2) {
+					if (p.getCode() == 1)
+						new DormitoryNumber_check(p, student, writer, reader);
+					else if (p.getCode() == 2) {
+						String err = (String) p.getBody();
+						JOptionPane.showMessageDialog(null, err); // ¡¶√‚¥ÎªÛ æ∆¥‘ or ¡¶√‚±‚∞£ æ∆¥‘
 					}
 				}
 			}
@@ -171,7 +171,7 @@ public class Menu_Student extends JFrame {
 		button_4.setBounds(360, 246, 285, 50);
 		contentPane.add(button_4);
 
-		JButton btnNewButton = new JButton("Î°úÍ∑∏?ïÑ?õÉ");
+		JButton btnNewButton = new JButton("∑Œ±◊æ∆øÙ");
 		btnNewButton.addMouseListener(new MouseAdapter() {
 		});
 		btnNewButton.addActionListener(new ActionListener() {
@@ -190,13 +190,13 @@ public class Menu_Student extends JFrame {
 		textField = new JTextField();
 		textField.setEditable(false);
 		textField.setHorizontalAlignment(SwingConstants.RIGHT);
-		textField.setText("?Ñ±Î™?");
+		textField.setText("º∫∏Ì");
 		textField.setBackground(Color.LIGHT_GRAY);
 		textField.setBounds(50, 50, 135, 40);
 		contentPane.add(textField);
 		textField.setColumns(10);
 
-		textField_1 = new JTextField(); // ?Ñ±Î™?
+		textField_1 = new JTextField(); // º∫∏Ì
 		textField_1.setEditable(false);
 		textField_1.setText(student.getName());
 		textField_1.setBounds(185, 50, 150, 40);
@@ -204,7 +204,7 @@ public class Menu_Student extends JFrame {
 		textField_1.setColumns(10);
 
 		textField_2 = new JTextField();
-		textField_2.setText("?ïôÎ≤?");
+		textField_2.setText("«–π¯");
 		textField_2.setHorizontalAlignment(SwingConstants.RIGHT);
 		textField_2.setEditable(false);
 		textField_2.setColumns(10);
@@ -212,7 +212,7 @@ public class Menu_Student extends JFrame {
 		textField_2.setBounds(360, 50, 135, 40);
 		contentPane.add(textField_2);
 
-		textField_3 = new JTextField(); // ?ïôÎ≤?
+		textField_3 = new JTextField(); // «–π¯
 		textField_3.setEditable(false);
 		textField_3.setText(student.getStudentId());
 		textField_3.setColumns(10);
@@ -220,7 +220,7 @@ public class Menu_Student extends JFrame {
 		contentPane.add(textField_3);
 
 		textField_4 = new JTextField();
-		textField_4.setText("?ïô?ÖÑ");
+		textField_4.setText("«–≥‚");
 		textField_4.setHorizontalAlignment(SwingConstants.RIGHT);
 		textField_4.setEditable(false);
 		textField_4.setColumns(10);
@@ -228,7 +228,7 @@ public class Menu_Student extends JFrame {
 		textField_4.setBounds(50, 100, 135, 40);
 		contentPane.add(textField_4);
 
-		textField_5 = new JTextField(); // ?ïô?ÖÑ
+		textField_5 = new JTextField(); // «–≥‚
 		textField_5.setEditable(false);
 		textField_5.setText(Integer.toString(student.getGrade()));
 		textField_5.setColumns(10);
@@ -236,7 +236,7 @@ public class Menu_Student extends JFrame {
 		contentPane.add(textField_5);
 
 		textField_6 = new JTextField();
-		textField_6.setText("?ïôÍ≥?");
+		textField_6.setText("«–∞˙");
 		textField_6.setHorizontalAlignment(SwingConstants.RIGHT);
 		textField_6.setEditable(false);
 		textField_6.setColumns(10);
@@ -244,7 +244,7 @@ public class Menu_Student extends JFrame {
 		textField_6.setBounds(360, 100, 135, 40);
 		contentPane.add(textField_6);
 
-		textField_7 = new JTextField(); // ?ïôÍ≥?
+		textField_7 = new JTextField(); // «–∞˙
 		textField_7.setEditable(false);
 		textField_7.setText(student.getDepartmentName());
 		textField_7.setColumns(10);

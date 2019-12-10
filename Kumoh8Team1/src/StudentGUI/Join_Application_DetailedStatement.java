@@ -51,12 +51,9 @@ public class Join_Application_DetailedStatement extends JFrame {
 	private Student student;
 	private dormitoryApplication[] appList;
 
-	public Join_Application_DetailedStatement(Protocol p_t, dormitoryApplication[] a, ObjectOutputStream oos, ObjectInputStream ois) {
-		p = p_t; //학생 정보 포함 프로토콜
-		appList = a;
-		writer = oos;
-		reader = ois;
-		student = (Student)p_t.getBody();
+	public Join_Application_DetailedStatement(Student s,dormitoryApplication[] apps) {
+		appList = apps;
+		student = s;
 
 		this.setResizable(false); // 최대화 단추 없애기
 		setVisible(true);

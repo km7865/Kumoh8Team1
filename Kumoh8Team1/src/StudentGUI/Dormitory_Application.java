@@ -81,11 +81,10 @@ public class Dormitory_Application extends JFrame {
 	private static ObjectInputStream reader;
 	private Student student;    
    
-  public Dormitory_Application(Protocol p_t, ObjectOutputStream oos, ObjectInputStream ois) {
-		p = p_t;
+  public Dormitory_Application(Student s, ObjectOutputStream oos, ObjectInputStream ois) {
+		student = s;
 		writer = oos;
 		reader = ois;
-		student = (Student)p_t.getBody();
 
       this.setResizable(false); // 최대화 단추 없애기
       setVisible(true);
@@ -365,7 +364,6 @@ textField_4.setText(Integer.toString(student.getGrade()));
 					try { 
 						writer.writeObject(new Protocol(11,3,0,app));
 						writer.flush();
-						writer.reset();
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
@@ -377,7 +375,7 @@ textField_4.setText(Integer.toString(student.getGrade()));
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-				if (p.getSubType() == 2) {
+				if (p.getSubType() == 4) {
 					if (p.getCode() == 1) 
 					JOptionPane.showMessageDialog(null, "신청이 성공적으로 완료되었습니다!!");
 					else if (p.getCode() == 2)
