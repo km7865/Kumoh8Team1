@@ -470,7 +470,7 @@ public class DBManager {
 		
 		
 	}
-	
+	//sdfg
 	public void joinerCheck(Protocol protocol)
 	{	
 		int cnt = 0;
