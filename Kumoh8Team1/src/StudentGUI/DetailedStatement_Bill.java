@@ -1,10 +1,12 @@
 // 입사신청 내역조회 및 고지서 출력
 package StudentGUI;
 
+import tableClass.*;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -14,6 +16,7 @@ import tableClass.dormitoryApplication;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -58,7 +61,25 @@ public class DetailedStatement_Bill extends JFrame {
 		JButton button_1 = new JButton("고지서 출력");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new Bill(p, appList, writer, reader);
+				p = new Protocol(14,1,0,null);
+				try {
+					writer.writeObject(p);
+					writer.flush();
+					writer.reset();
+					p = (Protocol)reader.readObject();
+				} catch (IOException | ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				if (p.getSubType() == 2) {	
+					if (p.getCode() == 1) {
+						new Bill(student, (SelectedStudent)p.getBody(), writer, reader);
+					}
+					else if (p.getCode() == 2) {
+						String err = (String) p.getBody();
+						JOptionPane.showMessageDialog(null, err);
+					}
+				}
 			}
 		});
 		button_1.setBounds(195, 40, 130, 40);

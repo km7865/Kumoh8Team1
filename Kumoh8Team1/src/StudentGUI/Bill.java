@@ -2,6 +2,7 @@
 
 package StudentGUI;
 
+import tableClass.*;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.io.ObjectInputStream;
@@ -33,18 +34,17 @@ public class Bill extends JFrame {
 	private JTextField textField_title;
 
 	private static Protocol p;
-	private static Protocol p2;
 	private static ObjectOutputStream writer;
 	private static ObjectInputStream reader;
-	private String[] s;
-	private dormitoryApplication[] appList;
-
-	public Bill(Protocol p_t, dormitoryApplication[] a, ObjectOutputStream oos, ObjectInputStream ois) {
-		p = p_t; // 학생 정보 포함 프로토콜
-		appList = a;
+	private Student student;
+	private SelectedStudent selectedStudent;
+	
+	public Bill(Student s, SelectedStudent ss, ObjectOutputStream oos, ObjectInputStream ois) {
+		student = s;
+		selectedStudent = ss;
 		writer = oos;
 		reader = ois;
-		s = (String[])p.getBody();
+		
 		this.setResizable(false); // 최대화 단추 없애기
 		setTitle("고지서 출력");
 		setVisible(true);
@@ -54,10 +54,6 @@ public class Bill extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
-		String name = s[0];	//이름
-		String sId = s[1];	//학번
-		String money = s[2];//금액
 
 		JLabel lblNewLabel = new JLabel("성명");
 		lblNewLabel.setForeground(Color.BLACK);
@@ -71,24 +67,25 @@ public class Bill extends JFrame {
 		label.setBounds(50, 130, 95, 40);
 		contentPane.add(label);
 
-		JLabel label_1 = new JLabel("은행");
+		JLabel label_1 = new JLabel("생활관 관리비");
 		label_1.setHorizontalAlignment(SwingConstants.CENTER);
 		label_1.setForeground(Color.BLACK);
 		label_1.setBounds(50, 175, 95, 40);
 		contentPane.add(label_1);
 
-		JLabel label_2 = new JLabel("계좌번호");
+		JLabel label_2 = new JLabel("식비");
 		label_2.setHorizontalAlignment(SwingConstants.CENTER);
 		label_2.setForeground(Color.BLACK);
 		label_2.setBounds(50, 220, 95, 40);
 		contentPane.add(label_2);
-		JLabel label_3 = new JLabel("입금액");
+		JLabel label_3 = new JLabel("총액");
 		label_3.setHorizontalAlignment(SwingConstants.CENTER);
 		label_3.setForeground(Color.BLACK);
 		label_3.setBounds(50, 265, 95, 40);
 		contentPane.add(label_3);
 
-		textField_1 = new JTextField(name); // 성명
+		textField_1 = new JTextField(); // 성명
+		textField_1.setText(student.getName());
 		textField_1.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_1.setBackground(new Color(255, 228, 225));
 		textField_1.setForeground(Color.BLACK);
@@ -97,7 +94,8 @@ public class Bill extends JFrame {
 		textField_1.setBounds(147, 85, 220, 40);
 		contentPane.add(textField_1);
 
-		textField_2 = new JTextField(sId); // 학번
+		textField_2 = new JTextField(); // 학번
+		textField_2.setText(student.getStudentId());
 		textField_2.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_2.setBackground(new Color(255, 228, 225));
 		textField_2.setForeground(Color.BLACK);
@@ -106,7 +104,25 @@ public class Bill extends JFrame {
 		textField_2.setBounds(147, 130, 220, 40);
 		contentPane.add(textField_2);
 
-		textField_5 = new JTextField(money); // 입금액
+		textField_3 = new JTextField(Integer.toString(ss.getMng_cost())); // 생활관 관리비
+		textField_3.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_3.setBackground(new Color(255, 228, 225));
+		textField_3.setForeground(Color.BLACK);
+		textField_3.setEditable(false);
+		textField_3.setColumns(10);
+		textField_3.setBounds(147, 175, 220, 40);
+		contentPane.add(textField_3);
+
+		textField_4 = new JTextField(Integer.toString(ss.getFood_cost())); // 식비
+		textField_4.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_4.setBackground(new Color(255, 228, 225));
+		textField_4.setForeground(Color.BLACK);
+		textField_4.setEditable(false);
+		textField_4.setColumns(10);
+		textField_4.setBounds(147, 220, 220, 40);
+		contentPane.add(textField_4);
+
+		textField_5 = new JTextField(Integer.toString(selectedStudent.getTotal_cost())); // 입금액(총액)
 		textField_5.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_5.setBackground(new Color(255, 228, 225));
 		textField_5.setForeground(Color.BLACK);
