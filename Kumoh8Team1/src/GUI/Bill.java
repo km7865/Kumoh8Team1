@@ -4,6 +4,8 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -12,6 +14,10 @@ import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import Network.*;
+import tableClass.*;
+
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Color;
@@ -26,20 +32,19 @@ public class Bill extends JFrame {
 	private JTextField textField_4;
 	private JTextField textField_title;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Bill frame = new Bill();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private static Protocol p;
+	private static Protocol p2;
+	private static ObjectOutputStream writer;
+	private static ObjectInputStream reader;
+	private Student student;
+	private dormitoryApplication[] appList;
 
-	public Bill() {
+	public Bill(Protocol p_t, dormitoryApplication[] a, ObjectOutputStream oos, ObjectInputStream ois) {
+		p = p_t; // 학생 정보 포함 프로토콜
+		appList = a;
+		writer = oos;
+		reader = ois;
+		student = (Student)p_t.getBody();
 		this.setResizable(false); // 최대화 단추 없애기
 		setTitle("고지서 출력");
 		setVisible(true);
