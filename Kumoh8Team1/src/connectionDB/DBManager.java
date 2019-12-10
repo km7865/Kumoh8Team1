@@ -341,10 +341,8 @@ public class DBManager {
 	               protocol.makePacket(main, sub + 1, 2, "해당 정보가 없습니다");
 	         }
 	      } catch (SQLException e) {
-	         // TODO Auto-generated catch block
 	         e.printStackTrace();
 	      } catch (ParseException e) {
-	         // TODO Auto-generated catch block
 	         e.printStackTrace();
 	      }
 	   }
@@ -370,20 +368,20 @@ public class DBManager {
 		}
 	}
 	//결핵진단서 파일 저장
-		public void updateState_TuberculosisDiagnosis(Protocol protocol)	//결핵진단서를 제출했다는 프로토콜을 받으면 결핵진단서 제출 상태를 업데이트 시킨다
+	public void updateState_TuberculosisDiagnosis(Protocol protocol)	//결핵진단서를 제출했다는 프로토콜을 받으면 결핵진단서 제출 상태를 업데이트 시킨다
+	{
+		try
 		{
-			try
-			{
-				String sql = "update 입사선발자 set 결핵진단서제출여부=" + "O" + "where 학번=" + currentUser.getUserID();
-				rs = stmt.executeQuery(sql);
-				protocol.makePacket(15,4,1, "결핵진단서 저장 성공");
-			}
-			catch(SQLException e)
-			{
-				e.getStackTrace();
-				protocol.makePacket(15, 4, 2, "결핵진단서 저장 실패");
-			}/**/
+			String sql = "update 입사선발자 set 결핵진단서제출여부=" + "O" + "where 학번=" + currentUser.getUserID();
+			rs = stmt.executeQuery(sql);
+			protocol.makePacket(15,4,1, "결핵진단서 저장 성공");
 		}
+		catch(SQLException e)
+		{
+			e.getStackTrace();
+			protocol.makePacket(15, 4, 2, "결핵진단서 저장 실패");
+		}/**/
+	}
 	
 	//여기서부터 관리자메뉴
 	//선발일정 등록
@@ -520,16 +518,16 @@ public class DBManager {
 		//호실 객체를 생활관마다 2차원 배열로 생성
 		//신청테이블에서 해당년도 학기에 해당하는 신청 내역을 싹다 들고온다	->arrayList에 싹다 저장
 		//while문으로 arraylist에 있는 학생들을 한명씩 검색한다
-		//1지망의 생활관 호실을 검색해 배정이 안된 방을 검색한다
+		//1년지망의 생활관 호실을 검색해 배정이 안된 방을 검색한다
 		//배정이 안돼있으면 랜덤으로 침대와 호실을 배정
 		//만약 해당 생화로간의 호실이 모두 배정이 돼있으면 2지망으로 넘어간다
-		//2지망도 같은방식으로 검사하고
+		//1지망도 같은방식으로 검사하고
 		//2지망도 배정이 끝났으면 3지망으로 넘어간다
 		//3지망도 배정이 끝났으면 대기번호를 배정한다
 
-	public void enrollSelectedStudent(Protocol protocol)		//입사선발자 결과등록
+	public void enrollSelectedStudent(Protocol protocol)
 	{
-			String sql;
+		String sql;
 		ResultSet StudentRs = null;
 		try
 		{
@@ -554,24 +552,15 @@ public class DBManager {
 			Collections.sort(applicationList);	//arrayList의 학생들을 총점순으로 정렬한다
 			
 			ArrayList<DormitoryRoom> puleum1 = new ArrayList<DormitoryRoom>();	//푸름
-			Iterator <DormitoryRoom>p1 = puleum1.iterator();
 			ArrayList<DormitoryRoom> puleum2 = new ArrayList<DormitoryRoom>();
-			Iterator <DormitoryRoom>p2 = puleum2.iterator();
 			ArrayList<DormitoryRoom> puleum3 = new ArrayList<DormitoryRoom>();
-			Iterator <DormitoryRoom>p3 = puleum3.iterator();
 			ArrayList<DormitoryRoom> puleum4 = new ArrayList<DormitoryRoom>();
-			Iterator <DormitoryRoom>p4 = puleum4.iterator();
 			
 			ArrayList<DormitoryRoom> oleum1 = new ArrayList<DormitoryRoom>();	//오름
-			Iterator <DormitoryRoom>o1 = oleum1.iterator();
 			ArrayList<DormitoryRoom> oleum2 = new ArrayList<DormitoryRoom>();
-			Iterator <DormitoryRoom>o2 = oleum2.iterator();
 			ArrayList<DormitoryRoom> oleum3 = new ArrayList<DormitoryRoom>();
-			Iterator <DormitoryRoom>o3 = oleum3.iterator();
 			ArrayList<DormitoryRoom> sinpyeongM = new ArrayList<DormitoryRoom>();	//신평관 남자
-			Iterator <DormitoryRoom>SM = sinpyeongM.iterator();
 			ArrayList<DormitoryRoom> sinpyeongF = new ArrayList<DormitoryRoom>();	//신평관 여자
-			Iterator <DormitoryRoom>SF = sinpyeongF.iterator();
 				
 			sql = "select * from 생활관호실 where 배정상태=\"X\" and 생활관분류코드=\"1\"";	//푸름1동
 			rs = stmt.executeQuery(sql);		//생활관 호실중 배정상태가 안된것들 싹다 넣음
@@ -668,14 +657,13 @@ public class DBManager {
 						stmt.executeUpdate(sql);
 						j=1;
 						i++;
-						//신청 테이블에 신청상태 update해줘야됨
+						stmt.executeUpdate("update 신청 set 신청상태=합격 where 신청번호 = " + applicationList.get(i).getApplicatonNumber());//신청 테이블에 신청상태 update
 						break;
 					}
 				}
 				if(j==1)
 					continue;	//학생에게 배정해줬으니 다음 학생 배정으로 넘어간다
-					
-					
+				//1지망 검사	
 				Dormitory = applicationList.get(i).getDormitoryWish1();
 				for(int a=0;a<roomList.get(Integer.parseInt(Dormitory)).size();a++)	//1지망에 해당하는 생활관의 arraylist를 탐색
 				{
@@ -698,14 +686,13 @@ public class DBManager {
 						stmt.executeQuery(sql);
 						j=2;
 						i++;
-						//신청 테이블에 신청상태 update해줘야됨
+						stmt.executeUpdate("update 신청 set 신청상태=합격 where 신청번호 = " + applicationList.get(i).getApplicatonNumber());//신청 테이블에 신청상태 update
 						break;
 					}
 				}
 				if(j==2)
 					continue;	//해당 학생에 배정을 끝냈으면 다음 학생으로 넘어간다
-				//1지망에서 호실을 배정하지 못했으면 2지망을 체크한다
-					
+				//1지망에서 호실을 배정하지 못했으면 2지망을 체크한다		
 				Dormitory = applicationList.get(i).getDormitoryWish2();
 				for(int a=0;a<roomList.get(Integer.parseInt(Dormitory)).size();a++)	//1지망에 해당하는 생활관의 arraylist를 탐색
 				{
@@ -727,7 +714,7 @@ public class DBManager {
 						stmt.executeQuery(sql);
 						j=3;
 						i++;	
-						//신청 테이블에 신청상태 update해줘야됨
+						stmt.executeUpdate("update 신청 set 신청상태=합격 where 신청번호 = " + applicationList.get(i).getApplicatonNumber());//신청 테이블에 신청상태 update
 						break;
 					}
 				}
