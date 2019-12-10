@@ -10,11 +10,12 @@ import java.net.Socket;
 public class MyWindowListener extends WindowAdapter {
 	private Socket socket;
 	private ObjectOutputStream writer;
-	
+
 	public MyWindowListener(Socket s, ObjectOutputStream oos) {
 		socket = s;
 		writer = oos;
 	}
+
 	public void windowClosing(WindowEvent e) {
 		try {
 			writer.writeObject(new Protocol(0,0));
@@ -22,6 +23,6 @@ public class MyWindowListener extends WindowAdapter {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-        System.exit(0);
-}
+		System.exit(0);
+	}
 }

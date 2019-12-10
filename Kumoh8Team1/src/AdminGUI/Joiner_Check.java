@@ -1,12 +1,13 @@
 // 입사자 조회
 
 package AdminGUI;
-
+import GUI.*;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.Socket;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -22,25 +23,15 @@ import tableClass.*;
 import AdminGUI.*;
 
 public class Joiner_Check extends JFrame {
+	private Socket socket;
 	private static Protocol p;
 	private static ObjectOutputStream writer;
 	private static ObjectInputStream reader;
 	private JPanel contentPane;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Joiner_Check frame = new Joiner_Check(p, writer, reader);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	public Joiner_Check(Protocol p_t, ObjectOutputStream writer_t, ObjectInputStream reader_t) {
+	public Joiner_Check(Protocol p_t, ObjectOutputStream writer_t, ObjectInputStream reader_t,Socket sk) {
+		socket = sk;
 		p = p_t;
 		writer = writer_t;
 		reader = reader_t;

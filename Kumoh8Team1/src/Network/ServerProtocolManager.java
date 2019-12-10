@@ -37,7 +37,7 @@ public class ServerProtocolManager
 			reader = new ObjectInputStream(is);
 			os = socket.getOutputStream();
 			writer = new ObjectOutputStream(os);
-			dbManager = new DBManager("root", "3306");
+			dbManager = new DBManager("test1", "1234");
 		}
 		catch(IOException e)
 		{
@@ -61,6 +61,9 @@ public class ServerProtocolManager
 		
 				switch(protocol.getMainType())
 				{
+				case 0: 	//GUI에서 종료버튼 클릭시 클라이언트는 종료 프로토콜 전송 및 소켓 close, 서버 소켓 close
+					socket.close();
+					return;
 				case 1:		//로그인
 					Login(protocol);
 					break;
@@ -176,7 +179,7 @@ public class ServerProtocolManager
 	public void submissionTuberculosisDiagnosis(Protocol protocol)	//maintype 15, 결핵진단서 제출
 	{
 		String enrollNumber = (String)protocol.getBody();
-		String filename = "C:\\Users\\82109\\source\\" + enrollNumber + ".jpg";              //String filename = "test.mp4"; //저장할 파일 이름
+		String filename = "C:\\Users\\km786\\Desktop\\diagnosis\\" + enrollNumber + ".jpg";              //String filename = "test.mp4"; //저장할 파일 이름
         
         try {
             ServerSocket server_t = new ServerSocket(5001);

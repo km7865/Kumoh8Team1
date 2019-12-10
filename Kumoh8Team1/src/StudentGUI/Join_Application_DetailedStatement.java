@@ -1,7 +1,7 @@
 // 입사신청 내역조회
 
 package StudentGUI;
-
+import GUI.*;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
@@ -29,6 +29,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.net.Socket;
 import java.awt.event.ActionEvent;
 
 public class Join_Application_DetailedStatement extends JFrame {
@@ -44,14 +45,17 @@ public class Join_Application_DetailedStatement extends JFrame {
 	private JTextField textField_8;
 	private JTextField textField_9;
 	private JTextField textField_10;
+
+	private Socket socket;
 	private static Protocol p;
-	private static Protocol p2;
 	private static ObjectOutputStream writer;
 	private static ObjectInputStream reader;
 	private Student student;
 	private dormitoryApplication[] appList;
 
-	public Join_Application_DetailedStatement(Student s,dormitoryApplication[] apps) {
+	public Join_Application_DetailedStatement(Student s,dormitoryApplication[] apps,Socket sk) {
+		
+		socket = sk;
 		appList = apps;
 		student = s;
 
@@ -205,10 +209,10 @@ public class Join_Application_DetailedStatement extends JFrame {
 		}
 
 		DefaultTableModel model = new DefaultTableModel(data, columnNames) {
-         public boolean isCellEditable(int rowIndex, int mCollindex) {
-            return false;
-         }
-      };
+			public boolean isCellEditable(int rowIndex, int mCollindex) {
+				return false;
+			}
+		};
 		JTable tbl = new JTable(model);
 		tbl.setRowHeight(25);
 

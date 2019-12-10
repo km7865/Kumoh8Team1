@@ -1,12 +1,13 @@
 // 결핵진단서 제출확인
 
 package AdminGUI;
-
+import GUI.*;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.Socket;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -22,24 +23,14 @@ import tableClass.*;
 
 public class TuberculosisDiagnosis_submit_check extends JFrame {
 	private JPanel contentPane;
+	private Socket socket;
 	private static Protocol p;
 	private static ObjectOutputStream writer;
 	private static ObjectInputStream reader;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TuberculosisDiagnosis_submit_check frame = new TuberculosisDiagnosis_submit_check(p, writer, reader);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	public TuberculosisDiagnosis_submit_check(Protocol p_t, ObjectOutputStream writer_t, ObjectInputStream reader_t) {
+	public TuberculosisDiagnosis_submit_check(Protocol p_t, ObjectOutputStream writer_t, ObjectInputStream reader_t,Socket sk) {
+		socket = sk;
 		p = p_t;
 		writer = writer_t;
 		reader = reader_t;
@@ -52,7 +43,7 @@ public class TuberculosisDiagnosis_submit_check extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		try {
 			p.makePacket(26, 1, 0, null);
 			writer.writeObject(p);
@@ -65,7 +56,7 @@ public class TuberculosisDiagnosis_submit_check extends JFrame {
 		} catch (ClassNotFoundException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		if(p.getCode() == 1)
 		{
 			// 테이블에 출력할 컬럼 이름 배열

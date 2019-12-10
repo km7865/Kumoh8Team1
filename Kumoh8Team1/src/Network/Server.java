@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class Server 
 {
 	private static final int PORT = 5000;
-	private static final int THREADPOOL_CAPACITY = 5;
+	private static final int THREADPOOL_CAPACITY = 10;
 	private static ExecutorService threadPool = Executors.newFixedThreadPool(THREADPOOL_CAPACITY);
 	
 	//private static ServerSocket serverSocket;

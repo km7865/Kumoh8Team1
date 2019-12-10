@@ -1,7 +1,7 @@
 // 입사자 등록 및 조회
 
 package AdminGUI;
-
+import GUI.*;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.net.Socket;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -23,26 +24,16 @@ import tableClass.*;
 import javax.swing.JButton;
 
 public class Joiner_Enroll_and_Check extends JFrame {
+	private Socket socket;
 	private static Protocol p;
 	private static ObjectOutputStream writer;
 	private static ObjectInputStream reader;
 
 	private JPanel contentPane;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Joiner_Enroll_and_Check frame = new Joiner_Enroll_and_Check(p, writer, reader);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	public Joiner_Enroll_and_Check(Protocol p_t, ObjectOutputStream writer_t, ObjectInputStream reader_t) {
+	public Joiner_Enroll_and_Check(Protocol p_t, ObjectOutputStream writer_t, ObjectInputStream reader_t,Socket sk) {
+		socket = sk;
 		p = p_t;
 		writer = writer_t;
 		reader = reader_t;
@@ -93,7 +84,7 @@ public class Joiner_Enroll_and_Check extends JFrame {
 		JButton button = new JButton("입사자 조회");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new Joiner_Check(p, writer, reader); // 입사자 조회
+				new Joiner_Check(p, writer, reader, socket); // 입사자 조회
 			}
 		});
 		button.setBounds(195, 40, 110, 40);

@@ -1,5 +1,5 @@
 package StudentGUI;
-
+import GUI.*;
 import tableClass.*;
 import Network.*;
 import AdminGUI.*;
@@ -56,11 +56,6 @@ public class Login extends JFrame {
 			writer = new ObjectOutputStream(os);
 			is = socket.getInputStream();
 			reader = new ObjectInputStream(is);
-			//p = new Protocol_test(1, 2, "클라이언트", "접속");
-			//writer.writeObject(p);		
-			// writer.flush();
-			//p = (Protocol_test)reader.readObject();
-			//System.out.println(p.getMsg2());
 
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {
@@ -146,11 +141,11 @@ public class Login extends JFrame {
 						//사용자 타입에 따라 학생 메뉴 / 관리자 메뉴
 						userType = p.getCode();
 						if(userType == 1) {
-							new Menu_Student(p, writer, reader, host);
+							new Menu_Student(p, writer, reader, host, socket);
 							dispose();
 						}
 						else if(userType == 2 || userType == 3) {
-							new Menu_Admin(p, writer, reader, host);
+							new Menu_Admin(p, writer, reader, host, socket);
 							dispose();
 						}
 						else {
@@ -174,5 +169,7 @@ public class Login extends JFrame {
 		textArea.setBackground(SystemColor.control);
 		textArea.setBounds(32, 20, 497, 62);
 		getContentPane().add(textArea);
+		
+		this.addWindowListener(new MyWindowListener(socket, writer));
 	}
 }

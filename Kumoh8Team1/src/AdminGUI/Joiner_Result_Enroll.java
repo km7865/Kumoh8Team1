@@ -1,7 +1,7 @@
 // 입사선발자 결과등록
 
 package AdminGUI;
-
+import GUI.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -37,9 +37,11 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.net.Socket;
 import java.awt.event.ActionEvent;
 
 public class Joiner_Result_Enroll extends JFrame {
+	private Socket socket;
 	private static Protocol p;
 	private static OutputStream os;
 	private static ObjectOutputStream writer;
@@ -49,20 +51,9 @@ public class Joiner_Result_Enroll extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Joiner_Result_Enroll frame = new Joiner_Result_Enroll(p, writer, reader);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	public Joiner_Result_Enroll(Protocol p_t, ObjectOutputStream writer_t, ObjectInputStream reader_t) {
+	public Joiner_Result_Enroll(Protocol p_t, ObjectOutputStream writer_t, ObjectInputStream reader_t,Socket sk) {
+		socket = sk;
 		p = p_t;
 		writer = writer_t;
 		reader = reader_t;
