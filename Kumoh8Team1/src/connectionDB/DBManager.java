@@ -470,7 +470,6 @@ public class DBManager {
 		
 		
 	}
-	//sdfg
 	public void joinerCheck(Protocol protocol)
 	{	
 		int cnt = 0;
@@ -589,7 +588,7 @@ public class DBManager {
 		public void enrollSelectedStudent(Protocol protocol)		//입사선발자 결과등록
 		{
 			String sql;
-			ResultSet StudentRs;
+			ResultSet StudentRs = null;
 			try
 			{
 				ArrayList<dormitoryApplication> applicationList = new ArrayList<dormitoryApplication>();
@@ -603,12 +602,11 @@ public class DBManager {
 					applicationList.add(new dormitoryApplication(rs.getString("신청번호"), rs.getString("학번")));
 					applicationList.get(i).setMealDivision1(rs.getString("1지망식비구분"));applicationList.get(i).setMealDivision1(rs.getString("2지망식비구분"));
 					applicationList.get(i).setMealDivision1(rs.getString("3지망식비구분"));applicationList.get(i).setMealDivision1(rs.getString("1년식비구분"));
-					applicationList.get(i).setGrade(rs.getFloat("학점")); applicationList.get(i).setGrade(rs.getFloat("거리가산점")); 
+					applicationList.get(i).setGrade(rs.getFloat("학점")); applicationList.get(i).setGrade(rs.getFloat("거리가산점"));applicationList.get(i).setFinallyValue();; 
 					applicationList.get(i).setDormitoryWish1(rs.getString("1지망"));applicationList.get(i).setDormitoryWish2(rs.getString("2지망"));
-					applicationList.get(i).setDormitoryWish3(rs.getString("1지망"));applicationList.get(i).setDormitoryWishYear(rs.getString("1년지망"));
+					applicationList.get(i).setDormitoryWish3(rs.getString("3지망"));applicationList.get(i).setDormitoryWishYear(rs.getString("1년지망"));
 					applicationList.get(i).setApplicationDay(rs.getString("신청일"));applicationList.get(i).setApplicationState(rs.getString("신청상태"));
 					applicationList.get(i).setStandbyNumber(rs.getString("대기번호"));applicationList.get(i).setAcceptanceOfAgreement("yes"); 
-					applicationList.get(i).setFinallyValue(rs.getFloat("학점") + rs.getFloat("거리가산점")); 
 					i++;
 				}
 				Collections.sort(applicationList);	//arrayList의 학생들을 총점순으로 정렬한다
@@ -621,6 +619,7 @@ public class DBManager {
 				Iterator <DormitoryRoom>p3 = puleum3.iterator();
 				ArrayList<DormitoryRoom> puleum4 = new ArrayList<DormitoryRoom>();
 				Iterator <DormitoryRoom>p4 = puleum4.iterator();
+				
 				ArrayList<DormitoryRoom> oleum1 = new ArrayList<DormitoryRoom>();	//오름
 				Iterator <DormitoryRoom>o1 = oleum1.iterator();
 				ArrayList<DormitoryRoom> oleum2 = new ArrayList<DormitoryRoom>();
@@ -687,7 +686,6 @@ public class DBManager {
 				{
 					sinpyeongM.add(new DormitoryRoom(rs.getString("생활관분류코드"), rs.getString("호실코드"), rs.getString("침대번호")));
 				}
-				
 				
 				sql = "select * from 생활관호실 where 배정상태=\"X\" and 생활관분류코드=\"9\"";	//신평여자
 				rs = stmt.executeQuery(sql);
@@ -776,6 +774,7 @@ public class DBManager {
 								FoodCost = FivedayFoodCost(applicationList.get(i).getDormitoryWish1(),"2");
 							else if(applicationList.get(i).getMealDivision1()=="7일식")
 								FoodCost = SevendayFoodCost(applicationList.get(i).getDormitoryWish1(),"2");	
+							
 							sql = "update 생활관호실 set 배정상태=\"O\" where 생활관분류코드 = " + Dormitory + "and 호실코드 = " + roomList.get(Integer.parseInt(Dormitory)).get(a);
 							stmt.executeUpdate(sql);	//생활관호실 배정상태 업데이트
 						//입사선발자에 해당학생정보 insert		
@@ -836,7 +835,6 @@ public class DBManager {
 			}
 			finally
 			{
-				/*
 				try
 				{
 					StudentRs.close();
@@ -845,7 +843,6 @@ public class DBManager {
 				{
 					e.getStackTrace();
 				}
-				*/
 			}
 		}
 		/**/
