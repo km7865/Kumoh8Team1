@@ -1,11 +1,9 @@
-// °íÁö¼­ Ãâ·Â
+// ê³ ì§€ì„œ ì¶œë ¥
 
 package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -14,52 +12,132 @@ import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-
-import Network.Protocol;
-import tableClass.*;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import java.awt.Color;
+import javax.swing.JTextField;
 
 public class Bill extends JFrame {
 	private JPanel contentPane;
-	
-	private static Protocol p;
-	private static ObjectOutputStream writer;
-	private static ObjectInputStream reader;
-	
-	public Bill(Protocol p_t, ObjectOutputStream oos, ObjectInputStream ois) {
-		p = p_t;
-		writer = oos;
-		reader = ois;
-		
-		this.setResizable(false); // ÃÖ´ëÈ­ ´ÜÃß ¾ø¾Ö±â
-		setTitle("°íÁö¼­ Ãâ·Â");
+	private JTextField textField_5;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTextField textField_3;
+	private JTextField textField_4;
+	private JTextField textField_title;
+
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Bill frame = new Bill();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	public Bill() {
+		this.setResizable(false); // ìµœëŒ€í™” ë‹¨ì¶” ì—†ì• ê¸°
+		setTitle("ê³ ì§€ì„œ ì¶œë ¥");
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 810, 640);
+		setBounds(100, 100, 510, 375);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		
-		// Å×ÀÌºí¿¡ Ãâ·ÂÇÒ ÄÃ·³ ÀÌ¸§ ¹è¿­
-		String columnNames[] = { "ÀÌ¸§", "ÇĞ¹ø", "ÀºÇà", "°èÁÂ¹øÈ£", "ÀÔ±İ¾×", "³³ºÎ»óÅÂ"};
+		contentPane.setLayout(null);
 
-		// Å×ÀÌºí¿¡ Ãâ·ÂÇÒ µ¥ÀÌÅÍ ¹è¿­
-		int i = 4; // ¹üÀ§
-		String data[][] = new String[1000][i]; // µ¥ÀÌÅÍ µé¾î°¥ ¹üÀ§
-		data[0][0] = "³óÇùÀºÇà"; // µ¥ÀÌÅÍ µé¾î°¥ ºÎºĞ
+		String name = "ê¹€ë™ìœ¤";
+		String sId = "20150129";
+		String bank = "ë†í˜‘";
+		String bankNumber = "713047-51-021320";
+		String money = "1,300,000";
 
-		DefaultTableModel model = new DefaultTableModel(data, columnNames);
-		JTable tbl = new JTable(model);
-		tbl.setRowHeight(25);
-		//String a = (String)tbl.getValueAt(0, 0);    Å×ÀÌºí °ª °¡Á®¿À±â
+		JLabel lblNewLabel = new JLabel("ì„±ëª…");
+		lblNewLabel.setForeground(Color.BLACK);
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(50, 85, 95, 40);
+		contentPane.add(lblNewLabel);
 
-		// JTable tbl = new JTable(data,columnNames);
-		// TableÀº JScrollPaneÀ§¿¡ Ãâ·ÂÇØ¾ß ÄÃ·³ ÀÌ¸§ÀÌ Ãâ·ÂµÈ´Ù! ¸í½ÉÇÒ°Í
-		JScrollPane scroll = new JScrollPane(tbl);
-		scroll.getVerticalScrollBar().setUnitIncrement(100); // ½ºÅ©·Ñ ¼Óµµ
-		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		getContentPane().add(scroll);
-		scroll.setSize(772, 583);
-		scroll.setLocation(12, 10);
+		JLabel label = new JLabel("í•™ë²ˆ");
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setForeground(Color.BLACK);
+		label.setBounds(50, 130, 95, 40);
+		contentPane.add(label);
+
+		JLabel label_1 = new JLabel("ì€í–‰");
+		label_1.setHorizontalAlignment(SwingConstants.CENTER);
+		label_1.setForeground(Color.BLACK);
+		label_1.setBounds(50, 175, 95, 40);
+		contentPane.add(label_1);
+
+		JLabel label_2 = new JLabel("ê³„ì¢Œë²ˆí˜¸");
+		label_2.setHorizontalAlignment(SwingConstants.CENTER);
+		label_2.setForeground(Color.BLACK);
+		label_2.setBounds(50, 220, 95, 40);
+		contentPane.add(label_2);
+
+		JLabel label_3 = new JLabel("ì…ê¸ˆì•¡");
+		label_3.setHorizontalAlignment(SwingConstants.CENTER);
+		label_3.setForeground(Color.BLACK);
+		label_3.setBounds(50, 265, 95, 40);
+		contentPane.add(label_3);
+
+		textField_1 = new JTextField(name); // ì„±ëª…
+		textField_1.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_1.setBackground(new Color(255, 228, 225));
+		textField_1.setForeground(Color.BLACK);
+		textField_1.setEditable(false);
+		textField_1.setColumns(10);
+		textField_1.setBounds(147, 85, 220, 40);
+		contentPane.add(textField_1);
+
+		textField_2 = new JTextField(sId); // í•™ë²ˆ
+		textField_2.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_2.setBackground(new Color(255, 228, 225));
+		textField_2.setForeground(Color.BLACK);
+		textField_2.setEditable(false);
+		textField_2.setColumns(10);
+		textField_2.setBounds(147, 130, 220, 40);
+		contentPane.add(textField_2);
+
+		textField_3 = new JTextField(bank); // ì€í–‰
+		textField_3.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_3.setBackground(new Color(255, 228, 225));
+		textField_3.setForeground(Color.BLACK);
+		textField_3.setEditable(false);
+		textField_3.setColumns(10);
+		textField_3.setBounds(147, 175, 220, 40);
+		contentPane.add(textField_3);
+
+		textField_4 = new JTextField(bankNumber); // ê³„ì¢Œë²ˆí˜¸
+		textField_4.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_4.setBackground(new Color(255, 228, 225));
+		textField_4.setForeground(Color.BLACK);
+		textField_4.setEditable(false);
+		textField_4.setColumns(10);
+		textField_4.setBounds(147, 220, 220, 40);
+		contentPane.add(textField_4);
+
+		textField_5 = new JTextField(money); // ì…ê¸ˆì•¡
+		textField_5.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_5.setBackground(new Color(255, 228, 225));
+		textField_5.setForeground(Color.BLACK);
+		textField_5.setEditable(false);
+		textField_5.setBounds(147, 266, 220, 40);
+		contentPane.add(textField_5);
+		textField_5.setColumns(10);
+
+		textField_title = new JTextField();
+		textField_title.setForeground(Color.RED);
+		textField_title.setText("ê³ ì§€ì„œ ì¶œë ¥");
+		textField_title.setEditable(false);
+		textField_title.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_title.setBounds(50, 20, 317, 50);
+		contentPane.add(textField_title);
+		textField_title.setColumns(10);
 	}
 }
