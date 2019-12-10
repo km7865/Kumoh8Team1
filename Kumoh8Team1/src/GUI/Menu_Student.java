@@ -1,4 +1,4 @@
-// ÇĞ»ı ¸Ş´º
+// í•™ìƒ ë©”ë‰´
 
 package GUI;
 
@@ -52,16 +52,16 @@ public class Menu_Student extends JFrame {
 		writer = oos;
 		reader = ois;
 		
-		this.setResizable(false); // ÃÖ´ëÈ­ ´ÜÃß ¾ø¾Ö±â
-		setTitle("ÇĞ»ı¸Ş´º");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(false); // ìµœëŒ€í™” ë‹¨ì¶” ì—†ì• ê¸°
+		setTitle("í•™ìƒë©”ë‰´");
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 600, 520);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JButton button = new JButton("°áÇÙÁø´Ü¼­ Á¦Ãâ");
+		JButton button = new JButton("ê²°í•µì§„ë‹¨ì„œ ì œì¶œ");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -80,7 +80,7 @@ public class Menu_Student extends JFrame {
 						new TuberculosisDiagnosis_storage(p, writer, reader);
 					else if (p2.getCode() == 2) {
 						String err = (String) p2.getBody();
-						JOptionPane.showMessageDialog(null, err); // Á¦Ãâ´ë»ó ¾Æ´Ô or Á¦Ãâ±â°£ ¾Æ´Ô
+						JOptionPane.showMessageDialog(null, err); // ì œì¶œëŒ€ìƒ ì•„ë‹˜ or ì œì¶œê¸°ê°„ ì•„ë‹˜
 					}
 				}
 			}
@@ -88,7 +88,7 @@ public class Menu_Student extends JFrame {
 
 		button.setBounds(50, 325, 285, 50);
 		contentPane.add(button);
-		JButton button_1 = new JButton("ÀÔ»ç ½ÅÃ»");
+		JButton button_1 = new JButton("ì…ì‚¬ ì‹ ì²­");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -107,7 +107,7 @@ public class Menu_Student extends JFrame {
 						new Join_Promise(p, writer, reader);
 					else if (p2.getCode() == 2) {
 						String err = (String) p2.getBody();
-						JOptionPane.showMessageDialog(null, err); // Á¦Ãâ´ë»ó ¾Æ´Ô or Á¦Ãâ±â°£ ¾Æ´Ô
+						JOptionPane.showMessageDialog(null, err); // ì œì¶œëŒ€ìƒ ì•„ë‹˜ or ì œì¶œê¸°ê°„ ì•„ë‹˜
 					}
 				}
 			}
@@ -115,7 +115,7 @@ public class Menu_Student extends JFrame {
 		button_1.setBounds(50, 246, 285, 50);
 		contentPane.add(button_1);
 
-		JButton button_2 = new JButton("ÀÔ»ç½ÅÃ» ³»¿ªÁ¶È¸ ¹× °íÁö¼­ Ãâ·Â"); // 13, 14ÀÇ ¼­ºêÅ¸ÀÔ 1, 2¸¦ ÇÑ¹ø¿¡ Ã³¸®, Áï 14ÀÇ 1, 2´Â »ç¿ëÇÏÁö ¾ÊÀ½
+		JButton button_2 = new JButton("ì…ì‚¬ì‹ ì²­ ë‚´ì—­ì¡°íšŒ ë° ê³ ì§€ì„œ ì¶œë ¥"); // 13, 14ì˜ ì„œë¸Œíƒ€ì… 1, 2ë¥¼ í•œë²ˆì— ì²˜ë¦¬, ì¦‰ 14ì˜ 1, 2ëŠ” ì‚¬ìš©í•˜ì§€ ì•ŠìŒ
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -137,7 +137,7 @@ public class Menu_Student extends JFrame {
 					}
 					else if (p2.getCode() == 2) {
 						String err = (String) p2.getBody();
-						JOptionPane.showMessageDialog(null, err); // Á¦Ãâ´ë»ó ¾Æ´Ô or Á¦Ãâ±â°£ ¾Æ´Ô
+						JOptionPane.showMessageDialog(null, err); // ì œì¶œëŒ€ìƒ ì•„ë‹˜ or ì œì¶œê¸°ê°„ ì•„ë‹˜
 					}
 				}
 			}
@@ -145,7 +145,7 @@ public class Menu_Student extends JFrame {
 		button_2.setBounds(360, 325, 285, 50);
 		contentPane.add(button_2);
 
-		JButton button_4 = new JButton("È£½Ç Á¶È¸");
+		JButton button_4 = new JButton("í˜¸ì‹¤ ì¡°íšŒ");
 		button_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -163,7 +163,7 @@ public class Menu_Student extends JFrame {
 						new DormitoryNumber_check(p, writer, reader);
 					else if (p2.getCode() == 2) {
 						String err = (String) p2.getBody();
-						JOptionPane.showMessageDialog(null, err); // Á¦Ãâ´ë»ó ¾Æ´Ô or Á¦Ãâ±â°£ ¾Æ´Ô
+						JOptionPane.showMessageDialog(null, err); // ì œì¶œëŒ€ìƒ ì•„ë‹˜ or ì œì¶œê¸°ê°„ ì•„ë‹˜
 					}
 				}
 			}
@@ -171,7 +171,7 @@ public class Menu_Student extends JFrame {
 		button_4.setBounds(360, 246, 285, 50);
 		contentPane.add(button_4);
 
-		JButton btnNewButton = new JButton("·Î±×¾Æ¿ô");
+		JButton btnNewButton = new JButton("ë¡œê·¸ì•„ì›ƒ");
 		btnNewButton.addMouseListener(new MouseAdapter() {
 		});
 		btnNewButton.addActionListener(new ActionListener() {
@@ -190,13 +190,13 @@ public class Menu_Student extends JFrame {
 		textField = new JTextField();
 		textField.setEditable(false);
 		textField.setHorizontalAlignment(SwingConstants.RIGHT);
-		textField.setText("¼º¸í");
+		textField.setText("ì„±ëª…");
 		textField.setBackground(Color.LIGHT_GRAY);
 		textField.setBounds(50, 50, 135, 40);
 		contentPane.add(textField);
 		textField.setColumns(10);
 
-		textField_1 = new JTextField(); // ¼º¸í
+		textField_1 = new JTextField(); // ì„±ëª…
 		textField_1.setEditable(false);
 		textField_1.setText(student.getName());
 		textField_1.setBounds(185, 50, 150, 40);
@@ -204,7 +204,7 @@ public class Menu_Student extends JFrame {
 		textField_1.setColumns(10);
 
 		textField_2 = new JTextField();
-		textField_2.setText("ÇĞ¹ø");
+		textField_2.setText("í•™ë²ˆ");
 		textField_2.setHorizontalAlignment(SwingConstants.RIGHT);
 		textField_2.setEditable(false);
 		textField_2.setColumns(10);
@@ -212,7 +212,7 @@ public class Menu_Student extends JFrame {
 		textField_2.setBounds(360, 50, 135, 40);
 		contentPane.add(textField_2);
 
-		textField_3 = new JTextField(); // ÇĞ¹ø
+		textField_3 = new JTextField(); // í•™ë²ˆ
 		textField_3.setEditable(false);
 		textField_3.setText(student.getStudentId());
 		textField_3.setColumns(10);
@@ -220,7 +220,7 @@ public class Menu_Student extends JFrame {
 		contentPane.add(textField_3);
 
 		textField_4 = new JTextField();
-		textField_4.setText("ÇĞ³â");
+		textField_4.setText("í•™ë…„");
 		textField_4.setHorizontalAlignment(SwingConstants.RIGHT);
 		textField_4.setEditable(false);
 		textField_4.setColumns(10);
@@ -228,7 +228,7 @@ public class Menu_Student extends JFrame {
 		textField_4.setBounds(50, 100, 135, 40);
 		contentPane.add(textField_4);
 
-		textField_5 = new JTextField(); // ÇĞ³â
+		textField_5 = new JTextField(); // í•™ë…„
 		textField_5.setEditable(false);
 		textField_5.setText(Integer.toString(student.getGrade()));
 		textField_5.setColumns(10);
@@ -236,7 +236,7 @@ public class Menu_Student extends JFrame {
 		contentPane.add(textField_5);
 
 		textField_6 = new JTextField();
-		textField_6.setText("ÇĞ°ú");
+		textField_6.setText("í•™ê³¼");
 		textField_6.setHorizontalAlignment(SwingConstants.RIGHT);
 		textField_6.setEditable(false);
 		textField_6.setColumns(10);
@@ -244,7 +244,7 @@ public class Menu_Student extends JFrame {
 		textField_6.setBounds(360, 100, 135, 40);
 		contentPane.add(textField_6);
 
-		textField_7 = new JTextField(); // ÇĞ°ú
+		textField_7 = new JTextField(); // í•™ê³¼
 		textField_7.setEditable(false);
 		textField_7.setText(student.getDepartmentName());
 		textField_7.setColumns(10);
