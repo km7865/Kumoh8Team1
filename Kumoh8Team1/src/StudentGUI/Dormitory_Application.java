@@ -81,11 +81,10 @@ public class Dormitory_Application extends JFrame {
 	private static ObjectInputStream reader;
 	private Student student;    
    
-  public Dormitory_Application(Protocol p_t, ObjectOutputStream oos, ObjectInputStream ois) {
-		p = p_t;
+  public Dormitory_Application(Student s, ObjectOutputStream oos, ObjectInputStream ois) {
+		student = s;
 		writer = oos;
 		reader = ois;
-		student = (Student)p_t.getBody();
 
       this.setResizable(false); // 최대화 단추 없애기
       setVisible(true);
@@ -215,7 +214,7 @@ textField_4.setText(Integer.toString(student.getGrade()));
             } else if (dormitoryWish1 == comboBox_21.getSelectedItem().toString() || dormitoryWish1 == comboBox_31.getSelectedItem().toString()) {
                JOptionPane.showMessageDialog(null, "중복입니다");
                comboBox_11.setSelectedItem(str);
-            } else if (dormitoryWish1 == "오름 1동" || dormitoryWish1 == "오름 2동" || dormitoryWish1 == "오름 3동") {
+            } else if (dormitoryWish1 == "오름관1동" || dormitoryWish1 == "오름관2동" || dormitoryWish1 == "오름관3동") {
                comboBox_12.removeItem("식사안함");
                comboBox_12.setEnabled(true);
             } else {
@@ -262,7 +261,7 @@ textField_4.setText(Integer.toString(student.getGrade()));
             } else if (dormitoryWish2.equals(comboBox_11.getSelectedItem().toString()) || dormitoryWish2.equals(comboBox_31.getSelectedItem().toString())) {
                JOptionPane.showMessageDialog(null, "중복입니다");            
                comboBox_21.setSelectedItem(str);
-            } else if (dormitoryWish2 == "오름 1동" || dormitoryWish2 == "오름 2동" || dormitoryWish2 == "오름 3동") {
+            } else if (dormitoryWish2 == "오름관1동" || dormitoryWish2 == "오름관2동" || dormitoryWish2 == "오름관3동") {
                comboBox_22.removeItem("식사안함");
                comboBox_22.setEnabled(true);
             } else {
@@ -307,7 +306,7 @@ textField_4.setText(Integer.toString(student.getGrade()));
             } else if (dormitoryWish3 == comboBox_11.getSelectedItem().toString() || dormitoryWish3 == comboBox_21.getSelectedItem().toString()) {
                JOptionPane.showMessageDialog(null, "중복입니다");
                comboBox_31.setSelectedItem(str);
-            } else if (dormitoryWish3 == "오름 1동" || dormitoryWish3 == "오름 2동" || dormitoryWish3 == "오름 3동") {
+            } else if (dormitoryWish3 == "오름관1동" || dormitoryWish3 == "오름관2동" || dormitoryWish3 == "오름관3동") {
                comboBox_32.removeItem("식사안함");
                comboBox_32.setEnabled(true);
             } else {
@@ -365,7 +364,6 @@ textField_4.setText(Integer.toString(student.getGrade()));
 					try { 
 						writer.writeObject(new Protocol(11,3,0,app));
 						writer.flush();
-						writer.reset();
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
@@ -377,7 +375,7 @@ textField_4.setText(Integer.toString(student.getGrade()));
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-				if (p.getSubType() == 2) {
+				if (p.getSubType() == 4) {
 					if (p.getCode() == 1) 
 					JOptionPane.showMessageDialog(null, "신청이 성공적으로 완료되었습니다!!");
 					else if (p.getCode() == 2)

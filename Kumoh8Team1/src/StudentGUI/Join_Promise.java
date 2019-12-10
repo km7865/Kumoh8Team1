@@ -38,12 +38,12 @@ import tableClass.*;
 public class Join_Promise extends JFrame {
 	private JPanel contentPane;
 	
-	private static Protocol p;
 	private static ObjectOutputStream writer;
 	private static ObjectInputStream reader;
-
-	public Join_Promise(Protocol p_t, ObjectOutputStream oos, ObjectInputStream ois) {
-		p = p_t;
+	private Student student;
+	
+	public Join_Promise(Student stu, ObjectOutputStream oos, ObjectInputStream ois) {
+		student = stu;
 		writer = oos;
 		reader = ois;
 		
@@ -81,7 +81,7 @@ public class Join_Promise extends JFrame {
 		JButton button = new JButton("동의합니다");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new Dormitory_Application(p, writer, reader);
+				new Dormitory_Application(student, writer, reader);
 				dispose();
 			}
 		});

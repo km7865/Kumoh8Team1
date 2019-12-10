@@ -24,15 +24,15 @@ public class DetailedStatement_Bill extends JFrame {
 	private JPanel contentPane;
 
 	private static Protocol p;
-	private static Protocol p2;
 	private static ObjectOutputStream writer; 
 	private static ObjectInputStream reader;
 	private Student student;
 	private dormitoryApplication[] appList;
 
-	public DetailedStatement_Bill(Protocol p_t, Protocol p_t2, ObjectOutputStream oos, ObjectInputStream ois) {
-		p = p_t; // 학생 정보 포함 프로토콜
-		appList = (dormitoryApplication[])p_t2.getBody();
+	public DetailedStatement_Bill(Protocol p_t, Student s, ObjectOutputStream oos, ObjectInputStream ois) {
+		p = p_t;
+		student = s;
+		appList = (dormitoryApplication[])p_t.getBody();
 		writer = oos;
 		reader = ois;
 		
@@ -49,7 +49,7 @@ public class DetailedStatement_Bill extends JFrame {
 		JButton button = new JButton("입사신청 내역조회");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new Join_Application_DetailedStatement(p, appList ,writer, reader);
+				new Join_Application_DetailedStatement(student, appList);
 			}
 		});
 		button.setBounds(30, 40, 140, 40);
