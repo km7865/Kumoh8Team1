@@ -24,6 +24,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -47,19 +49,19 @@ public class Menu_Student extends JFrame {
    private static Protocol p;
    private static ObjectOutputStream writer;
    private static ObjectInputStream reader;
+   private static String ip;
    private Student student;
    private JTextField textField_8;
    private SelectionSchedule schedule;
-   private static String ip;
 
    public Menu_Student(Protocol p_t, ObjectOutputStream oos, ObjectInputStream ois, String ip_t) {
-      
+
       p = p_t;
       student = (Student) p.getBody();
       writer = oos;
       reader = ois;
       ip = ip_t;
-      
+
       try {
          writer.writeObject(new Protocol(2,1,0,null));
          p = (Protocol)reader.readObject();
@@ -111,30 +113,47 @@ public class Menu_Student extends JFrame {
 
       button.setBounds(50, 569, 285, 50);
       contentPane.add(button);
+
+      Date date = new Date();
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+      String today = sdf.format(date);        
+
       JButton button_1 = new JButton("입사 신청");
       button_1.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
-            try {
-               p = new Protocol(11, 1, 0, null);
-               writer.writeObject(p);
-               writer.flush();
-               writer.reset();
-               p = (Protocol) reader.readObject();
+            try 
+            {
+               if (today.compareTo(schedule.getStart_date()) >= 0  && 
+                  today.compareTo(schedule.getEnd_date()) <= 0) 
+               {
+                  p = new Protocol(11, 1, 0, null);
+                  writer.writeObject(p);
+                  writer.flush();
+                  writer.reset();
+                  p = (Protocol) reader.readObject();
+
+                  if (p.getSubType() == 2) {
+                     if (p.getCode() == 1) {
+                        new Join_Promise(student, writer, reader);
+                     }
+                     else if (p.getCode() == 2) {
+                        String err = (String) p.getBody();
+                        JOptionPane.showMessageDialog(null, err); // 제출대상 아님
+                     }
+                  }
+               } 
+               else 
+               {
+                  JOptionPane.showMessageDialog(null, "신청 기간이 아닙니다."); //신청 기간 아님
+               }
             } catch (IOException e1) {
                e1.printStackTrace();
             } catch (ClassNotFoundException e1) {
                e1.printStackTrace();
             }
-            if (p.getSubType() == 2) {
-               if (p.getCode() == 1)
-                  new Join_Promise(student, writer, reader);
-               else if (p.getCode() == 2) {
-                  String err = (String) p.getBody();
-                  JOptionPane.showMessageDialog(null, err); // 제출대상 아님 or 제출기간 아님
-               }
-            }
          }
       });
+      
       button_1.setBounds(50, 490, 285, 50);
       contentPane.add(button_1);
 
@@ -277,7 +296,7 @@ public class Menu_Student extends JFrame {
       endDayLabel.setHorizontalAlignment(SwingConstants.LEFT);
       endDayLabel.setBounds(185, 10, 100, 40);
       contentPane.add(endDayLabel);
-      
+
       textField_8 = new JTextField();
       if (schedule != null) textField_8.setText(schedule.getContent());
       textField_8.setBounds(50, 60, 595, 240);
