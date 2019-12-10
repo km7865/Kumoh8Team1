@@ -53,8 +53,8 @@ public class ServerProtocolManager
 		try
 		{
 			protocol = (Protocol)reader.readObject();
-			if(protocol.getSubType()==1)
-			{	
+		
+		
 				switch(protocol.getMainType())
 				{
 				case 1:		//·Î±×ÀÎ
@@ -98,7 +98,7 @@ public class ServerProtocolManager
 					break;
 			
 			}//end of switch
-		}
+
 		}//end of try
 		catch(SQLException d)
 		{

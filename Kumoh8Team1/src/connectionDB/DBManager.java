@@ -42,10 +42,9 @@ public class DBManager {
 	public DBManager(String id, String pw)	//»ý¼ºÀÚ
 	{
 		Date date = new Date();
-		today = date.toString();
-       
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		today = sdf.toString();
+      		  SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");        
+        		today = sdf.format(date);
+ 
 		/*String today_1= today+"-";
 		String dateArray[] = today.split("-");		//dateArray[] -> 2019 -> 12 -> 10
 		
