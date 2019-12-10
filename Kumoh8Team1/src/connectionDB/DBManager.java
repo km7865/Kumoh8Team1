@@ -690,9 +690,9 @@ public class DBManager {
             {
                if(oneYearHuman[j][3].equals(oneYearRoom[k][0]) && oneYearRoom[k][3].equals("X"))
                {
-                  sql = "insert into dorm.입사선발자 values('" + oneYearHuman[j][0] + "', '" + oneYearHuman[j][1]
-                        + "', '" + oneYearRoom[k][1] + "', '" + oneYearRoom[k][2] + "', null, null, null, 'X'"
-                        + ", 'X', 'X', '" + oneYearHuman[j][3] + "', 'O')";
+            	   sql = "insert into dorm.입사선발자 values('" + oneYearHuman[j][0] + "', '" + oneYearHuman[j][1]
+                           + "', '" + oneYearRoom[k][1] + "', '" + oneYearRoom[k][2] + "', null, null, null, 'X'"
+                                 + ", 'X', 'X', '" + oneYearHuman[j][3] + "', 'O', '" + oneYearHuman[j][4] + "')";
                   stmt.executeUpdate(sql);
 
                   sql = "select * from dorm.생활관비 where 생활관분류코드=" + oneYearHuman[j][3];
@@ -837,8 +837,8 @@ public class DBManager {
                   {
                      System.out.println(j + " " + m + " " + k);
                      sql = "insert into dorm.입사선발자 values('" + oneSemesterHuman[j][0] + "', '" + oneSemesterHuman[j][1]
-                           + "', '" + oneSemesterRoom[k][1] + "', '" + oneSemesterRoom[k][2] + "', null, null, null, 'X'"
-                           + ", 'X', 'X', '" + oneSemesterHuman[j][m] + "', 'X')";
+                             + "', '" + oneSemesterRoom[k][1] + "', '" + oneSemesterRoom[k][2] + "', null, null, null, 'X'"
+                                   + ", 'X', 'X', '" + oneSemesterHuman[j][m] + "', 'X', '" + oneSemesterHuman[j][m+3] + "')";
                      stmt.executeUpdate(sql);
 
                      if(oneSemesterHuman[j][2].equals("1"))
