@@ -65,8 +65,8 @@ public class Menu_Student extends JFrame {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					p2 = new Protocol(15, 1);
-					writer.writeObject(p);
+					p2 = new Protocol(15,1,0,null);
+					writer.writeObject(p2);
 					writer.flush();
 					p2 = (Protocol) reader.readObject();
 				} catch (IOException e1) {
@@ -92,7 +92,7 @@ public class Menu_Student extends JFrame {
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					p2 = new Protocol(11, 1);
+					p2 = new Protocol(11,1,0,null);
 					writer.writeObject(p2);
 					writer.flush();
 					writer.reset();
@@ -119,21 +119,24 @@ public class Menu_Student extends JFrame {
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					p2 = new Protocol(13, 1);
-					writer.writeObject(p);
+					p2 = new Protocol(13,1,0,null);
+					writer.writeObject(p2);
 					writer.flush();
+					writer.reset();
 					p2 = (Protocol) reader.readObject();
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				} catch (ClassNotFoundException e1) {
 					e1.printStackTrace();
 				}
-
-				if (p2.getSubType() == 2) {
-					if (p2.getCode() == 1)
-						new DetailedStatement_Bill(p, writer, reader);
+				
+				if (p2.getSubType() == 2) {	
+					if (p2.getCode() == 1) {
+						System.out.println(p2.getMainType() + " " + p2.getSubType() + " " + p2.getCode());
+						new DetailedStatement_Bill(p, p2, writer, reader);
+					}
 					else if (p2.getCode() == 2) {
-						String err = (String) p.getBody();
+						String err = (String) p2.getBody();
 						JOptionPane.showMessageDialog(null, err); // 제출대상 아님 or 제출기간 아님
 					}
 				}
@@ -146,7 +149,7 @@ public class Menu_Student extends JFrame {
 		button_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					p2 = new Protocol(12, 1);
+					p2 = new Protocol(12, 1,0,null);
 					writer.writeObject(p2);
 					writer.flush();
 					p2 = (Protocol) reader.readObject();

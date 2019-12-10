@@ -164,7 +164,7 @@ textField_4.setText(Integer.toString(student.getGrade()));
          }
       });
       comboBox_01.setModel(new DefaultComboBoxModel(
-            new String[] { "\uC120\uD0DD\uC548\uD568", "\uD478\uB984 2\uB3D9", "\uD478\uB984 3\uB3D9" }));
+            new String[] { "선택안함","푸름관2동", "푸름관3동" }));
       comboBox_01.setBounds(159, 219, 125, 40);
       contentPane.add(comboBox_01);
       
@@ -227,9 +227,7 @@ textField_4.setText(Integer.toString(student.getGrade()));
             }
          }
       });
-      comboBox_11.setModel(new DefaultComboBoxModel(new String[] { "\uC120\uD0DD\uC548\uD568", "\uC624\uB984 1\uB3D9",
-            "\uC624\uB984 2\uB3D9", "\uC624\uB984 3\uB3D9", "\uD478\uB984 1\uB3D9", "\uD478\uB984 2\uB3D9",
-            "\uD478\uB984 3\uB3D9", "\uD478\uB984 4\uB3D9", "\uC2E0\uD3C9 1\uB3D9", "\uC2E0\uD3C9 2\uB3D9" }));
+      comboBox_11.setModel(new DefaultComboBoxModel(new String[] {"선택안함","푸름관1동","푸름관2동","푸름관3동","푸름관4동","오름관1동","오름관2동","오름관3동","신평관남자","신평관여자" }));
       comboBox_11.setBounds(159, 339, 263, 40);
       contentPane.add(comboBox_11);
 
@@ -276,9 +274,7 @@ textField_4.setText(Integer.toString(student.getGrade()));
             }
          }
       });
-      comboBox_21.setModel(new DefaultComboBoxModel(new String[] { "\uC120\uD0DD\uC548\uD568", "\uC624\uB984 1\uB3D9",
-            "\uC624\uB984 2\uB3D9", "\uC624\uB984 3\uB3D9", "\uD478\uB984 1\uB3D9", "\uD478\uB984 2\uB3D9",
-            "\uD478\uB984 3\uB3D9", "\uD478\uB984 4\uB3D9", "\uC2E0\uD3C9 1\uB3D9", "\uC2E0\uD3C9 2\uB3D9" }));
+      comboBox_21.setModel(new DefaultComboBoxModel(new String[] { "선택안함","푸름관1동","푸름관2동","푸름관3동","푸름관4동","오름관1동","오름관2동","오름관3동","신평관남자","신평관여자" }));
       comboBox_21.setBounds(159, 386, 263, 40);
       contentPane.add(comboBox_21);
 
@@ -324,9 +320,7 @@ textField_4.setText(Integer.toString(student.getGrade()));
          }
       });
 
-      comboBox_31.setModel(new DefaultComboBoxModel(new String[] { "\uC120\uD0DD\uC548\uD568", "\uC624\uB984 1\uB3D9",
-            "\uC624\uB984 2\uB3D9", "\uC624\uB984 3\uB3D9", "\uD478\uB984 1\uB3D9", "\uD478\uB984 2\uB3D9",
-            "\uD478\uB984 3\uB3D9", "\uD478\uB984 4\uB3D9", "\uC2E0\uD3C9 1\uB3D9", "\uC2E0\uD3C9 2\uB3D9" }));
+      comboBox_31.setModel(new DefaultComboBoxModel(new String[] { "선택안함","푸름관1동","푸름관2동","푸름관3동","푸름관4동","오름관1동","오름관2동","오름관3동","신평관남자","신평관여자" }));
       comboBox_31.setBounds(159, 432, 263, 40);
       contentPane.add(comboBox_31);
 
@@ -350,24 +344,20 @@ textField_4.setText(Integer.toString(student.getGrade()));
 				
 				if (!comboBox_01.getSelectedItem().equals("선택안함")) {
 					app.setDormitoryWishYear(convertDormitoryNameToCode(comboBox_01.getSelectedItem().toString()));
-					System.out.println(app.getDormitoryWishYear());
 					app.setMealDivisionYear(comboBox_02.getSelectedItem().toString());
 				}
 
 				if (!comboBox_11.getSelectedItem().equals("선택안함")) {
 					app.setDormitoryWish1(convertDormitoryNameToCode(comboBox_11.getSelectedItem().toString()));
-					System.out.println(app.getDormitoryWish1());
 					app.setMealDivision1(comboBox_12.getSelectedItem().toString());
 				}
 
 				if (!comboBox_21.getSelectedItem().equals("선택안함")) {
 					app.setDormitoryWish2(convertDormitoryNameToCode(comboBox_21.getSelectedItem().toString()));
-					System.out.println(app.getDormitoryWish2());
 					app.setMealDivision2(comboBox_22.getSelectedItem().toString());
 				}
 				if (!comboBox_31.getSelectedItem().equals("선택안함")) {
 					app.setDormitoryWish3(convertDormitoryNameToCode(comboBox_31.getSelectedItem().toString()));
-					System.out.println(app.getDormitoryWish3());
 					app.setMealDivision3(comboBox_32.getSelectedItem().toString());
 				}
 				
@@ -381,7 +371,19 @@ textField_4.setText(Integer.toString(student.getGrade()));
 						e1.printStackTrace();
 					}
 				}
-				JOptionPane.showMessageDialog(null, "신청이 성공적으로 완료되었습니다!!");
+				try {
+					p = (Protocol)reader.readObject();
+				} catch (ClassNotFoundException e1) {
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				if (p.getSubType() == 2) {
+					if (p.getCode() == 1) 
+					JOptionPane.showMessageDialog(null, "신청이 성공적으로 완료되었습니다!!");
+					else if (p.getCode() == 2)
+						JOptionPane.showMessageDialog(null, (String)p.getBody());
+				}
          }
       });
       
@@ -513,17 +515,17 @@ textField_4.setText(Integer.toString(student.getGrade()));
   public String convertDormitoryNameToCode(String s) {
 		String code = null;
 		
-		if (s.equals("푸름 1동")) code = new String("1");
-		else if (s.equals("푸름 2동")) code = new String("2");
-		else if (s.equals("푸름 3동")) code = new String("3");
-		else if (s.equals("푸름 4동")) code = new String("4");
+		if (s.equals("푸름관1동")) code = new String("1");
+		else if (s.equals("푸름관2동")) code = new String("2");
+		else if (s.equals("푸름관3동")) code = new String("3");
+		else if (s.equals("푸름관4동")) code = new String("4");
 		
-		else if (s.equals("오름 1동")) code = new String("5");
-		else if (s.equals("오름 2동")) code = new String("6");
-		else if (s.equals("오름 3동")) code = new String("7");
+		else if (s.equals("오름관1동")) code = new String("5");
+		else if (s.equals("오름관2동")) code = new String("6");
+		else if (s.equals("오름관3동")) code = new String("7");
 		
-		else if (s.equals("신평 1동")) code = new String("8");
-		else if (s.equals("신평 2동")) code = new String("9");
+		else if (s.equals("신평관남자")) code = new String("8");
+		else if (s.equals("신평관여자")) code = new String("9");
 			
 		return code;
 	}

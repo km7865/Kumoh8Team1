@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Network.Protocol;
+import tableClass.Student;
 import tableClass.dormitoryApplication;
 
 import javax.swing.JButton;
@@ -23,13 +24,18 @@ public class DetailedStatement_Bill extends JFrame {
 	private JPanel contentPane;
 
 	private static Protocol p;
+	private static Protocol p2;
 	private static ObjectOutputStream writer; 
 	private static ObjectInputStream reader;
+	private Student student;
+	private dormitoryApplication[] appList;
 
-	public DetailedStatement_Bill(Protocol p_t, ObjectOutputStream writer_t, ObjectInputStream reader_t) {
-		p = p_t;
-		writer = writer_t;
-		reader = reader_t;
+	public DetailedStatement_Bill(Protocol p_t, Protocol p_t2, ObjectOutputStream oos, ObjectInputStream ois) {
+		p = p_t; // 학생 정보 포함 프로토콜
+		appList = (dormitoryApplication[])p_t2.getBody();
+		writer = oos;
+		reader = ois;
+		
 		this.setVisible(true);
 		this.setResizable(false); // 최대화 단추 없애기
 		setTitle("입사신청 내역조회 및 고지서 출력");
@@ -43,7 +49,7 @@ public class DetailedStatement_Bill extends JFrame {
 		JButton button = new JButton("입사신청 내역조회");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new Join_Application_DetailedStatement(p_t,writer, reader); // 수정 필요!!
+				new Join_Application_DetailedStatement(p, appList ,writer, reader);
 			}
 		});
 		button.setBounds(30, 40, 140, 40);
@@ -52,7 +58,7 @@ public class DetailedStatement_Bill extends JFrame {
 		JButton button_1 = new JButton("고지서 출력");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new Bill(p_t, writer, reader);
+				new Bill(p, appList, writer, reader);
 			}
 		});
 		button_1.setBounds(195, 40, 130, 40);

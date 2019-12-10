@@ -45,14 +45,19 @@ public class Join_Application_DetailedStatement extends JFrame {
 	private JTextField textField_9;
 	private JTextField textField_10;
 	private static Protocol p;
+	private static Protocol p2;
 	private static ObjectOutputStream writer;
 	private static ObjectInputStream reader;
+	private Student student;
+	private dormitoryApplication[] appList;
 
-	public Join_Application_DetailedStatement(Protocol p_t, ObjectOutputStream oos, ObjectInputStream ois) {
-		p = p_t;
+	public Join_Application_DetailedStatement(Protocol p_t, dormitoryApplication[] a, ObjectOutputStream oos, ObjectInputStream ois) {
+		p = p_t; //학생 정보 포함 프로토콜
+		appList = a;
 		writer = oos;
 		reader = ois;
-		
+		student = (Student)p_t.getBody();
+
 		this.setResizable(false); // 최대화 단추 없애기
 		setVisible(true);
 		setTitle("입사신청 내역조회");
@@ -91,6 +96,7 @@ public class Join_Application_DetailedStatement extends JFrame {
 		contentPane.add(textField_2);
 
 		textField_3 = new JTextField(); // 성명
+		textField_3.setText(student.getName());
 		textField_3.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_3.setFont(new Font("굴림", Font.PLAIN, 16));
 		textField_3.setEditable(false);
@@ -99,8 +105,10 @@ public class Join_Application_DetailedStatement extends JFrame {
 		contentPane.add(textField_3);
 
 		textField_4 = new JTextField(); // 학번
+		textField_4.setText(student.getStudentId());
 		textField_4.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_4.setFont(new Font("굴림", Font.PLAIN, 16));
+
 		textField_4.setEditable(false);
 		textField_4.setColumns(10);
 		textField_4.setBounds(136, 60, 190, 40);
@@ -127,6 +135,7 @@ public class Join_Application_DetailedStatement extends JFrame {
 		contentPane.add(textField_6);
 
 		textField_7 = new JTextField(); // 학년
+		textField_7.setText(Integer.toString(student.getGrade()));
 		textField_7.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_7.setFont(new Font("굴림", Font.PLAIN, 16));
 		textField_7.setEditable(false);
@@ -135,6 +144,7 @@ public class Join_Application_DetailedStatement extends JFrame {
 		contentPane.add(textField_7);
 
 		textField_8 = new JTextField(); // 학과
+		textField_8.setText(student.getDepartmentName());
 		textField_8.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_8.setFont(new Font("굴림", Font.PLAIN, 16));
 		textField_8.setEditable(false);
@@ -153,20 +163,49 @@ public class Join_Application_DetailedStatement extends JFrame {
 		contentPane.add(textField_9);
 
 		textField_10 = new JTextField(); // 주소
+		textField_10.setText(student.getStudentAddress());
 		textField_10.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_10.setFont(new Font("굴림", Font.PLAIN, 16));
 		textField_10.setEditable(false);
 		textField_10.setColumns(10);
 		textField_10.setBounds(449, 110, 507, 40);
 		contentPane.add(textField_10);
-		
+
 		// 테이블에 출력할 컬럼 이름 배열
 		String columnNames[] = {"No.", "생활관구분", "지망", "식비구분", "결과"};
 
 		// 테이블에 출력할 데이터 배열
-		int i = 4; // 범위
-		String data[][] = new String[4][i]; // 데이터 들어갈 범위
-		data[0][0] = "1"; // 데이터 들어갈 부분
+
+		String data[][] = new String[4][5]; // 데이터 들어갈 범위
+		int rowIdx = 0;
+		if (appList[0].getDormitoryWish1() != null) {
+			data[rowIdx][0] = appList[0].getApplicatonNumber();
+			data[rowIdx][1] = convertDormitoryCodeToName(appList[0].getDormitoryWish1());
+			data[rowIdx][2] = "1지망";
+			data[rowIdx][3] = appList[0].getMealDivision1();
+			data[rowIdx++][4] = appList[0].getApplicationState();
+		} 
+		if (appList[0].getDormitoryWish2() != null) {
+			data[rowIdx][0] = appList[0].getApplicatonNumber();
+			data[rowIdx][1] = convertDormitoryCodeToName(appList[0].getDormitoryWish2());
+			data[rowIdx][2] = "2지망";
+			data[rowIdx][3] = appList[0].getMealDivision2();
+			data[rowIdx++][4] = appList[0].getApplicationState();
+		}
+		if (appList[0].getDormitoryWish3() != null) {
+			data[rowIdx][0] = appList[0].getApplicatonNumber();
+			data[rowIdx][1] = convertDormitoryCodeToName(appList[0].getDormitoryWish3());
+			data[rowIdx][2] = "3지망";
+			data[rowIdx][3] = appList[0].getMealDivision3();
+			data[rowIdx++][4] = appList[0].getApplicationState();
+		}
+		if (appList[0].getDormitoryWishYear() != null) {
+			data[rowIdx][0] = appList[0].getApplicatonNumber();
+			data[rowIdx][1] = convertDormitoryCodeToName(appList[0].getDormitoryWishYear());
+			data[rowIdx][2] = "1년기숙";
+			data[rowIdx][3] = appList[0].getMealDivisionYear();
+			data[rowIdx++][4] = appList[0].getApplicationState();
+		}
 
 		DefaultTableModel model = new DefaultTableModel(data, columnNames);
 		JTable tbl = new JTable(model);
@@ -180,5 +219,22 @@ public class Join_Application_DetailedStatement extends JFrame {
 		getContentPane().add(scroll);
 		scroll.setSize(940, 165);
 		scroll.setLocation(12, 170);
+	}
+
+	public String convertDormitoryCodeToName(String s) {
+		String name = null;		
+		if (s.equals("1")) name = new String("푸름관1동");
+		else if (s.equals("2")) name = new String("푸름관2동");
+		else if (s.equals("3")) name = new String("푸름관3동");
+		else if (s.equals("4")) name = new String("푸름관4동");
+
+		else if (s.equals("5")) name = new String("오름관1동");
+		else if (s.equals("6")) name = new String("오름관2동");
+		else if (s.equals("7")) name = new String("오름관3동");
+
+		else if (s.equals("8")) name = new String("신평관1동");
+		else if (s.equals("9")) name = new String("신평관2동");
+
+		return name;
 	}
 }
