@@ -440,7 +440,7 @@ public class DBManager {
 						+ ", 7일식비_1학기 = " + cost[i].getSd_food_cost1() + ", 7일식비_하계방학 = " + cost[i].getSd_food_cost2()
 						+ ", 7일식비_2학기 = " + cost[i].getSd_food_cost3() + ", 7일식비_동계방학 = " + cost[i].getSd_food_cost4()
 						+ ", 5일식비_1학기 = " + cost[i].getFd_food_cost1() + ", 5일식비_하계방학 = " + cost[i].getFd_food_cost2()
-						+ ", 5일식비_2학기 = " + cost[i].getFd_food_cost3() + ", 5일식비_동계방학 = " + cost[i].getFd_food_cost1()
+						+ ", 5일식비_2학기 = " + cost[i].getFd_food_cost3() + ", 5일식비_동계방학 = " + cost[i].getFd_food_cost4()
 						+ " where 생활관분류코드 = " + cost[i].getKind_code();
 					stmt.executeUpdate(sql);
 			}
