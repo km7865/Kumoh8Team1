@@ -56,9 +56,13 @@ public class DormitoryNumber_check extends JFrame {
 	private static Protocol p;
 	private static ObjectOutputStream writer;
 	private static ObjectInputStream reader;
-
-	public DormitoryNumber_check(Protocol p_t, ObjectOutputStream oos, ObjectInputStream ois) {
+	private Student student;
+	private DormitoryRoom dRoom;
+	
+	public DormitoryNumber_check(Protocol p_t, Student s, ObjectOutputStream oos, ObjectInputStream ois) {
 		p = p_t;
+		dRoom = (DormitoryRoom)p_t.getBody();
+		student = s;
 		writer = oos;
 		reader = ois;
 		
