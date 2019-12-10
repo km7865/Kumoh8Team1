@@ -135,7 +135,7 @@ public class DBManager {
 		protocol.makePacket(1,2,3, "해당정보 없음");
 		}
 
-	//입사신청 요청에 대한 응답
+		//입사신청 요청에 대한 응답
 	public void checkDormitoryApplication(Protocol protocol)
 	{
 		try	//해당 학기에 학생이 신청 정보가 있는지 확인한다
@@ -156,37 +156,39 @@ public class DBManager {
 			e.getStackTrace();
 		}
 	}
-	/**/
+
 	public void insertDormitoryApplication(Protocol protocol, dormitoryApplication app)	//입사신청
 	{
 		try
 		{
-			System.out.println(app.getDormitoryWish1() + " " + app.getMealDivision1());
-			Integer count;
-			String sql = "select * from 신청";
+			String applicationCount= Integer.toString(year) +Integer.toString(semester);
+			int tmpAppNum = 0;
+			String sql = "select * from 신청 order by 신청번호";
 			rs =stmt.executeQuery(sql);
 			if (rs.next()) {
 				rs.last();
-				count = rs.getRow()+1;
+				tmpAppNum = Integer.parseInt(rs.getString("신청번호"));
+				tmpAppNum++;
+				applicationCount = Integer.toString(tmpAppNum);
 			}
-			else
-				count = 0;
-			String applicationCount="201902".concat(count.toString());	//신청번호 생성
-			
-			
+			else {
+				applicationCount += "1";	//신청번호 생성
+			}
+				
 			sql = "select 학번, convert(sum(case 성적등급 when 'A+' then convert(4.5*학점,float) when 'A' then convert(4.0*학점,float) " 
 				+ "  when 'B+' then convert(3.5*학점,float) when 'B' then convert(3.0*학점,float) " 
 				 +"   when 'C+' then convert(2.5*학점,float) when 'C' then convert(2.0*학점,float) "
 				+"	when 'D+' then convert(1.5*학점,float) when 'D' then convert(1.0*학점,float) "
 				  +"  when 'F' then convert(0.0*학점,float) end) /sum(학점),decimal(3,2)) as 평점평균 "
 				+"from 성적  where 학번 = '" + currentUser.getUserID() + "'" +  " group by 학번";
-
+			
 			rs = stmt.executeQuery(sql);
-
-			rs.next();
-
-			Double grade = rs.getDouble("평점평균");
-
+			
+			Double grade;
+			if (rs.next())
+				grade = rs.getDouble("평점평균");
+			else
+				grade = 0.0;
 
 			//거리 가산점 계산 부분 추가(currentUser 학번으로 학생주소 조회후 app 객체 거리가산점 설정)
 			String address;
@@ -208,10 +210,6 @@ public class DBManager {
 			} 
 			app.setDistancePoint(distancePoint);
 			app.setFinallyValue(grade + distancePoint);
-
-			Date date = new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			String today = sdf.format(date);
 			
 			sql = "insert into 신청 values ('" + applicationCount + "', '" + currentUser.getUserID() +  "', 2019, 2, "; 
 			if (app.getMealDivision1() != null)	sql += "'" + app.getMealDivision1() + "',"; else sql += "null,";
@@ -220,11 +218,11 @@ public class DBManager {
 			if (app.getMealDivisionYear() != null)	sql += "'" + app.getMealDivisionYear() + "',"; else sql += "null,";
 			sql += grade + ", " + distancePoint + ", " + app.getFinallyValue() + ", ";
 			if (app.getDormitoryWish1() != null ) sql += "'" + app.getDormitoryWish1() + "',"; else sql += "null,";
-			if (app.getDormitoryWish2() != null ) sql += "'" + app.getDormitoryWish1() + "',"; else sql += "null,";
-			if (app.getDormitoryWish3() != null ) sql += "'" + app.getDormitoryWish1() + "',"; else sql += "null,";
-			if (app.getDormitoryWishYear() != null ) sql += "'" + app.getDormitoryWish1() + "',"; else sql += "null,";
+			if (app.getDormitoryWish2() != null ) sql += "'" + app.getDormitoryWish2() + "',"; else sql += "null,";
+			if (app.getDormitoryWish3() != null ) sql += "'" + app.getDormitoryWish3() + "',"; else sql += "null,";
+			if (app.getDormitoryWishYear() != null ) sql += "'" + app.getDormitoryWishYear() + "',"; else sql += "null,";
 			sql += "'" + today + "', '신청', " + 0 +  ", 'O');";
-			
+			System.out.println(sql);
 			stmt.executeUpdate(sql);
 			
 			protocol.makePacket(11, 2, 1, null);
@@ -233,7 +231,6 @@ public class DBManager {
 		{
 			protocol.makePacket(11, 2, 2, "저장 실패");
 		}
-		
 	}
 	
 	//호실조회
@@ -263,36 +260,38 @@ public class DBManager {
 			protocol.makePacket(12, 2, 2, "조회 실패");
 		}
 	}
-	/**/
+	
 	//입사신청내역 조회
-	public void inquireDormitoryApplication(Protocol protocol, Student student)
+	public void inquireDormitoryApplication(Protocol protocol)
 	{
 		try
 		{
-			String sql = "select * from 신청 where 학번=" + student.getStudentId() + "and 년도=2019 and 학기=2;";
+			String sql = "select * from 신청  where 학번='" + currentUser.getUserID() + "' and 년도=" + year +  " and 학기=" + semester;
 			rs = stmt.executeQuery(sql);
+			rs.last();
 			dormitoryApplication[] array = new dormitoryApplication[rs.getRow()];	//해당 학번에 해당하는 신청번호 행들을 저장할 배열 생성
-			//rs의 각 인덱스 값을 하나씩짤라서 배열에 저장
-			 
+			rs.first();
+			rs.previous();
+			//rs의 각 인덱스 값을 하나씩짤라서 배열에 저장 
 			int i=0;
-			while(rs.next()) 
+			while(rs.next())
 			{
 				array[i]= new dormitoryApplication(rs.getString("신청번호"), rs.getString("학번"));
 				array[i].setYear("2019"); array[i].setSemester("2"); 
-				array[i].setMealDivision1(rs.getString("1지망식비구분"));array[i].setMealDivision1(rs.getString("2지망식비구분"));
-				array[i].setMealDivision1(rs.getString("3지망식비구분"));array[i].setMealDivision1(rs.getString("1년식비구분"));
+				array[i].setMealDivision1(rs.getString("1지망식비구분"));array[i].setMealDivision2(rs.getString("2지망식비구분"));
+				array[i].setMealDivision3(rs.getString("3지망식비구분"));array[i].setMealDivisionYear(rs.getString("1년식비구분"));
 				array[i].setGrade(rs.getFloat("학점")); array[i].setGrade(rs.getFloat("거리가산점")); 
 				array[i].setDormitoryWish1(rs.getString("1지망"));array[i].setDormitoryWish2(rs.getString("2지망"));
-				array[i].setDormitoryWish3(rs.getString("1지망"));array[i].setDormitoryWishYear(rs.getString("1년지망"));
+				array[i].setDormitoryWish3(rs.getString("3지망"));array[i].setDormitoryWishYear(rs.getString("1년지망"));
 				array[i].setApplicationDay(rs.getString("신청일"));array[i].setApplicationState(rs.getString("신청상태"));
-				array[i].setStandbyNumber(rs.getString("대기번호"));array[i].setAcceptanceOfAgreement("yes"); array[i].setFinallyValue(rs.getFloat("학점") + rs.getFloat("거리가산점")); 
+				array[i].setStandbyNumber(rs.getString("대기번호"));array[i].setAcceptanceOfAgreement(rs.getString("입사서약동의여부")); array[i].setFinallyValue(rs.getFloat("총점")); 
 				i++;
 			}
 			protocol.makePacket(13, 2, 1, array);
 		}
 		catch(SQLException e)
 		{
-			protocol.makePacket(13, 2, 1, "조회 실패");
+			protocol.makePacket(13, 2, 2, "조회 실패");
 		}
 	}
 	
