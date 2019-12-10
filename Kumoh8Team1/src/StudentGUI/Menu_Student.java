@@ -86,7 +86,7 @@ public class Menu_Student extends JFrame {
 				}
 			}
 		});
-
+		
 		button.setBounds(50, 325, 285, 50);
 		contentPane.add(button);
 		JButton button_1 = new JButton("입사 신청");
@@ -149,18 +149,21 @@ public class Menu_Student extends JFrame {
 		button_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					p = new Protocol(12, 1,0,null);
+					p = new Protocol(12,1,0,null);
 					writer.writeObject(p);
 					writer.flush();
 					p = (Protocol) reader.readObject();
+					System.out.println(p.getMainType() + " " + p.getSubType() + " " + p.getCode());
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				} catch (ClassNotFoundException e1) {
 					e1.printStackTrace();
 				}
 				if (p.getSubType() == 2) {
-					if (p.getCode() == 1)
-						new DormitoryNumber_check(p, student, writer, reader);
+					if (p.getCode() == 1) {
+						System.out.println(p.getMainType() + " " + p.getSubType() + " " + p.getCode());
+						new DormitoryNumber_check(student, (SelectedStudent)p.getBody(), writer, reader); 
+					}
 					else if (p.getCode() == 2) {
 						String err = (String) p.getBody();
 						JOptionPane.showMessageDialog(null, err); // 제출대상 아님 or 제출기간 아님
