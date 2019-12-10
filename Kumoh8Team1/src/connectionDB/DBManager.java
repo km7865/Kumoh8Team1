@@ -307,9 +307,6 @@ public class DBManager {
 	      int main = protocol.getMainType();
 	      int sub = protocol.getSubType();
 
-	      final String bank = "국민은행";
-	      Random rnd = new Random();
-	      String accountNum = "302-" + Integer.toString(rnd.nextInt(1000000000)); // 계좌번호
 	      try {
 
 	         Date today = null; // 시스템 날짜
@@ -336,11 +333,12 @@ public class DBManager {
 
 	               String[] array = new String[3];
 	               // ResultSet에 담긴 결과를 Array에 담기
+	               array[0] = new String();
 	               array[0] = rs.getString(" 성명"); // 이름
+	               array[1] = new String();
 	               array[1] = rs.getString("사용자ID");// 학번
-	               array[3] = bank;
-	               array[4] = accountNum;
-	               array[5] = rs.getString("합계");// 입금액
+	               array[2] = new String();
+	               array[2] = rs.getString("합계");// 입금액
 	               
 	               protocol.makePacket(main, sub + 1, 1, array);
 	            } else
