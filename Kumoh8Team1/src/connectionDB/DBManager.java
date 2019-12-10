@@ -36,8 +36,8 @@ public class DBManager {
 
 	private User currentUser;
 	private String today;	//오늘 날짜
-	private int year = 2019;
-	private int semester = 2;
+	private String year = "2019";
+	private String semester ="2";
 	
 	public DBManager(String id, String pw)	//생성자
 	{
@@ -46,6 +46,12 @@ public class DBManager {
        
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		today = sdf.toString();
+		/*String today_1= today+"-";
+		String dateArray[] = today.split("-");		//dateArray[] -> 2019 -> 12 -> 10
+		
+		year=dateArray[0];
+		if(Integer.parseInt(dateArray[1]))
+		*/
 		
 		try{
 			// 1. 드라이버 로딩
@@ -161,7 +167,7 @@ public class DBManager {
 	{
 		try
 		{
-			String applicationCount= Integer.toString(year) +Integer.toString(semester);
+			String applicationCount= year + semester;
 			int tmpAppNum = 0;
 			String sql = "select * from 신청 order by 신청번호";
 			rs =stmt.executeQuery(sql);
@@ -286,6 +292,8 @@ public class DBManager {
 				array[i].setStandbyNumber(rs.getString("대기번호"));array[i].setAcceptanceOfAgreement(rs.getString("입사서약동의여부")); array[i].setFinallyValue(rs.getFloat("총점")); 
 				i++;
 			}
+			if(i==0)	//입사신청내역이 없으면
+				protocol.makePacket(13, 2, 2, "입사신청내역이 없습니다");
 			protocol.makePacket(13, 2, 1, array);
 		}
 		catch(SQLException e)

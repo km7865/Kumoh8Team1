@@ -98,7 +98,7 @@ public class ServerProtocolManager
 					break;
 			
 			}//end of switch
-			}
+		}
 		}//end of try
 		catch(SQLException d)
 		{
@@ -148,75 +148,25 @@ public class ServerProtocolManager
 	//--------------------------------------------------------------------------------------------------
 	public void inquireDormitoryRoom(Protocol protocol)	//maintype 12, 호실조회
 	{
-		/*
-		db에서 호실정보를 검색해본다
-		if(정보가 있다)
-		{
-			//해당 정보를 호실정보 객체에 담는다
-			protocol = new Protocol(12,2,1,호실정보객체);	//code는 안써서 0으로 초기화했다
-		}
-		else 	//정보가없다
-		{
-			protocol = new Protocol((12,2,2,null);
-			throws new ServerException("해당 정보 없습니다");
-		}
-		*/
+		dbManager.roomCheck(protocol);
 	}
 	//--------------------------------------------------------------------------------------------------
 	public void inquireDormitoryApplication(Protocol protocol)	//maintype 13, 입사신청내역 조회
 	{
-		/*
-		db에서 학생의 학번으로 입사신청내역을 조회해본다
-		if(정보가 있다)
-		{
-			//해당 정보를 입사신청내역 객체에 담는다
-			 protocol = new Protocol(13,2,1,입사신청내역객체);
-		}
-		else	//정보가 없다
-		{
-			protocol = new Protocol(13,2,2,null)
-			throws new ServerException("해당 정보가 없습니다")
-		}
-		
-		*/
+		dbManager.inquireDormitoryApplication(protocol);
 	}
 	//--------------------------------------------------------------------------------------------------
 	public void printDetailedStatement_Bill(Protocol protocol)	//maintype 14, 고지서 출력
 	{
-		/*
-		db에 학생의 학번으로 입사선발자 테이블에 정보가 있는지 검색해본다
-		if(정보가 있다)
-		{
-			//학생의 기숙사비와 식사비를 합쳐서 고지서 내역을 클라이언트로 전송
-			protocol = new Protocol(14,2,1,고지서내역객체);
-		}
-		else if(아직 입사선발자를 뽑지 않은 경우)
-		{
-			//이 경우에는 입사선발자를 뽑지 않았다는 오류 메세지를 뿌려줘야 할거 같음
-			 throws new ServerException("입사선발이 되지 않은 상태입니다");
-		}
-		else if(입사선발자가 뽑힘 && 클라이언트가 입사 선발자가 아님)
-		{
-			protocol = new Protocol(14,2,2,null);
-			throws new ServerException("해당 정보가 없습니다");
-		}
-		*/
+		dbManager.selectDetailedStatement_Bill(protocol);
 	}
 	//--------------------------------------------------------------------------------------------------
 	public void submissionTuberculosisDiagnosis(Protocol protocol)	//maintype 15, 결핵진단서 제출
 	{
-		/*
-		클라이언트로부터 받은 결핵진단서 파일=>protocol.getBody()을 db에 저장한다
-		if(저장 성공)
-		{
-			protocol = new Protocol(15,2,1,null);
-		}
-		else	//저장 실패
-		{
-			protocol = new Protocol(15,2,2,null);
-			throws new ServerException("저장에 실패 했습니다");
-		}
-		*/
+		if(protocol.getSubType()==1)	//결핵진단서 제출 요청
+			dbManager.checkSelectedStudent(protocol);
+		else
+			dbManager.updateState_TuberculosisDiagnosis(protocol);
 	}
 	//--------------------------------------------------------------------------------------------------
 	public void enrollSelectionSchedule(Protocol protocol)//maintype 21, 선발일정 등록
@@ -226,93 +176,26 @@ public class ServerProtocolManager
 		schedule.setYear(year);
 		schedule.setSemester(semester);
 		dbManager.insertSchedule(protocol, schedule);
-		
-		/*
-		클라이언트가 보낸 선발일정 정보=>protocol.getBody()를 디비에 저장한다
-		if(저장 성공)
-		{
-			protocol = new Protocol(21,2,1,null);
-		}
-		else	//저장 실패
-		{
-			protocol = new Procotol(21,2,2,null);
-			throws new ServerException("저장에 실패 했습니다");
-		}
-		*/
 	}
 	//--------------------------------------------------------------------------------------------------
 	public void enrollDormitoryCost(Protocol protocol)	//maintype 22, 생활관 사용료 및 급식비 등록
 	{
 		dbManager.insertDormitoryCost(protocol);
-		//클라이언트가 보낸 정보를 db에 저장한다
-		/*
-		if(저장 성공)
-		{
-			protocol = new Protocol(22,2,1,null);
-		}
-		else	//저장 실패
-		{
-			protocol = new Protocol(22,2,2,null);
-			throws new ServerException("저장에 실패 했습니다");
-		}
-		*/
 	}
 	//--------------------------------------------------------------------------------------------------
 	public void enrollFinalSelectedStudent(Protocol protocol)	//maintype 23, 입사자 등록(최종)
 	{
 		dbManager.enrollJoiner(protocol);
-		
-		//db에 접속해 입사선발자테이블에 받아와 생활관비를 납부했는지 결핵진단서를 제출했는지 검사하고 검사한 학생들에 대해서 등록 상태를 업데이트 시켜줌
-		//-> 입사자 목록을 list로 연결시켜 db 접속 함수에서 리턴시켜서 if문에서 사용
-		//Protocol[] ptList = new Protocol[50];	//실제로 배열 크기는 list의 크기임
-		/*
-		if(처리 성공)
-		{
-			for(int i,list.next() !=true, i++)
-			{
-				ptList[i] = new Protocol(23, 2, list[i])	//개념상으로만 이렇게 적은것
-			}
-		}
-		else	//처리 실패
-		{
-			protocol = new Protocol(23,2, null);
-			throws new ServerException("처리 실패 했습니다);
-		}
-		 */
-		//return ptList;
 	}
 	//--------------------------------------------------------------------------------------------------
 	public void inquireFinalSelectedStudent(Protocol protocol)	//maintype 24, 입사자 조회
 	{
 		dbManager.joinerCheck(protocol);
-		//db에 접속해 입사선발자테이블에 등록 여부가 o인 학생들의 목록을 뽑아와서 list에 연결시킨다
-		//Protocol[] ptList = new Protocol[50];	//실제로 배열 크기는 list의 크기임
-		/*
-		for(int i,list.next() !=true, i++)
-		{
-			ptList[i] = new Protocol(24, 2, list[i])	//개념상으로만 이렇게 적은것
-		}
-		
-		*/
-		//return ptList;
 	}
 	//--------------------------------------------------------------------------------------------------
 	public void enrollSelectedStudentResult(Protocol protocol)	//maintype 25, 입사선발자 결과등록
 	{
-		//입사선발자 선발 알고리즘 필요!
-		//따로 함수를 만들어서 입사신청한 목록을 땡겨와서 거기서 list에 저장해서 알고리즘대로 짤라서 입사선발자 테이블에 등록
-		/*
-		if(결과등록 성공)
-		{
-			protocol = new Protocol(25, 2,1,null);
-		}
-		else	//결과등록 실패
-		{
-			protocol = new Protocol(25,2,2,null);
-			throws 
-		}
-		
-		 */
+		dbManager.enrollJoiner(protocol);
 	}
 	
 	public void TuberculosisDiagnosisSubmitter(Protocol protocol)	//maintype 26, 결핵진단서 제출확인
