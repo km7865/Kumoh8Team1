@@ -156,11 +156,7 @@ public class DBManager {
 			e.getStackTrace();
 		}
 	}
-<<<<<<< HEAD
 	//입사신청 정보 저장
-=======
-
->>>>>>> branch 'master' of https://github.com/km7865/Kumoh8Team1.git
 	public void insertDormitoryApplication(Protocol protocol, dormitoryApplication app)	//입사신청
 	{
 		try
@@ -264,10 +260,6 @@ public class DBManager {
 			protocol.makePacket(12, 2, 2, "조회 실패");
 		}
 	}
-<<<<<<< HEAD
-=======
-	
->>>>>>> branch 'master' of https://github.com/km7865/Kumoh8Team1.git
 	//입사신청내역 조회
 	public void inquireDormitoryApplication(Protocol protocol)
 	{
