@@ -299,6 +299,7 @@ public class Menu_Student extends JFrame {
 
       textField_8 = new JTextField();
       if (schedule != null) textField_8.setText(schedule.getContent());
+      textField_8.setEditable(false);
       textField_8.setBounds(50, 60, 595, 240);
       contentPane.add(textField_8);
       textField_8.setColumns(10);
