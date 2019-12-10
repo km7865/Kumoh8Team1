@@ -36,7 +36,7 @@ public class Bill extends JFrame {
 	private static Protocol p2;
 	private static ObjectOutputStream writer;
 	private static ObjectInputStream reader;
-	private Student student;
+	private String[] s;
 	private dormitoryApplication[] appList;
 
 	public Bill(Protocol p_t, dormitoryApplication[] a, ObjectOutputStream oos, ObjectInputStream ois) {
@@ -44,7 +44,7 @@ public class Bill extends JFrame {
 		appList = a;
 		writer = oos;
 		reader = ois;
-		student = (Student)p_t.getBody();
+		s = (String[])p.getBody();
 		this.setResizable(false); // 최대화 단추 없애기
 		setTitle("고지서 출력");
 		setVisible(true);
@@ -55,11 +55,9 @@ public class Bill extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		String name = "김동윤";
-		String sId = "20150129";
-		String bank = "농협";
-		String bankNumber = "713047-51-021320";
-		String money = "1,300,000";
+		String name = s[0];	//이름
+		String sId = s[1];	//학번
+		String money = s[2];//금액
 
 		JLabel lblNewLabel = new JLabel("성명");
 		lblNewLabel.setForeground(Color.BLACK);
@@ -107,24 +105,6 @@ public class Bill extends JFrame {
 		textField_2.setColumns(10);
 		textField_2.setBounds(147, 130, 220, 40);
 		contentPane.add(textField_2);
-
-		textField_3 = new JTextField(bank); // 은행
-		textField_3.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_3.setBackground(new Color(255, 228, 225));
-		textField_3.setForeground(Color.BLACK);
-		textField_3.setEditable(false);
-		textField_3.setColumns(10);
-		textField_3.setBounds(147, 175, 220, 40);
-		contentPane.add(textField_3);
-
-		textField_4 = new JTextField(bankNumber); // 계좌번호
-		textField_4.setHorizontalAlignment(SwingConstants.CENTER);
-		textField_4.setBackground(new Color(255, 228, 225));
-		textField_4.setForeground(Color.BLACK);
-		textField_4.setEditable(false);
-		textField_4.setColumns(10);
-		textField_4.setBounds(147, 220, 220, 40);
-		contentPane.add(textField_4);
 
 		textField_5 = new JTextField(money); // 입금액
 		textField_5.setHorizontalAlignment(SwingConstants.CENTER);

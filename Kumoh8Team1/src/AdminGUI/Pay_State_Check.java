@@ -1,6 +1,6 @@
 // (관리자) 입사선발자 납부 상태 갱신
 
-package GUI;
+package AdminGUI;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
