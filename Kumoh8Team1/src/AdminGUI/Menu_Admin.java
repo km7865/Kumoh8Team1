@@ -45,7 +45,10 @@ public class Menu_Admin extends JFrame {
 		writer = writer_t;
 		reader = reader_t;
 		ip = ip_t;
+		
+		this.addWindowListener(new MyWindowListener(socket, writer));
 		this.setResizable(false); // 최대화 단추 없애기
+		
 		setTitle("관리자 메뉴");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 745, 470);
@@ -53,18 +56,6 @@ public class Menu_Admin extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
-		JButton btnNewButton_1 = new JButton("로그아웃");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Login frame = new Login();
-				frame.setVisible(true);
-				frame.setCursor();
-				dispose();
-			}
-		});
-		btnNewButton_1.setBounds(634, 10, 85, 30);
-		contentPane.add(btnNewButton_1);
 
 		JButton button = new JButton("선발일정 등록");
 		button.addActionListener(new ActionListener() {

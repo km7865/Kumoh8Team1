@@ -82,9 +82,10 @@ public class Login extends JFrame {
 	}
 
 	public Login() {
-
 		super("·Î±×ÀÎ");
-
+		
+		this.addWindowListener(new MyWindowListener(socket, writer));
+		
 		owner = this;
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -170,6 +171,6 @@ public class Login extends JFrame {
 		textArea.setBounds(32, 20, 497, 62);
 		getContentPane().add(textArea);
 		
-		this.addWindowListener(new MyWindowListener(socket, writer));
+		
 	}
 }

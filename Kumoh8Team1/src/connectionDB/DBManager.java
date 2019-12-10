@@ -418,7 +418,7 @@ public class DBManager {
 			String start_date = schedule.getStart_date();
 			String end_date = schedule.getEnd_date();
 			String content = schedule.getContent();
-
+			
 			sql="INSERT INTO dorm.선발일정 VALUES(" + year + ", " + semester + ", '"  + program_code + "', '" 
 					+ start_date + "', '"  + end_date + "', '"  + content + "')";
 			stmt.executeUpdate(sql);
@@ -681,6 +681,7 @@ public class DBManager {
 			});
 
 			System.out.println("디버깅 중간다리");
+			
 			for(int j = 0; j < oneYearHuman.length; j++)
 			{
 				for(int k = 0; k < oneYearRoom.length; k++)
@@ -688,8 +689,8 @@ public class DBManager {
 					if(oneYearHuman[j][3].equals(oneYearRoom[k][0]) && oneYearRoom[k][3].equals("X"))
 					{
 						sql = "insert into dorm.입사선발자 values('" + oneYearHuman[j][0] + "', '" + oneYearHuman[j][1]
-								+ "', '" + oneYearRoom[k][1] + "', '" + oneYearRoom[k][2] + "', null, null, null, 'X'"
-								+ ", 'X', 'X', '" + oneYearHuman[j][3] + "', 'O')";
+		                        + "', '" + oneYearRoom[k][1] + "', '" + oneYearRoom[k][2] + "', null, null, null, 'X'"
+		                              + ", 'X', 'X', '" + oneYearHuman[j][3] + "', 'O', '" + oneYearHuman[j][4] + "')";
 						stmt.executeUpdate(sql);
 
 						sql = "select * from dorm.생활관비 where 생활관분류코드=" + oneYearHuman[j][3];
@@ -832,10 +833,10 @@ public class DBManager {
 					{
 						if(oneSemesterHuman[j][m]!= null && oneSemesterHuman[j][m].equals(oneSemesterRoom[k][0]) && oneSemesterRoom[k][3].equals("X"))
 						{
-							System.out.println(j + " " + m + " " + k);
+							//System.out.println(j + " " + m + " " + k);
 							sql = "insert into dorm.입사선발자 values('" + oneSemesterHuman[j][0] + "', '" + oneSemesterHuman[j][1]
-									+ "', '" + oneSemesterRoom[k][1] + "', '" + oneSemesterRoom[k][2] + "', null, null, null, 'X'"
-									+ ", 'X', 'X', '" + oneSemesterHuman[j][m] + "', 'X')";
+			                           + "', '" + oneSemesterRoom[k][1] + "', '" + oneSemesterRoom[k][2] + "', null, null, null, 'X'"
+		                                 + ", 'X', 'X', '" + oneSemesterHuman[j][m] + "', 'X', '" + oneSemesterHuman[j][m+3] + "')";
 							stmt.executeUpdate(sql);
 
 							if(oneSemesterHuman[j][2].equals("1"))

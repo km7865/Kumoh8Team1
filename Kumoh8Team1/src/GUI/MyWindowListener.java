@@ -19,7 +19,9 @@ public class MyWindowListener extends WindowAdapter {
 	public void windowClosing(WindowEvent e) {
 		try {
 			writer.writeObject(new Protocol(0,0));
+			System.out.println("소켓 종료");
 			socket.close();
+			
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}

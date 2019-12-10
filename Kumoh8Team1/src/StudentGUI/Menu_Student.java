@@ -64,7 +64,8 @@ public class Menu_Student extends JFrame {
 		writer = oos;
 		reader = ois;
 		ip = ip_t;
-
+		this.addWindowListener(new MyWindowListener(socket, writer));
+		
 		try {
 			writer.writeObject(new Protocol(2,1,0,null));
 			p = (Protocol)reader.readObject();
@@ -309,6 +310,8 @@ public class Menu_Student extends JFrame {
 		textField_8.setColumns(10);
 		setVisible(true);
 		setSize(720, 670);
+		
+		this.addWindowListener(new MyWindowListener(socket, writer));
 	}
 
 }
