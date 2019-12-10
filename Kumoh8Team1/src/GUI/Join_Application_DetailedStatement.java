@@ -207,7 +207,11 @@ public class Join_Application_DetailedStatement extends JFrame {
 			data[rowIdx++][4] = appList[0].getApplicationState();
 		}
 
-		DefaultTableModel model = new DefaultTableModel(data, columnNames);
+		DefaultTableModel model = new DefaultTableModel(data, columnNames) {
+         public boolean isCellEditable(int rowIndex, int mCollindex) {
+            return false;
+         }
+      };
 		JTable tbl = new JTable(model);
 		tbl.setRowHeight(25);
 
