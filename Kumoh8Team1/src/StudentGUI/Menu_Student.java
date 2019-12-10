@@ -153,7 +153,6 @@ public class Menu_Student extends JFrame {
 					writer.writeObject(p);
 					writer.flush();
 					p = (Protocol) reader.readObject();
-					System.out.println(p.getMainType() + " " + p.getSubType() + " " + p.getCode());
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				} catch (ClassNotFoundException e1) {
@@ -161,7 +160,6 @@ public class Menu_Student extends JFrame {
 				}
 				if (p.getSubType() == 2) {
 					if (p.getCode() == 1) {
-						System.out.println(p.getMainType() + " " + p.getSubType() + " " + p.getCode());
 						new DormitoryNumber_check(student, (SelectedStudent)p.getBody(), writer, reader); 
 					}
 					else if (p.getCode() == 2) {
