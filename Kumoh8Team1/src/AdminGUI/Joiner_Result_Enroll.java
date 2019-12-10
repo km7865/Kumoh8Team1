@@ -89,7 +89,6 @@ public class Joiner_Result_Enroll extends JFrame {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					
 					p.makePacket(25, 1, 0, null);
 					writer.writeObject(p);
 					writer.flush();
